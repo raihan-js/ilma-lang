@@ -1,0 +1,6 @@
+use number
+say number.sqrt(144)
+say number.is_prime(17)
+say number.fibonacci(10)
+say number.to_binary(42)
+say number.pi()

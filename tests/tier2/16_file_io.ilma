@@ -1,0 +1,4 @@
+write_file("test_output.txt", "Hello from ILMA!")
+remember content = read_file("test_output.txt")
+say content
+say file_exists("test_output.txt")

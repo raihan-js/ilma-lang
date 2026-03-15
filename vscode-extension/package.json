@@ -16,13 +16,22 @@
     "type": "git",
     "url": "https://github.com/raihan-js/ilma-lang"
   },
+  "bugs": {
+    "url": "https://github.com/raihan-js/ilma-lang/issues"
+  },
   "homepage": "https://ilma-lang.dev",
   "license": "MIT",
+  "galleryBanner": {
+    "color": "#534AB7",
+    "theme": "dark"
+  },
+  "qna": "marketplace",
   "keywords": [
     "ilma",
     "programming language",
-    "kids",
+    "children",
     "education",
+    "Islamic",
     "syntax highlighting"
   ],
   "main": "./out/extension.js",

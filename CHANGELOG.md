@@ -4,6 +4,45 @@ All notable changes to ILMA are documented here.
 
 ---
 
+## [0.3.0] — 2026
+
+### Added
+
+**Language Features**
+- File I/O built-in functions: `read_file()`, `write_file()`, `file_exists()`
+
+**Standard Library Modules (C Compiler)**
+- `draw` — SVG canvas, circle, rect, line, text, polygon, Islamic star patterns, save to file
+- `number` — sqrt, abs, floor, ceil, round, power, random, is_prime, fibonacci, to_binary, to_hex, pi, e
+
+**Tooling**
+- AST tree-walking evaluator (`src/evaluator.c`) for direct interpretation (WASM-ready)
+- WASM build script (`scripts/build-wasm.sh`) for compiling ILMA to WebAssembly
+- WASM browser bridge (`website/js/wasm-compiler.js`) with JS interpreter fallback
+- LSP server foundation (`src/lsp/ilma_lsp.c`) with diagnostics and hover documentation
+- `ilma-lsp` binary for VS Code and other LSP-compatible editors
+
+**VS Code Extension**
+- Marketplace-ready metadata (galleryBanner, bugs, keywords)
+- Extension CHANGELOG
+- Publish script (`scripts/publish-extension.sh`)
+- Icon generation script (`scripts/generate-icon.sh`)
+
+**Website**
+- GitHub Pages deployment workflow (`.github/workflows/deploy-website.yml`)
+- CNAME file for ilma-lang.dev custom domain
+- 404 page with ILMA-themed design
+- Open Graph and Twitter meta tags for social sharing
+- Dedicated playground page (`/playground`) with 8 example programs, share/download buttons
+- Documentation for draw module, number module, and file I/O built-ins
+
+**Tests**
+- 3 new tests: draw module, number module, file I/O
+- 2 LSP tests: diagnostics and hover
+- Total: 50 compiler tests (20 Tier 1, 16 Tier 2, 14 Tier 3), all passing
+
+---
+
 ## [0.2.0] — 2026
 
 ### Added

@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILMA Playground — Write and Run ILMA Code</title>
+    <meta name="description" content="Write and run ILMA code in your browser. A full-featured online playground for the ILMA programming language.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+        .playground-page {
+            padding-top: calc(var(--nav-height) + 1.5rem);
+            padding-bottom: 2rem;
+            min-height: calc(100vh - 200px);
+        }
+
+        .playground-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .playground-toolbar select {
+            font-family: var(--font);
+            font-size: 0.9rem;
+            padding: 0.5rem 1rem;
+            border-radius: var(--radius);
+            border: 2px solid var(--border);
+            background: var(--bg);
+            color: var(--text);
+            cursor: pointer;
+            min-width: 180px;
+        }
+
+        .playground-toolbar select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-toolbar {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1.25rem;
+            border-radius: var(--radius);
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        .btn-toolbar:hover {
+            opacity: 0.9;
+        }
+
+        .btn-toolbar-run {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+        }
+
+        .btn-toolbar-outline {
+            background: transparent;
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-toolbar-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .playground-full-editor {
+            width: 100%;
+            height: 55vh;
+            background: var(--code-bg);
+            color: var(--code-text);
+            border: none;
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            font-family: var(--mono);
+            font-size: 0.92rem;
+            line-height: 1.7;
+            resize: vertical;
+            outline: none;
+            tab-size: 4;
+        }
+
+        .playground-full-editor::placeholder {
+            color: #6B7280;
+        }
+
+        .playground-full-output-wrap {
+            margin-top: 1rem;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            background: var(--code-bg);
+        }
+
+        .playground-full-output-header {
+            padding: 10px 16px;
+            background: rgba(255,255,255,0.05);
+            color: rgba(255,255,255,0.5);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .playground-full-output {
+            padding: 1.25rem 1.5rem;
+            height: 20vh;
+            color: #86EFAC;
+            font-family: var(--mono);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-y: auto;
+        }
+
+        .playground-full-output .error {
+            color: #FCA5A5;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.75rem;
+        }
+
+        .badge-preview {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        .badge-wasm {
+            background: #D1FAE5;
+            color: #065F46;
+        }
+
+        .toolbar-spacer {
+            flex: 1;
+        }
+
+        @media (max-width: 768px) {
+            .playground-full-editor {
+                height: 45vh;
+                font-size: 0.85rem;
+                padding: 1rem;
+            }
+
+            .playground-full-output {
+                height: 15vh;
+            }
+
+            .playground-toolbar {
+                gap: 0.5rem;
+            }
+
+            .playground-toolbar select {
+                min-width: 140px;
+                font-size: 0.85rem;
+            }
+
+            .btn-toolbar {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .playground-full-editor {
+                height: 40vh;
+                font-size: 0.8rem;
+            }
+
+            .playground-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .toolbar-spacer {
+                display: none;
+            }
+
+            .toolbar-buttons {
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .toolbar-buttons .btn-toolbar {
+                flex: 1;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navigation -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">ILMA</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="install.html">Install</a>
+            <a href="docs.html">Docs</a>
+            <a href="playground.html">Playground</a>
+            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- Playground -->
+<section class="playground-page">
+    <div class="container">
+        <div class="playground-toolbar">
+            <select id="example-selector">
+                <option value="">Select an example...</option>
+                <option value="Hello World">Hello World</option>
+                <option value="Zakat Calculator">Zakat Calculator</option>
+                <option value="Fibonacci">Fibonacci</option>
+                <option value="String Interpolation">String Interpolation</option>
+                <option value="Range Loop">Range Loop</option>
+                <option value="Daily Quran Verse">Daily Quran Verse</option>
+                <option value="BMI Calculator">BMI Calculator</option>
+                <option value="Prime Numbers">Prime Numbers</option>
+            </select>
+            <div class="toolbar-spacer"></div>
+            <div class="toolbar-buttons">
+                <button class="btn-toolbar btn-toolbar-run" id="pg-run-btn">&#9654; Run</button>
+                <button class="btn-toolbar btn-toolbar-outline" id="pg-share-btn">Share</button>
+                <button class="btn-toolbar btn-toolbar-outline" id="pg-download-btn">Download</button>
+            </div>
+        </div>
+
+        <textarea class="playground-full-editor" id="pg-editor" spellcheck="false" placeholder="Write your ILMA code here...">say "Bismillah"
+remember name = "Yusuf"
+say "Assalamu Alaikum, {name}!"</textarea>
+
+        <div class="playground-full-output-wrap">
+            <div class="playground-full-output-header">Output</div>
+            <div class="playground-full-output" id="pg-output">(click Run to execute)</div>
+        </div>
+
+        <div id="compiler-badge" class="badge badge-preview">Preview mode</div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>ILMA</h4>
+                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
+            </div>
+            <div>
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="playground.html">Playground</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Made with ILMA</span>
+            <span>&copy; 2026 ILMA Programming Language</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/playground.js"></script>
+<script src="js/wasm-compiler.js"></script>
+<script>
+(function() {
+    var examples = {
+        "Hello World": "say \"Bismillah\"\nremember name = \"Yusuf\"\nsay \"Assalamu Alaikum, {name}!\"",
+        "Zakat Calculator": "remember savings = 10000\nremember nisab = 595\nif savings >= nisab:\n    remember zakat = savings * 0.025\n    say \"Zakat due: {zakat}\"\notherwise:\n    say \"No zakat due\"",
+        "Fibonacci": "recipe fibonacci(n):\n    if n <= 1:\n        give back n\n    give back fibonacci(n - 1) + fibonacci(n - 2)\n\nrepeat i in 1..10:\n    say fibonacci(i)",
+        "String Interpolation": "remember name = \"Amira\"\nremember age = 12\nsay \"My name is {name}\"\nsay \"I am {age} years old\"\nsay \"Next year I will be {age + 1}\"",
+        "Range Loop": "repeat i in 1..5:\n    say \"Step {i}\"\n\nremember total = 0\nrepeat n in 1..100:\n    total = total + n\nsay \"Sum 1..100 = {total}\"",
+        "Daily Quran Verse": "# This runs on the server with the quran module\n# In preview mode, here is a simulation\nsay \"Verse of the day:\"\nsay \"Read in the name of your Lord who created\"\nsay \"- Al-Alaq 96:1\"",
+        "BMI Calculator": "remember weight = 70\nremember height = 175\nremember height_m = height / 100\nremember bmi = weight / (height_m * height_m)\nsay \"Your BMI: {bmi}\"\nif bmi < 18.5:\n    say \"Underweight\"\notherwise if bmi < 25:\n    say \"Healthy\"\notherwise:\n    say \"Overweight\"",
+        "Prime Numbers": "recipe is_prime(n):\n    if n < 2:\n        give back no\n    repeat i in 2..n:\n        if i * i > n:\n            give back yes\n        if n % i is 0:\n            give back no\n    give back yes\n\nsay \"Primes under 30:\"\nrepeat n in 2..30:\n    if is_prime(n):\n        say n"
+    };
+
+    var editor = document.getElementById('pg-editor');
+    var output = document.getElementById('pg-output');
+    var selector = document.getElementById('example-selector');
+    var runBtn = document.getElementById('pg-run-btn');
+    var shareBtn = document.getElementById('pg-share-btn');
+    var downloadBtn = document.getElementById('pg-download-btn');
+
+    // Example selector
+    selector.addEventListener('change', function() {
+        var name = selector.value;
+        if (name && examples[name]) {
+            editor.value = examples[name];
+        }
+    });
+
+    // Run button
+    runBtn.addEventListener('click', function() {
+        output.className = 'playground-full-output';
+        output.textContent = '';
+        var code = editor.value;
+        if (!code.trim()) {
+            output.textContent = '(no code to run)';
+            return;
+        }
+        var result;
+        if (typeof runIlmaCode === 'function') {
+            result = runIlmaCode(code);
+        } else if (typeof runIlma === 'function') {
+            result = runIlma(code);
+        } else {
+            output.innerHTML = '<span class="error">Interpreter not loaded.</span>';
+            return;
+        }
+        if (result.error) {
+            output.innerHTML = '<span class="error">' + escapeHtml(result.error) + '</span>';
+        } else {
+            output.textContent = result.output || '(no output)';
+        }
+    });
+
+    // Share button
+    shareBtn.addEventListener('click', function() {
+        var code = editor.value;
+        var encoded = btoa(unescape(encodeURIComponent(code)));
+        var url = window.location.origin + window.location.pathname + '#code=' + encoded;
+        window.location.hash = '#code=' + encoded;
+        navigator.clipboard.writeText(url).then(function() {
+            shareBtn.textContent = 'Copied!';
+            setTimeout(function() {
+                shareBtn.textContent = 'Share';
+            }, 2000);
+        }).catch(function() {
+            // Fallback
+            var ta = document.createElement('textarea');
+            ta.value = url;
+            ta.style.position = 'fixed';
+            ta.style.left = '-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+            shareBtn.textContent = 'Copied!';
+            setTimeout(function() {
+                shareBtn.textContent = 'Share';
+            }, 2000);
+        });
+    });
+
+    // Download button
+    downloadBtn.addEventListener('click', function() {
+        var code = editor.value;
+        var blob = new Blob([code], { type: 'text/plain' });
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'program.ilma';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+    });
+
+    // Load shared code from URL hash on page load
+    function loadFromHash() {
+        var hash = window.location.hash;
+        if (hash && hash.startsWith('#code=')) {
+            try {
+                var encoded = hash.substring(6);
+                var decoded = decodeURIComponent(escape(atob(encoded)));
+                editor.value = decoded;
+            } catch (e) {
+                // Invalid hash, ignore
+            }
+        }
+    }
+
+    loadFromHash();
+    window.addEventListener('hashchange', loadFromHash);
+
+    // Tab key support in editor
+    editor.addEventListener('keydown', function(e) {
+        if (e.key === 'Tab') {
+            e.preventDefault();
+            var start = editor.selectionStart;
+            var end = editor.selectionEnd;
+            editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
+            editor.selectionStart = editor.selectionEnd = start + 4;
+        }
+    });
+
+    function escapeHtml(str) {
+        var div = document.createElement('div');
+        div.appendChild(document.createTextNode(str));
+        return div.innerHTML;
+    }
+
+    // Mobile nav
+    var hamburger = document.querySelector('.hamburger');
+    var navLinks = document.querySelector('.nav-links');
+    if (hamburger && navLinks) {
+        hamburger.addEventListener('click', function() {
+            hamburger.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+        navLinks.querySelectorAll('a').forEach(function(link) {
+            link.addEventListener('click', function() {
+                hamburger.classList.remove('active');
+                navLinks.classList.remove('open');
+            });
+        });
+    }
+})();
+</script>
+</body>
+</html>

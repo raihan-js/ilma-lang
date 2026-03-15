@@ -52,6 +52,9 @@
                 <li><a href="#modules">Modules</a></li>
                 <li><a href="#string-methods">String Methods</a></li>
                 <li><a href="#bag-methods">Bag Methods</a></li>
+                <li><a href="#draw">Draw Module</a></li>
+                <li><a href="#number">Number Module</a></li>
+                <li><a href="#file-io">File I/O</a></li>
             </ul>
         </aside>
 
@@ -388,13 +391,13 @@
 <span class="syn-keyword">say</span> <span class="syn-func">trade.loss</span>(<span class="syn-number">80</span>, <span class="syn-number">50</span>)      <span class="syn-comment"># loss amount</span></pre></div>
 
                 <h3>number</h3>
-                <p>Number systems and mathematical sequences.</p>
+                <p>Math functions, number theory, and conversions. See the full <a href="#number">Number Module reference</a>.</p>
                 <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">number</span>
 
-<span class="syn-keyword">say</span> <span class="syn-func">number.to_binary</span>(<span class="syn-number">42</span>)    <span class="syn-comment"># "101010"</span>
-<span class="syn-keyword">say</span> <span class="syn-func">number.to_roman</span>(<span class="syn-number">2024</span>)   <span class="syn-comment"># "MMXXIV"</span>
+<span class="syn-keyword">say</span> <span class="syn-func">number.sqrt</span>(<span class="syn-number">144</span>)        <span class="syn-comment"># 12</span>
 <span class="syn-keyword">say</span> <span class="syn-func">number.is_prime</span>(<span class="syn-number">17</span>)     <span class="syn-comment"># yes</span>
-<span class="syn-keyword">say</span> <span class="syn-func">number.fibonacci</span>(<span class="syn-number">10</span>)    <span class="syn-comment"># 55</span></pre></div>
+<span class="syn-keyword">say</span> <span class="syn-func">number.fibonacci</span>(<span class="syn-number">10</span>)    <span class="syn-comment"># 55</span>
+<span class="syn-keyword">say</span> <span class="syn-func">number.to_binary</span>(<span class="syn-number">42</span>)    <span class="syn-comment"># "101010"</span></pre></div>
 
                 <h3>think</h3>
                 <p>Critical thinking and reflection prompts.</p>
@@ -404,12 +407,12 @@
 <span class="syn-keyword">say</span> <span class="syn-func">think.decide</span>(<span class="syn-keyword">bag</span>[<span class="syn-string">"study"</span>, <span class="syn-string">"play"</span>, <span class="syn-string">"rest"</span>])</pre></div>
 
                 <h3>draw</h3>
-                <p>Canvas graphics and geometric patterns.</p>
+                <p>SVG canvas, shapes, and Islamic geometric patterns. See the full <a href="#draw">Draw Module reference</a>.</p>
                 <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">draw</span>
 
-<span class="syn-func">draw.circle</span>(<span class="syn-number">100</span>, <span class="syn-number">100</span>, <span class="syn-number">50</span>)     <span class="syn-comment"># circle at (100,100) radius 50</span>
-<span class="syn-func">draw.star</span>(<span class="syn-number">200</span>, <span class="syn-number">200</span>, <span class="syn-number">8</span>)        <span class="syn-comment"># 8-pointed star</span>
-<span class="syn-func">draw.pattern</span>(<span class="syn-string">"islamic_tile"</span>)  <span class="syn-comment"># geometric pattern</span></pre></div>
+<span class="syn-keyword">remember</span> <span class="syn-var">canvas</span> <span class="syn-op">=</span> <span class="syn-func">draw.canvas</span>(<span class="syn-number">400</span>, <span class="syn-number">400</span>)
+<span class="syn-var">canvas</span> <span class="syn-op">=</span> <span class="syn-func">draw.islamic_star</span>(<span class="syn-var">canvas</span>, <span class="syn-number">200</span>, <span class="syn-number">200</span>, <span class="syn-number">150</span>, <span class="syn-number">8</span>, <span class="syn-string">"#534AB7"</span>)
+<span class="syn-func">draw.save</span>(<span class="syn-var">canvas</span>)</pre></div>
             </section>
 
             <!-- String Methods -->
@@ -460,6 +463,105 @@
 <span class="syn-keyword">say</span> <span class="syn-var">letters</span>.<span class="syn-func">last</span>()      <span class="syn-comment"># "e"</span></pre></div>
 
                 <div class="docs-note">Most bag methods modify the bag in place. Methods like <span class="docs-inline-code">sort()</span>, <span class="docs-inline-code">reverse()</span>, and <span class="docs-inline-code">slice()</span> return a new bag.</div>
+            </section>
+
+            <!-- Draw Module -->
+            <section class="docs-section" id="draw">
+                <h2>Draw Module</h2>
+                <p>Create SVG graphics and Islamic geometric art.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">draw</span></pre></div>
+
+                <h3>Functions</h3>
+                <table class="keyword-table" style="margin-top:1rem; margin-bottom:1.5rem;">
+                    <thead>
+                        <tr><th>Function</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>canvas(width, height)</td><td>Create a new SVG canvas</td></tr>
+                        <tr><td>circle(canvas, cx, cy, r, color)</td><td>Draw a circle</td></tr>
+                        <tr><td>rect(canvas, x, y, w, h, color)</td><td>Draw a rectangle</td></tr>
+                        <tr><td>line(canvas, x1, y1, x2, y2, color)</td><td>Draw a line</td></tr>
+                        <tr><td>text(canvas, x, y, content, color)</td><td>Draw text on the canvas</td></tr>
+                        <tr><td>polygon(canvas, points, color)</td><td>Draw a polygon from a list of points</td></tr>
+                        <tr><td>islamic_star(canvas, cx, cy, r, points, color)</td><td>Draw an Islamic star pattern</td></tr>
+                        <tr><td>save(canvas)</td><td>Save the canvas to an SVG file</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Example</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">draw</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">canvas</span> <span class="syn-op">=</span> <span class="syn-func">draw.canvas</span>(<span class="syn-number">400</span>, <span class="syn-number">400</span>)
+<span class="syn-var">canvas</span> <span class="syn-op">=</span> <span class="syn-func">draw.islamic_star</span>(<span class="syn-var">canvas</span>, <span class="syn-number">200</span>, <span class="syn-number">200</span>, <span class="syn-number">150</span>, <span class="syn-number">8</span>, <span class="syn-string">"#534AB7"</span>)
+<span class="syn-var">canvas</span> <span class="syn-op">=</span> <span class="syn-func">draw.circle</span>(<span class="syn-var">canvas</span>, <span class="syn-number">200</span>, <span class="syn-number">200</span>, <span class="syn-number">60</span>, <span class="syn-string">"#0F6E56"</span>)
+<span class="syn-func">draw.save</span>(<span class="syn-var">canvas</span>)</pre></div>
+
+                <div class="docs-note">The draw module produces SVG files. Use <span class="docs-inline-code">islamic_star()</span> to create beautiful geometric patterns commonly found in Islamic art and architecture.</div>
+            </section>
+
+            <!-- Number Module -->
+            <section class="docs-section" id="number">
+                <h2>Number Module</h2>
+                <p>Math functions, number theory, and conversions.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">number</span></pre></div>
+
+                <h3>Functions</h3>
+                <table class="keyword-table" style="margin-top:1rem; margin-bottom:1.5rem;">
+                    <thead>
+                        <tr><th>Function</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>sqrt(n)</td><td>Square root of n</td></tr>
+                        <tr><td>abs(n)</td><td>Absolute value of n</td></tr>
+                        <tr><td>floor(n)</td><td>Round down to nearest integer</td></tr>
+                        <tr><td>ceil(n)</td><td>Round up to nearest integer</td></tr>
+                        <tr><td>round(n)</td><td>Round to nearest integer</td></tr>
+                        <tr><td>power(base, exp)</td><td>Raise base to exponent</td></tr>
+                        <tr><td>random()</td><td>Random number between 0 and 1</td></tr>
+                        <tr><td>is_prime(n)</td><td>Check if n is prime</td></tr>
+                        <tr><td>fibonacci(n)</td><td>Get the nth Fibonacci number</td></tr>
+                        <tr><td>to_binary(n)</td><td>Convert to binary string</td></tr>
+                        <tr><td>to_hex(n)</td><td>Convert to hexadecimal string</td></tr>
+                        <tr><td>pi()</td><td>Returns the value of pi</td></tr>
+                        <tr><td>e()</td><td>Returns Euler's number</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Example</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">number</span>
+<span class="syn-keyword">say</span> <span class="syn-func">number.sqrt</span>(<span class="syn-number">144</span>)
+<span class="syn-keyword">say</span> <span class="syn-func">number.is_prime</span>(<span class="syn-number">17</span>)
+<span class="syn-keyword">say</span> <span class="syn-func">number.fibonacci</span>(<span class="syn-number">10</span>)
+<span class="syn-keyword">say</span> <span class="syn-func">number.to_binary</span>(<span class="syn-number">42</span>)</pre></div>
+
+                <div class="docs-note">The number module covers everything from basic math to number theory. Use <span class="docs-inline-code">is_prime()</span> and <span class="docs-inline-code">fibonacci()</span> to explore mathematical patterns.</div>
+            </section>
+
+            <!-- File I/O -->
+            <section class="docs-section" id="file-io">
+                <h2>File I/O</h2>
+                <p>Read and write files.</p>
+
+                <h3>Built-in Functions</h3>
+                <table class="keyword-table" style="margin-top:1rem; margin-bottom:1.5rem;">
+                    <thead>
+                        <tr><th>Function</th><th>Purpose</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>read_file(path)</td><td>Read the contents of a file</td></tr>
+                        <tr><td>write_file(path, content)</td><td>Write content to a file</td></tr>
+                        <tr><td>file_exists(path)</td><td>Check if a file exists (returns yes/no)</td></tr>
+                    </tbody>
+                </table>
+
+                <h3>Example</h3>
+                <div class="docs-code"><pre><span class="syn-builtin">write_file</span>(<span class="syn-string">"hello.txt"</span>, <span class="syn-string">"Bismillah"</span>)
+<span class="syn-keyword">remember</span> <span class="syn-var">content</span> <span class="syn-op">=</span> <span class="syn-builtin">read_file</span>(<span class="syn-string">"hello.txt"</span>)
+<span class="syn-keyword">say</span> <span class="syn-var">content</span>
+<span class="syn-keyword">say</span> <span class="syn-builtin">file_exists</span>(<span class="syn-string">"hello.txt"</span>)</pre></div>
+
+                <div class="docs-note">File I/O functions are built-in and do not require a <span class="docs-inline-code">use</span> statement. Use <span class="docs-inline-code">try</span> / <span class="docs-inline-code">when wrong</span> to handle errors when reading files that may not exist.</div>
             </section>
 
         </main>

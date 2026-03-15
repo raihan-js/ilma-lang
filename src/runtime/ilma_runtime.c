@@ -593,3 +593,73 @@ IlmaValue ilma_notebook_keys(IlmaBook* book) {
 int ilma_notebook_size(IlmaBook* book) {
     return book->count;
 }
+
+/* ── File I/O ────────────────────────────────────────── */
+
+IlmaValue ilma_read_file(IlmaValue path) {
+    if (path.type != ILMA_TEXT || !path.as_text) {
+        ilma_shout("read_file expects a text path", 0);
+        return ilma_empty_val();
+    }
+    FILE* f = fopen(path.as_text, "rb");
+    if (!f) {
+        char msg[512];
+        snprintf(msg, sizeof(msg), "Cannot read file: %s", path.as_text);
+        ilma_shout(msg, 0);
+        return ilma_empty_val();
+    }
+    fseek(f, 0, SEEK_END);
+    long size = ftell(f);
+    fseek(f, 0, SEEK_SET);
+    char* buf = malloc(size + 1);
+    if (buf) {
+        size_t read = fread(buf, 1, size, f);
+        buf[read] = '\0';
+    }
+    fclose(f);
+    IlmaValue result = ilma_text(buf);
+    free(buf);
+    return result;
+}
+
+IlmaValue ilma_write_file(IlmaValue path, IlmaValue content) {
+    if (path.type != ILMA_TEXT || !path.as_text) {
+        ilma_shout("write_file expects a text path", 0);
+        return ilma_no();
+    }
+    const char* data = "";
+    if (content.type == ILMA_TEXT && content.as_text) {
+        data = content.as_text;
+    } else {
+        char* s = ilma_to_string(content);
+        FILE* f = fopen(path.as_text, "w");
+        if (!f) {
+            char msg[512];
+            snprintf(msg, sizeof(msg), "Cannot write file: %s", path.as_text);
+            free(s);
+            ilma_shout(msg, 0);
+            return ilma_no();
+        }
+        fprintf(f, "%s", s);
+        fclose(f);
+        free(s);
+        return ilma_yes();
+    }
+    FILE* f = fopen(path.as_text, "w");
+    if (!f) {
+        char msg[512];
+        snprintf(msg, sizeof(msg), "Cannot write file: %s", path.as_text);
+        ilma_shout(msg, 0);
+        return ilma_no();
+    }
+    fprintf(f, "%s", data);
+    fclose(f);
+    return ilma_yes();
+}
+
+IlmaValue ilma_file_exists(IlmaValue path) {
+    if (path.type != ILMA_TEXT || !path.as_text) return ilma_no();
+    FILE* f = fopen(path.as_text, "r");
+    if (f) { fclose(f); return ilma_yes(); }
+    return ilma_no();
+}

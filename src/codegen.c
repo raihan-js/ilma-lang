@@ -267,6 +267,11 @@ static void gen_expression(CodeGen* cg, ASTNode* node) {
                 if (is_blueprint_name(name)) {
                     /* Constructor call: ClassName(args) */
                     fprintf(cg->out, "ilma_bp_%s_create(", safe);
+                } else if (strcmp(name, "read_file") == 0 ||
+                           strcmp(name, "write_file") == 0 ||
+                           strcmp(name, "file_exists") == 0) {
+                    /* Built-in file I/O functions */
+                    fprintf(cg->out, "ilma_%s(", name);
                 } else {
                     fprintf(cg->out, "ilma_recipe_%s(", safe);
                 }
@@ -392,6 +397,8 @@ static void gen_expression(CodeGen* cg, ASTNode* node) {
                         /* Map module.method to ilma_module_method */
                         if (strcmp(mod_name, "time") == 0)
                             fprintf(cg->out, "ilma_time_%s(", method);
+                        else if (strcmp(mod_name, "draw") == 0 && strcmp(method, "text") == 0)
+                            fprintf(cg->out, "ilma_draw_text_elem(");
                         else
                             fprintf(cg->out, "ilma_%s_%s(", mod_name, method);
                         for (int i = 0; i < node->data.call.args.count; i++) {
@@ -957,6 +964,8 @@ void codegen_generate(CodeGen* cg, ASTNode* program) {
         else if (strcmp(mod, "body") == 0)    fprintf(cg->out, "#include \"modules/body.h\"\n");
         else if (strcmp(mod, "time") == 0)    fprintf(cg->out, "#include \"modules/time_mod.h\"\n");
         else if (strcmp(mod, "quran") == 0)   fprintf(cg->out, "#include \"modules/quran.h\"\n");
+        else if (strcmp(mod, "draw") == 0)    fprintf(cg->out, "#include \"modules/draw.h\"\n");
+        else if (strcmp(mod, "number") == 0)  fprintf(cg->out, "#include \"modules/number.h\"\n");
     }
     fprintf(cg->out, "\n");
 

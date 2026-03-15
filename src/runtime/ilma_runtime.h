@@ -172,4 +172,10 @@ IlmaValue ilma_text_lower(IlmaValue text);
 IlmaValue ilma_text_contains(IlmaValue text, IlmaValue search);
 IlmaValue ilma_text_slice(IlmaValue text, IlmaValue start, IlmaValue end);
 
+/* ── File I/O ────────────────────────────────────────── */
+
+IlmaValue ilma_read_file(IlmaValue path);
+IlmaValue ilma_write_file(IlmaValue path, IlmaValue content);
+IlmaValue ilma_file_exists(IlmaValue path);
+
 #endif /* ILMA_RUNTIME_H */

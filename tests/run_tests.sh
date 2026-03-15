@@ -60,6 +60,12 @@ run_test() {
     if grep -q '#include "modules/quran.h"' "$temp_c" 2>/dev/null; then
         module_srcs="$module_srcs $runtime_dir/modules/quran.c"
     fi
+    if grep -q '#include "modules/draw.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/draw.c"
+    fi
+    if grep -q '#include "modules/number.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/number.c"
+    fi
 
     # Compile C code
     gcc -o "$temp_bin" "$temp_c" "$PROJECT_DIR/src/runtime/ilma_runtime.c" \

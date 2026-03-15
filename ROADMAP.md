@@ -25,19 +25,23 @@
 - File I/O: `read_file()`, `write_file()`
 - Date/time operations
 
-## v0.3.0 — VS Code Extension 📋
+## v0.3.0 — Ecosystem & Tooling ✅
 
-- Publish ILMA extension to VS Code Marketplace
-- Syntax highlighting, snippets, run command
-- Language Server Protocol (LSP) for IntelliSense
-- Go-to-definition, hover docs, auto-complete
-- Error diagnostics in editor
+- draw module: SVG canvas, shapes, Islamic geometric star patterns
+- number module: math functions, primes, Fibonacci, binary/hex conversion
+- File I/O built-ins: read_file(), write_file(), file_exists()
+- AST evaluator for direct interpretation (WASM-ready)
+- LSP server foundation (ilma-lsp binary with diagnostics + hover)
+- VS Code extension Marketplace-ready with publish scripts
+- GitHub Pages deployment with custom domain
+- Website playground page with 8 examples, share/download
+- 50 compiler tests, all passing
 
-## v0.4.0 — ilma-lang.dev 📋
+## v0.4.0 — Polish & Publish 📋
 
-- Launch ilma-lang.dev with docs, playground, and install page
-- Interactive playground with in-browser interpreter
-- Full language reference documentation
+- Publish VS Code extension to Marketplace
+- WASM compilation via Emscripten (real compiler in browser)
+- Full LSP: go-to-definition, auto-complete, rename
 - Cross-platform installers (APT PPA, AUR, Scoop, winget)
 - Version manager: `ilmaup install latest`
 

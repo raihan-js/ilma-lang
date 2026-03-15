@@ -21,12 +21,22 @@ SOURCES = $(SRC_DIR)/main.c \
 TARGET  = $(BUILD_DIR)/ilma
 ILMA_DEV = ILMA_HOME=$(shell pwd)/src
 
-.PHONY: all clean install uninstall test test-verbose memcheck
+LSP_SOURCES = $(SRC_DIR)/lsp/lsp_main.c \
+              $(SRC_DIR)/lsp/ilma_lsp.c \
+              $(SRC_DIR)/lexer.c
+LSP_TARGET  = $(BUILD_DIR)/ilma-lsp
+
+.PHONY: all clean install uninstall test test-verbose memcheck lsp
 
 all: $(TARGET)
 
+lsp: $(LSP_TARGET)
+
 $(TARGET): $(SOURCES) | $(BUILD_DIR)
 	$(CC) $(CFLAGS) -o $@ $(SOURCES) -I$(SRC_DIR)/runtime $(LDFLAGS)
+
+$(LSP_TARGET): $(LSP_SOURCES) | $(BUILD_DIR)
+	$(CC) $(CFLAGS) -o $@ $(LSP_SOURCES) $(LDFLAGS)
 
 $(BUILD_DIR):
 	mkdir -p $(BUILD_DIR)
@@ -37,10 +47,11 @@ clean:
 	find examples/ -name "*.c" -delete 2>/dev/null || true
 
 # ── Installation ──────────────────────────────────────────────────
-install: $(TARGET)
+install: $(TARGET) lsp
 	@echo "Installing ilma to $(BINDIR)..."
 	@mkdir -p $(BINDIR) $(LIBDIR) $(LIBDIR)/modules
 	install -m 755 $(TARGET) $(BINDIR)/ilma
+	install -m 755 $(LSP_TARGET) $(BINDIR)/ilma-lsp
 	install -m 644 src/runtime/ilma_runtime.c $(LIBDIR)/ilma_runtime.c
 	install -m 644 src/runtime/ilma_runtime.h $(LIBDIR)/ilma_runtime.h
 	install -m 644 src/runtime/modules/*.c $(LIBDIR)/modules/

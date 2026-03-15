@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 — Page Not Found | ILMA</title>
+    <meta name="description" content="The page you are looking for does not exist.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════ Navigation ═══════════ -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">ILMA</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="install.html">Install</a>
+            <a href="docs.html">Docs</a>
+            <a href="index.html#playground">Playground</a>
+            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════ 404 Content ═══════════ -->
+<section class="hero" style="min-height: 70vh; display: flex; align-items: center; text-align: center;">
+    <div class="container" style="display: flex; flex-direction: column; align-items: center;">
+        <p style="font-size: 8rem; font-weight: 900; color: #534AB7; margin: 0; line-height: 1;">404</p>
+        <h1 style="font-size: 2rem; margin: 0.5rem 0 2rem;">Page not found</h1>
+        <div class="code-window" style="max-width: 480px; width: 100%; margin-bottom: 2rem;">
+            <div class="code-window-header">
+                <span class="code-window-dot"></span>
+                <span class="code-window-dot"></span>
+                <span class="code-window-dot"></span>
+                <span class="code-window-title">lost.ilma</span>
+            </div>
+            <div class="code-window-body">
+<pre><span class="syn-comment"># When something goes wrong</span>
+<span class="syn-keyword">try</span>:
+    <span class="syn-builtin">find_the_page</span>()
+<span class="syn-keyword">when wrong</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"Let us take you home."</span></pre>
+            </div>
+        </div>
+        <a href="/" class="btn btn-primary">Go to Homepage</a>
+    </div>
+</section>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>ILMA</h4>
+                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
+            </div>
+            <div>
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="index.html#playground">Playground</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Made with ILMA</span>
+            <span>&copy; 2026 ILMA Programming Language</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

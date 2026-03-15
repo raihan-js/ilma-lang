@@ -1,0 +1,7 @@
+use draw
+remember canvas = draw.canvas(200, 200)
+canvas = draw.circle(canvas, 100, 100, 50, "#534AB7")
+canvas = draw.rect(canvas, 10, 10, 50, 30, "#0F6E56")
+remember msg = draw.save(canvas)
+say msg
+say file_exists("drawing.svg")

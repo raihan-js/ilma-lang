@@ -7,7 +7,7 @@
 #include "parser.h"
 #include "codegen.h"
 
-#define ILMA_VERSION "0.2.0"
+#define ILMA_VERSION "0.3.0"
 
 static char* read_file(const char* path) {
     FILE* f = fopen(path, "rb");
