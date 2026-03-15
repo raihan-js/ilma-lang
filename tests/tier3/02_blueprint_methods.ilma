@@ -1,0 +1,24 @@
+# Test: blueprint with state-modifying methods (from the blueprint spec)
+blueprint BankAccount:
+
+    create(owner, opening_balance):
+        me.owner = owner
+        me.balance = opening_balance
+
+    recipe deposit(amount):
+        me.balance = me.balance + amount
+
+    recipe withdraw(amount):
+        if amount > me.balance:
+            shout "Not enough money"
+        me.balance = me.balance - amount
+
+    recipe show_balance():
+        say me.owner + ": " + me.balance
+
+remember acc = BankAccount("Amira", 500)
+acc.show_balance()
+acc.deposit(200)
+acc.show_balance()
+acc.withdraw(75)
+acc.show_balance()

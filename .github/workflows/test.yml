@@ -1,0 +1,60 @@
+name: ILMA Compiler Tests
+
+on: [push, pull_request]
+
+jobs:
+  compiler-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install GCC
+        run: sudo apt-get update && sudo apt-get install -y gcc
+
+      - name: Build ILMA compiler
+        run: make
+
+      - name: Run test suite
+        run: bash tests/run_tests.sh
+
+  interpreter-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run lesson tests
+        working-directory: web
+        run: |
+          node --input-type=module -e "
+          import { readFileSync } from 'fs';
+          const fn = new Function(readFileSync('interpreter.js', 'utf8') + '\n' + readFileSync('lessons.js', 'utf8').replace('const LESSONS', 'var LESSONS') + '\nreturn { IlmaInterpreter, LESSONS };');
+          const { IlmaInterpreter, LESSONS } = fn();
+          let fail = 0;
+          for (const l of LESSONS) {
+              let output = [];
+              const interp = new IlmaInterpreter((t) => output.push(t), (p) => Promise.resolve('test'));
+              try {
+                  await interp.run(l.code.trim());
+                  const got = output.join('\n');
+                  if (l.expected && got !== l.expected) {
+                      console.log('FAIL L' + l.id + ': ' + l.title);
+                      fail++;
+                  }
+              } catch(e) { console.log('ERR L' + l.id + ': ' + e.message); fail++; }
+          }
+          if (fail > 0) { console.log(fail + ' failures'); process.exit(1); }
+          console.log('All testable lessons pass');
+          "
+
+  docker-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t ilma .

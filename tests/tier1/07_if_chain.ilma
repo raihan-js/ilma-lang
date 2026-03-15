@@ -1,0 +1,8 @@
+# Otherwise if chain
+remember score = 75
+if score > 90:
+    say "Excellent!"
+otherwise if score > 70:
+    say "Good effort"
+otherwise:
+    say "Keep practising"

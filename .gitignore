@@ -1,0 +1,32 @@
+# Build artifacts
+build/
+*.o
+*.c.bak
+
+# Generated files
+*.ilma.c
+tests/**/*.c
+tests/**/*_bin
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.docker/
+
+# Claude Code
+.claude/
+
+# Node
+node_modules/
+
+# Test output
+/tmp/
+plan.docx

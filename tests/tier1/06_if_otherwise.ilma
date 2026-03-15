@@ -1,0 +1,6 @@
+# If and otherwise
+remember score = 95
+if score > 90:
+    say "Excellent!"
+otherwise:
+    say "Good effort"

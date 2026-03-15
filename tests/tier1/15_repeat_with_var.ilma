@@ -1,0 +1,4 @@
+# Repeat with variable count
+remember count = 4
+repeat count:
+    say "Learning ILMA!"

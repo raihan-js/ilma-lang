@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILMA — A Programming Language for Every Child</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f8ff7">
+    <link rel="icon" type="image/png" href="icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0a0c14; --panel: #141620; --border: #222538;
+            --text: #e4e6f0; --dim: #8b8fa3; --muted: #5c5f72;
+            --accent: #4f8ff7; --green: #3dd68c; --purple: #c792ea;
+            --font: 'Inter', sans-serif; --mono: 'JetBrains Mono', monospace;
+        }
+        body { font-family: var(--font); background: var(--bg); color: var(--text); line-height: 1.7; }
+
+        .container { max-width: 900px; margin: 0 auto; padding: 0 24px; }
+
+        /* Nav */
+        nav { background: rgba(10,12,20,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid var(--border); position: sticky; top: 0; z-index: 10; }
+        nav .container { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+        nav .logo { font-size: 22px; font-weight: 800; color: var(--accent); letter-spacing: 1px; }
+        nav a { color: var(--dim); text-decoration: none; font-size: 14px; font-weight: 500; margin-left: 24px; transition: color 0.2s; }
+        nav a:hover { color: var(--accent); }
+
+        /* Hero */
+        .hero { text-align: center; padding: 80px 0 60px; }
+        .hero h1 { font-size: 52px; font-weight: 800; line-height: 1.15; margin-bottom: 20px; }
+        .hero h1 span { color: var(--accent); }
+        .hero p { font-size: 20px; color: var(--dim); max-width: 600px; margin: 0 auto 32px; }
+        .hero .cta { display: inline-flex; gap: 12px; }
+        .hero .btn { padding: 14px 32px; border-radius: 10px; font-family: var(--font); font-size: 16px; font-weight: 700; text-decoration: none; transition: all 0.2s; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-primary:hover { background: #6ba0ff; transform: translateY(-1px); }
+        .btn-secondary { background: transparent; color: var(--dim); border: 1px solid var(--border); }
+        .btn-secondary:hover { color: var(--text); border-color: var(--muted); }
+
+        /* Code block */
+        .code-hero { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; max-width: 520px; margin: 40px auto 0; text-align: left; font-family: var(--mono); font-size: 14px; line-height: 1.8; }
+        .code-hero .kw { color: var(--purple); font-weight: 500; }
+        .code-hero .str { color: var(--green); }
+        .code-hero .num { color: #f78c6c; }
+        .code-hero .cmt { color: var(--muted); font-style: italic; }
+
+        /* Features */
+        .features { padding: 60px 0; }
+        .features h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 40px; }
+        .feature-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 20px; }
+        .feature-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+        .feature-card h3 { font-size: 16px; font-weight: 600; margin-bottom: 8px; color: var(--accent); }
+        .feature-card p { font-size: 14px; color: var(--dim); line-height: 1.6; }
+
+        /* Curriculum */
+        .curriculum { padding: 60px 0; }
+        .curriculum h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 12px; }
+        .curriculum .subtitle { text-align: center; color: var(--dim); font-size: 16px; margin-bottom: 40px; }
+        .tier { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 24px 28px; margin-bottom: 16px; }
+        .tier h3 { font-size: 18px; font-weight: 600; margin-bottom: 6px; }
+        .tier .age { font-size: 13px; color: var(--accent); margin-bottom: 10px; }
+        .tier p { color: var(--dim); font-size: 14px; }
+
+        /* Modules */
+        .modules { padding: 60px 0; }
+        .modules h2 { text-align: center; font-size: 32px; font-weight: 700; margin-bottom: 40px; }
+        .module-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 12px; }
+        .module-tag { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+        .module-tag code { color: var(--green); font-family: var(--mono); font-size: 14px; font-weight: 500; }
+        .module-tag p { color: var(--muted); font-size: 12px; margin-top: 6px; }
+
+        /* Manifesto */
+        .manifesto { padding: 60px 0; text-align: center; }
+        .manifesto h2 { font-size: 32px; font-weight: 700; margin-bottom: 20px; }
+        .manifesto blockquote { font-size: 20px; color: var(--dim); font-style: italic; max-width: 650px; margin: 0 auto 20px; border-left: 3px solid var(--accent); padding-left: 20px; text-align: left; }
+        .manifesto p { color: var(--dim); font-size: 15px; max-width: 650px; margin: 0 auto 16px; text-align: left; }
+
+        /* Footer */
+        footer { border-top: 1px solid var(--border); padding: 30px 0; text-align: center; color: var(--muted); font-size: 13px; }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 32px; }
+            .hero p { font-size: 16px; }
+            .hero .cta { flex-direction: column; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="container">
+            <span class="logo">ILMA</span>
+            <div>
+                <a href="index.html">Editor</a>
+                <a href="teacher.html">Teachers</a>
+                <a href="#features">Features</a>
+                <a href="#curriculum">Curriculum</a>
+            </div>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <h1>A programming language<br>for <span>every child</span></h1>
+            <p>ILMA is built for children as young as three, designed to grow with them into adulthood. Not a toy. A complete language that happens to be learnable by a child.</p>
+            <div class="cta">
+                <a href="index.html" class="btn btn-primary">Start Coding</a>
+                <a href="#manifesto" class="btn btn-secondary">Read the Manifesto</a>
+            </div>
+            <div class="code-hero">
+                <span class="cmt"># My first ILMA program</span><br>
+                <span class="kw">say</span> <span class="str">"Bismillah"</span><br>
+                <span class="kw">remember</span> name = <span class="kw">ask</span> <span class="str">"What is your name? "</span><br>
+                <span class="kw">say</span> <span class="str">"Assalamu Alaikum, "</span> + name<br><br>
+                <span class="kw">repeat</span> <span class="num">3</span>:<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;<span class="kw">say</span> <span class="str">"SubhanAllah"</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="features" id="features">
+        <div class="container">
+            <h2>Why ILMA?</h2>
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <h3>Words Children Know</h3>
+                    <p>Every keyword — <code>say</code>, <code>remember</code>, <code>recipe</code>, <code>blueprint</code> — is a word a child already understands. No jargon.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Knowledge Built In</h3>
+                    <p>Modules teach finance, science, health, and Islamic values. Coding lessons that also teach how to live.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Compiles to C</h3>
+                    <p>Native performance. Runs on any device ever made — from a Raspberry Pi to a supercomputer.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Grows With You</h3>
+                    <p>Three tiers: Seed (ages 3-7), Sapling (7-13), Tree (13+). One language, three depth levels.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Arabic & Urdu Support</h3>
+                    <p>Full Unicode from day one. A child in Karachi or Cairo can write code in their own script.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>Free Forever</h3>
+                    <p>The compiler, web IDE, and all 30 lessons are free. A child with a phone and wifi can learn ILMA.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="curriculum" id="curriculum">
+        <div class="container">
+            <h2>The Curriculum</h2>
+            <p class="subtitle">30 lessons. Three tracks: programming, knowledge, and character.</p>
+            <div class="tier">
+                <h3>Tier 1 — Seed</h3>
+                <div class="age">Ages 3 to 7 &middot; Lessons 1-10</div>
+                <p>say, remember, ask, if/otherwise, repeat, for each, bags, recipes. Parent sits with child. Visual outputs.</p>
+            </div>
+            <div class="tier">
+                <h3>Tier 2 — Sapling</h3>
+                <div class="age">Ages 7 to 13 &middot; Lessons 11-20</div>
+                <p>Finance module, zakat, compound interest, Hijri calendar, health, notebooks, error handling, Stoic thinking, algorithms.</p>
+            </div>
+            <div class="tier">
+                <h3>Tier 3 — Tree</h3>
+                <div class="age">Ages 13+ &middot; Lessons 21-30</div>
+                <p>Sorting, drawing, games, Quran module, trade, science, number systems, recursion, capstone project, teaching others.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="modules">
+        <div class="container">
+            <h2>Knowledge Modules</h2>
+            <div class="module-grid">
+                <div class="module-tag"><code>finance</code><p>Zakat, budgets, interest</p></div>
+                <div class="module-tag"><code>time</code><p>Hijri calendar, dates</p></div>
+                <div class="module-tag"><code>quran</code><p>Search, daily ayah</p></div>
+                <div class="module-tag"><code>science</code><p>Physics experiments</p></div>
+                <div class="module-tag"><code>trade</code><p>Markets, halal checks</p></div>
+                <div class="module-tag"><code>body</code><p>BMI, water, health</p></div>
+                <div class="module-tag"><code>number</code><p>Binary, hex, primes</p></div>
+                <div class="module-tag"><code>think</code><p>Stoic wisdom</p></div>
+                <div class="module-tag"><code>draw</code><p>Graphics, patterns</p></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="manifesto" id="manifesto">
+        <div class="container">
+            <h2>The Manifesto</h2>
+            <blockquote>"What if we started with a child? What if the syntax was invented fresh, borrowing nothing, using only the words a child already knows?"</blockquote>
+            <p>Every programming language that came before ILMA was designed by and for adult software engineers. Python simplified C. Ruby simplified Python. But none of them asked the fundamental question.</p>
+            <p>ILMA breaks this chain entirely. Every keyword is chosen by asking: if a child who has never seen code before reads this line, will they understand what it does?</p>
+            <p>The standard library is not just code — it's a curriculum. When a child calls <code>finance.zakat()</code>, they're not just learning function calls — they're learning about wealth, responsibility, and the mathematics that connects them.</p>
+            <p>ILMA's name comes from the Arabic word <strong>ilm</strong> — knowledge, science, wisdom. The first divine command was <strong>Iqra</strong> — Read. We carry that mission: give every child the tools of the knowledge economy, regardless of geography, wealth, or school system.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            ILMA Programming Language &middot; ilmalang.dev &middot; Free and Open Source (MIT)
+        </div>
+    </footer>
+</body>
+</html>

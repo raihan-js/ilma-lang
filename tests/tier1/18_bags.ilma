@@ -1,0 +1,4 @@
+# Bags (lists)
+remember fruits = bag["apple", "mango", "dates"]
+for each fruit in fruits:
+    say "I have a " + fruit

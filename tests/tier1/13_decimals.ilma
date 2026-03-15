@@ -1,0 +1,5 @@
+# Decimal numbers
+remember price = 9.99
+remember tax = 0.05
+remember total = price + price * tax
+say total

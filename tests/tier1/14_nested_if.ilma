@@ -1,0 +1,7 @@
+# Nested if blocks
+remember age = 10
+remember smart = yes
+if age > 5:
+    say "Old enough"
+    if smart:
+        say "And smart too!"

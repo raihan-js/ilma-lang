@@ -1,0 +1,6 @@
+# Equality with is / is not
+remember name = "Amira"
+if name is "Amira":
+    say "That is a beautiful name!"
+if name is not "Yusuf":
+    say "You are not Yusuf"

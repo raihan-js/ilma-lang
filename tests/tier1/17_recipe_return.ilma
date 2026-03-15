@@ -1,0 +1,6 @@
+# Recipe with give back
+recipe add_numbers(first, second):
+    give back first + second
+
+remember total = add_numbers(40, 2)
+say "The answer is: " + total

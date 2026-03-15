@@ -1,0 +1,16 @@
+# Test: zakat calculator (real-world Tier 2 example from blueprint)
+remember savings = 5000
+remember nisab = 595
+
+if savings >= nisab:
+    remember zakat_due = savings * 0.025
+    say "Your zakat this year is: " + zakat_due
+    say "Paying zakat purifies your wealth."
+otherwise:
+    say "You have not yet reached nisab."
+
+recipe calculate_profit(bought_at, sold_at):
+    give back sold_at - bought_at
+
+remember profit = calculate_profit(100, 145)
+say "Your profit is: " + profit

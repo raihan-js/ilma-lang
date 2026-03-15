@@ -1,0 +1,6 @@
+# Recipes (functions)
+recipe greet(name):
+    say "Salaam, " + name
+
+greet("Yusuf")
+greet("Amira")

@@ -1,0 +1,21 @@
+# Test: blueprint using bags (me.history = bag[])
+blueprint TodoList:
+
+    create(owner):
+        me.owner = owner
+        me.items = bag[]
+
+    recipe add_task(task):
+        me.items.add(task)
+
+    recipe show():
+        say me.owner + "'s tasks:"
+        for each item in me.items:
+            say "  - " + item
+
+remember my_list = TodoList("Amira")
+my_list.add_task("Study maths")
+my_list.add_task("Read Quran")
+my_list.add_task("Help mama")
+my_list.show()
+say "Total: " + my_list.items.size

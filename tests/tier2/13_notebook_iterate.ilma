@@ -1,0 +1,13 @@
+# Test: notebook iteration and display
+remember student = notebook[name: "Amira", grade: 5, city: "London"]
+
+# Static key access
+say student[name]
+
+# Iterate notebook keys (use parentheses for dynamic key access)
+for each key in student:
+    say key + " = " + student[(key)]
+
+# Display bag contents
+remember items = bag[1, 2, 3]
+say items

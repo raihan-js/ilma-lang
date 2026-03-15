@@ -1,0 +1,4 @@
+# String concatenation
+remember greeting = "Assalamu Alaikum"
+remember name = "Yusuf"
+say greeting + ", " + name

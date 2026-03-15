@@ -1,0 +1,11 @@
+# Test: nested loops
+repeat 3:
+    repeat 2:
+        say "hello"
+
+# Nested for each
+remember colors = bag["red", "blue"]
+remember sizes = bag["big", "small"]
+for each color in colors:
+    for each size in sizes:
+        say size + " " + color

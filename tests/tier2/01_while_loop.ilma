@@ -1,0 +1,14 @@
+# Test: keep going while loop
+remember count = 0
+
+keep going while count < 5:
+    count = count + 1
+
+say "Count is: " + count
+
+# Counting down
+remember n = 10
+keep going while n > 0:
+    n = n - 2
+
+say "n is: " + n

@@ -1,0 +1,11 @@
+# Phase 1 milestone program
+remember name = "Amira"
+say "Assalamu Alaikum, " + name
+
+repeat 3:
+    say "ILMA is going to change the world."
+
+if name is "Amira":
+    say "That is a beautiful name!"
+otherwise:
+    say "Nice to meet you, " + name

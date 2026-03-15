@@ -1,0 +1,11 @@
+# Comparison operators
+remember x = 5
+remember y = 10
+if x < y:
+    say "x is smaller"
+if y > x:
+    say "y is bigger"
+if x <= 5:
+    say "x is at most 5"
+if y >= 10:
+    say "y is at least 10"

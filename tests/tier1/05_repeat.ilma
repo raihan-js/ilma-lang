@@ -1,0 +1,3 @@
+# Repeat loop
+repeat 3:
+    say "SubhanAllah"

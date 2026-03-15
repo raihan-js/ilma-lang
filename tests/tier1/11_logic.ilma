@@ -1,0 +1,7 @@
+# Logical operators
+remember a = yes
+remember b = no
+if a and not b:
+    say "a is yes and b is no"
+if a or b:
+    say "at least one is yes"

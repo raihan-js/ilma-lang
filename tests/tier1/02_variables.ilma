@@ -1,0 +1,5 @@
+# Variables with remember
+remember score = 100
+remember name = "Yusuf"
+say name
+say score

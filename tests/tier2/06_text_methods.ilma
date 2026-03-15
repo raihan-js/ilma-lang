@@ -1,0 +1,19 @@
+# Test: text methods - join, upper, lower, contains, length, slice
+remember words = bag["Bismillah", "Al", "Rahman", "Al", "Rahim"]
+remember joined = ", ".join(words)
+say joined
+
+# Length
+remember greeting = "Assalamu Alaikum"
+say "Length: " + greeting.length
+
+# Upper and lower
+say greeting.upper()
+say greeting.lower()
+
+# Contains
+if greeting.contains("Alaikum") is yes:
+    say "Found it!"
+
+# Slice
+say greeting.slice(0, 8)

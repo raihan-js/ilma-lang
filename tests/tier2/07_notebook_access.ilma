@@ -1,0 +1,9 @@
+# Test: notebook creation and access
+remember person = notebook[name: "Amira", age: 12, city: "London"]
+say person[name]
+say person[age]
+say person[city]
+
+# Empty notebook
+remember empty_book = notebook[]
+say "done"

@@ -1,0 +1,5 @@
+# Mixing strings and numbers
+remember age = 12
+say "I am " + age + " years old"
+remember price = 3.50
+say "The price is " + price

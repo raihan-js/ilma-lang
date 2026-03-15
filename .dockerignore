@@ -1,0 +1,7 @@
+build/
+tests/
+.claude/
+*.docx
+*.o
+.git
+.gitignore

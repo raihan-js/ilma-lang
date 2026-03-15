@@ -1,0 +1,19 @@
+# Test: try / when wrong / shout error handling
+say "Before try"
+
+try:
+    say "Inside try"
+    shout "Something bad happened"
+    say "This should not print"
+when wrong:
+    say "Caught the error!"
+
+say "After try"
+
+# Test: try without error
+try:
+    say "No error here"
+when wrong:
+    say "This should not print either"
+
+say "All done"

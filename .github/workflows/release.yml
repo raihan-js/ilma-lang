@@ -1,0 +1,189 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'   # triggers on v0.1.0, v0.2.0, etc.
+
+permissions:
+  contents: write
+
+jobs:
+  # ── Build Linux x86_64 ───────────────────────────────────────────────────
+  build-linux-x86_64:
+    name: Linux x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get install -y gcc make
+
+      - name: Build
+        run: make all
+
+      - name: Run tests
+        run: make test
+
+      - name: Package
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          DIST="ilma-${VERSION}-linux-x86_64"
+          mkdir -p "$DIST/bin" "$DIST/lib/ilma/runtime"
+          cp build/ilma "$DIST/bin/ilma"
+          cp src/runtime/ilma_runtime.c src/runtime/ilma_runtime.h "$DIST/lib/ilma/runtime/"
+          cp README.md LICENSE VERSION "$DIST/"
+          tar -czf "${DIST}.tar.gz" "$DIST"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-x86_64
+          path: "*.tar.gz"
+
+  # ── Build Linux ARM64 ────────────────────────────────────────────────────
+  build-linux-arm64:
+    name: Linux ARM64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install cross-compiler
+        run: sudo apt-get install -y gcc-aarch64-linux-gnu make
+
+      - name: Build
+        run: make all CC=aarch64-linux-gnu-gcc
+
+      - name: Package
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          DIST="ilma-${VERSION}-linux-arm64"
+          mkdir -p "$DIST/bin" "$DIST/lib/ilma/runtime"
+          cp build/ilma "$DIST/bin/ilma"
+          cp src/runtime/ilma_runtime.c src/runtime/ilma_runtime.h "$DIST/lib/ilma/runtime/"
+          cp README.md LICENSE VERSION "$DIST/"
+          tar -czf "${DIST}.tar.gz" "$DIST"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux-arm64
+          path: "*.tar.gz"
+
+  # ── Build macOS x86_64 and ARM64 (universal) ─────────────────────────────
+  build-macos:
+    name: macOS (universal)
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build x86_64
+        run: make all CFLAGS="-O2 -Wall -Wextra -Wno-unused-parameter -std=c99 -target x86_64-apple-macos11"
+      - run: mv build/ilma build/ilma-x86_64
+
+      - name: Build arm64
+        run: make clean && make all CFLAGS="-O2 -Wall -Wextra -Wno-unused-parameter -std=c99 -target arm64-apple-macos11"
+      - run: mv build/ilma build/ilma-arm64
+
+      - name: Create universal binary
+        run: lipo -create build/ilma-x86_64 build/ilma-arm64 -output build/ilma
+
+      - name: Run tests
+        run: make test
+
+      - name: Package
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          DIST="ilma-${VERSION}-macos-universal"
+          mkdir -p "$DIST/bin" "$DIST/lib/ilma/runtime"
+          cp build/ilma "$DIST/bin/ilma"
+          cp src/runtime/ilma_runtime.c src/runtime/ilma_runtime.h "$DIST/lib/ilma/runtime/"
+          cp README.md LICENSE VERSION "$DIST/"
+          tar -czf "${DIST}.tar.gz" "$DIST"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos-universal
+          path: "*.tar.gz"
+
+  # ── Build Windows (via cross-compilation) ────────────────────────────────
+  build-windows:
+    name: Windows x86_64
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install MinGW cross-compiler
+        run: sudo apt-get install -y mingw-w64 make
+
+      - name: Build
+        run: make all CC=x86_64-w64-mingw32-gcc
+
+      - name: Package
+        run: |
+          VERSION=${GITHUB_REF_NAME#v}
+          DIST="ilma-${VERSION}-windows-x86_64"
+          mkdir -p "$DIST/bin" "$DIST/lib/ilma/runtime"
+          cp build/ilma "$DIST/bin/ilma.exe"
+          cp src/runtime/ilma_runtime.c src/runtime/ilma_runtime.h "$DIST/lib/ilma/runtime/"
+          cp README.md LICENSE VERSION "$DIST/"
+          zip -r "${DIST}.zip" "$DIST"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows-x86_64
+          path: "*.zip"
+
+  # ── Create GitHub Release ────────────────────────────────────────────────
+  release:
+    name: Publish Release
+    needs: [build-linux-x86_64, build-linux-arm64, build-macos, build-windows]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: artifacts/
+
+      - name: Get version
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> $GITHUB_ENV
+
+      - name: Generate release notes
+        run: |
+          cat > RELEASE_NOTES.md << EOF
+          # ILMA ${{ env.VERSION }}
+
+          ## Install
+
+          **Linux and macOS (one command):**
+          \`\`\`bash
+          curl -fsSL https://ilmalang.dev/install.sh | bash
+          \`\`\`
+
+          **Build from source:**
+          \`\`\`bash
+          git clone https://github.com/raihan-js/ilma
+          cd ilma && make && sudo make install
+          \`\`\`
+
+          ## Downloads
+
+          | Platform | File |
+          |----------|------|
+          | Linux x86_64 | \`ilma-${{ env.VERSION }}-linux-x86_64.tar.gz\` |
+          | Linux ARM64 (Raspberry Pi, Apple M-series) | \`ilma-${{ env.VERSION }}-linux-arm64.tar.gz\` |
+          | macOS (Universal: Intel + Apple Silicon) | \`ilma-${{ env.VERSION }}-macos-universal.tar.gz\` |
+          | Windows x86_64 | \`ilma-${{ env.VERSION }}-windows-x86_64.zip\` |
+
+          ## What is ILMA?
+
+          ILMA is a programming language that reads like plain English, built on C, designed for children and lifelong learners. Learn more at [ilmalang.dev](https://ilmalang.dev).
+          EOF
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: RELEASE_NOTES.md
+          files: |
+            artifacts/**/*.tar.gz
+            artifacts/**/*.zip
+          draft: false
+          prerelease: ${{ contains(github.ref_name, 'alpha') || contains(github.ref_name, 'beta') || contains(github.ref_name, 'rc') }}

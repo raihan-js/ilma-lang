@@ -1,0 +1,14 @@
+# Zakat calculator — Tier 2 ILMA
+# Nisab is approximately 595g of silver equivalent
+
+recipe calculate_zakat(savings):
+    remember nisab = 595
+    if savings >= nisab:
+        remember zakat = savings * 0.025
+        say "Your zakat this year: " + zakat
+        say "JazakAllah — may it be accepted."
+    otherwise:
+        say "You have not reached nisab yet. Keep saving!"
+
+remember amount = ask "How much money have you saved? "
+calculate_zakat(amount)

@@ -1,0 +1,25 @@
+# Test: blueprint inheritance (comes from) — from the blueprint spec
+blueprint Animal:
+
+    create(name, sound):
+        me.name = name
+        me.sound = sound
+
+    recipe speak():
+        say me.name + " says " + me.sound
+
+blueprint Dog comes from Animal:
+
+    create(name):
+        comes_from.create(name, "Woof")
+
+    recipe fetch(item):
+        say me.name + " fetches the " + item
+
+remember dog = Dog("Noor")
+dog.speak()
+dog.fetch("ball")
+
+# Parent blueprint still works independently
+remember cat = Animal("Mimi", "Meow")
+cat.speak()

@@ -1,0 +1,21 @@
+# Test: complex expressions and operator precedence
+say 2 + 3 * 4
+say (2 + 3) * 4
+say 10 - 2 * 3
+say 10 / 2 + 3
+say 15 % 4
+
+# Chained comparisons with logic
+remember x = 5
+if x > 3 and x < 10:
+    say "x is between 3 and 10"
+
+if x is 5 or x is 6:
+    say "x is 5 or 6"
+
+if x is not 10:
+    say "x is not 10"
+
+# Negative numbers
+remember neg = -5
+say neg + 10

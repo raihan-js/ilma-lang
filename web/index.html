@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILMA — Learn to Code</title>
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f8ff7">
+    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js');</script>
+</head>
+<body>
+    <!-- Top Bar -->
+    <header id="topbar">
+        <div class="topbar-left">
+            <h1 class="logo">ILMA</h1>
+            <span class="tagline">Learn to Code</span>
+        </div>
+        <div class="topbar-center">
+            <button id="btn-run" title="Run program (Ctrl+Enter)">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><polygon points="3,1 13,8 3,15"/></svg>
+                Run
+            </button>
+            <button id="btn-stop" title="Stop program" class="hidden">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><rect x="3" y="3" width="10" height="10"/></svg>
+                Stop
+            </button>
+            <button id="btn-clear" title="Clear output">Clear</button>
+            <button id="btn-share" title="Share this program">Share</button>
+        </div>
+        <div class="topbar-right">
+            <a href="teacher.html" style="color:var(--text-dim);text-decoration:none;font-size:12px;margin-right:12px;">Teacher</a>
+            <span id="status-text"></span>
+        </div>
+    </header>
+
+    <!-- Main Layout -->
+    <div id="main">
+        <!-- Lesson Sidebar -->
+        <aside id="sidebar">
+            <div class="sidebar-header">
+                <h2>Lessons</h2>
+                <button id="btn-toggle-sidebar" title="Toggle sidebar">
+                    <svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="3" y1="5" x2="15" y2="5"/><line x1="3" y1="9" x2="15" y2="9"/><line x1="3" y1="13" x2="15" y2="13"/>
+                    </svg>
+                </button>
+            </div>
+            <div id="lesson-list"></div>
+            <div id="lesson-content" class="hidden">
+                <button id="btn-back-to-list" class="back-btn">&larr; All Lessons</button>
+                <h3 id="lesson-title"></h3>
+                <div id="lesson-body"></div>
+                <div class="lesson-nav">
+                    <button id="btn-prev-lesson" class="nav-btn">&larr; Previous</button>
+                    <button id="btn-next-lesson" class="nav-btn">Next &rarr;</button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Editor + Output -->
+        <div id="workspace">
+            <div id="editor-pane">
+                <div id="editor-tabs">
+                    <span class="tab active">program.ilma</span>
+                </div>
+                <div id="editor-container"></div>
+            </div>
+            <div id="output-pane">
+                <div id="output-header">
+                    <span>Output</span>
+                </div>
+                <div id="output-console"></div>
+                <div id="input-bar" class="hidden">
+                    <input type="text" id="input-field" placeholder="Type your answer..." autocomplete="off">
+                    <button id="input-submit">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tutor Panel (floating) -->
+    <div id="tutor-panel" class="hidden">
+        <div class="tutor-header">
+            <span>ILMA Tutor</span>
+            <button id="btn-close-tutor">&times;</button>
+        </div>
+        <div id="tutor-messages"></div>
+        <div class="tutor-actions">
+            <button id="btn-hint">Give me a hint</button>
+        </div>
+    </div>
+    <button id="btn-tutor" title="Ask the tutor for help">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor"><path d="M10 2a8 8 0 100 16 8 8 0 000-16zm1 13H9v-2h2v2zm1.07-5.75l-.9.92C10.45 10.9 10 11.5 10 12.5H8v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H5c0-1.66 1.34-3 3-3s3 1.34 3 3c0 .66-.27 1.26-.7 1.7z"/></svg>
+    </button>
+
+    <!-- Monaco Editor from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs/loader.js"></script>
+    <script src="lessons.js"></script>
+    <script src="interpreter.js"></script>
+    <script src="tutor.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,9 @@
+# Test: variable reassignment (no remember keyword needed)
+remember score = 50
+say "Score: " + score
+
+score = score + 25
+say "Score: " + score
+
+score = 100
+say "Score: " + score

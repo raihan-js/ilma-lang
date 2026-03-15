@@ -1,0 +1,21 @@
+# Test: blueprint with error handling
+blueprint Wallet:
+
+    create(amount):
+        me.balance = amount
+
+    recipe spend(amount):
+        if amount > me.balance:
+            shout "Not enough money!"
+        me.balance = me.balance - amount
+        say "Spent " + amount + ", remaining: " + me.balance
+
+remember wallet = Wallet(100)
+wallet.spend(30)
+
+try:
+    wallet.spend(200)
+when wrong:
+    say "Caught: cannot overspend"
+
+say "Balance: " + wallet.balance

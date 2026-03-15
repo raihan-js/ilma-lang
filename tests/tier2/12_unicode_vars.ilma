@@ -1,0 +1,8 @@
+# Test: Arabic/Urdu variable names
+remember نام = "Yusuf"
+say "Name: " + نام
+
+remember مال = 5000
+remember نسبة = 0.025
+remember زكاة = مال * نسبة
+say "Zakat: " + زكاة

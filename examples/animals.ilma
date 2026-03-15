@@ -1,0 +1,20 @@
+# Blueprints — object-oriented ILMA
+
+blueprint Animal:
+    create(name, sound):
+        me.name  = name
+        me.sound = sound
+
+    recipe speak():
+        say me.name + " says: " + me.sound
+
+    recipe describe():
+        say "I am a " + me.name
+
+remember cat = Animal("Cat", "Meow")
+remember dog = Animal("Dog", "Woof")
+remember bird = Animal("Bird", "Tweet")
+
+remember animals = bag[cat, dog, bird]
+for each animal in animals:
+    animal.speak()

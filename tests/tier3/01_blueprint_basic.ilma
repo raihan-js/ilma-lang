@@ -1,0 +1,17 @@
+# Test: basic blueprint with create and methods
+blueprint Animal:
+
+    create(name, sound):
+        me.name = name
+        me.sound = sound
+
+    recipe speak():
+        say me.name + " says " + me.sound
+
+remember cat = Animal("Whiskers", "Meow")
+cat.speak()
+
+remember dog = Animal("Rex", "Woof")
+dog.speak()
+
+say "Done"

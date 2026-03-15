@@ -1,0 +1,7 @@
+# Basic arithmetic
+remember a = 10
+remember b = 3
+say a + b
+say a - b
+say a * b
+say a / b

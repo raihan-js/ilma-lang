@@ -1,0 +1,9 @@
+services:
+  ilma-web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: ilma
+    ports:
+      - "3000:80"
+    restart: unless-stopped

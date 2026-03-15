@@ -1,0 +1,20 @@
+# Test: recipe with error handling (from blueprint)
+recipe safe_divide(a, b):
+    if b is 0:
+        shout "Cannot divide by zero"
+    give back a / b
+
+# Test with try/when wrong
+try:
+    remember result = safe_divide(10, 2)
+    say "10 / 2 = " + result
+when wrong:
+    say "Error occurred"
+
+try:
+    remember result2 = safe_divide(10, 0)
+    say "This should not print"
+when wrong:
+    say "Caught: division by zero"
+
+say "Program continues"

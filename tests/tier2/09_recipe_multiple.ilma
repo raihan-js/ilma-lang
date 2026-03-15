@@ -1,0 +1,16 @@
+# Test: multiple recipes calling each other
+recipe double(n):
+    give back n * 2
+
+recipe quadruple(n):
+    give back double(double(n))
+
+say double(5)
+say quadruple(3)
+
+# Recipe with no return
+recipe greet(name):
+    say "Salaam, " + name
+
+greet("Yusuf")
+greet("Amira")

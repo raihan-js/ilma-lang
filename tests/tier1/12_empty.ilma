@@ -1,0 +1,5 @@
+# Empty value
+remember x = empty
+say x
+if x is empty:
+    say "x has no value"

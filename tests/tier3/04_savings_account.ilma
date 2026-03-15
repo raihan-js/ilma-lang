@@ -1,0 +1,38 @@
+# Test: full savings account from blueprint spec
+blueprint BankAccount:
+
+    create(owner, opening_balance):
+        me.owner = owner
+        me.balance = opening_balance
+
+    recipe deposit(amount):
+        if amount <= 0:
+            shout "Deposit must be positive"
+        me.balance = me.balance + amount
+
+    recipe withdraw(amount):
+        if amount > me.balance:
+            shout "Not enough money"
+        me.balance = me.balance - amount
+
+    recipe show_statement():
+        say "Owner: " + me.owner
+        say "Balance: " + me.balance
+
+blueprint SavingsAccount comes from BankAccount:
+
+    create(owner, opening_balance, rate):
+        comes_from.create(owner, opening_balance)
+        me.rate = rate
+
+    recipe add_yearly_interest():
+        remember interest = me.balance * me.rate
+        me.deposit(interest)
+        say "Interest added: " + interest
+
+remember acc = SavingsAccount("Yusuf", 1000, 0.05)
+acc.show_statement()
+acc.add_yearly_interest()
+acc.show_statement()
+acc.withdraw(200)
+acc.show_statement()

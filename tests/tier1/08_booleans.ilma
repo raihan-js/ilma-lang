@@ -1,0 +1,7 @@
+# Boolean values
+remember done = yes
+remember active = no
+if done:
+    say "All done!"
+if not active:
+    say "Not active"

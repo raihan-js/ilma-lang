@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILMA — Teacher Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0f1117; --panel: #1a1d27; --border: #2a2d3a;
+            --text: #e4e6f0; --dim: #8b8fa3; --muted: #5c5f72;
+            --accent: #4f8ff7; --green: #3dd68c; --red: #f74f4f; --yellow: #f7c948;
+            --font: 'Inter', sans-serif;
+        }
+        body { font-family: var(--font); background: var(--bg); color: var(--text); min-height: 100vh; }
+
+        .container { max-width: 960px; margin: 0 auto; padding: 20px; }
+
+        header { background: var(--panel); border-bottom: 1px solid var(--border); padding: 16px 0; margin-bottom: 24px; }
+        header .container { display: flex; align-items: center; justify-content: space-between; }
+        .logo { font-size: 22px; font-weight: 700; color: var(--accent); }
+        .logo span { font-weight: 400; color: var(--dim); font-size: 14px; margin-left: 10px; }
+        header a { color: var(--accent); text-decoration: none; font-size: 13px; }
+
+        h2 { font-size: 18px; margin-bottom: 16px; }
+
+        .card { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 20px; margin-bottom: 16px; }
+        .card h3 { font-size: 15px; margin-bottom: 12px; color: var(--accent); }
+
+        .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; margin-bottom: 24px; }
+        .stat { background: var(--panel); border: 1px solid var(--border); border-radius: 10px; padding: 16px; text-align: center; }
+        .stat .num { font-size: 28px; font-weight: 700; color: var(--accent); }
+        .stat .label { font-size: 12px; color: var(--dim); margin-top: 4px; }
+
+        .student-row { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .student-row:last-child { border-bottom: none; }
+        .student-name { font-weight: 500; font-size: 14px; }
+        .progress-bar { width: 120px; height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; }
+        .progress-fill { height: 100%; background: var(--green); border-radius: 3px; transition: width 0.3s; }
+        .progress-text { font-size: 12px; color: var(--dim); min-width: 40px; text-align: right; }
+
+        .form-row { display: flex; gap: 8px; margin-bottom: 12px; }
+        input[type="text"] { flex: 1; background: var(--bg); border: 1px solid var(--border); color: var(--text); padding: 8px 12px; border-radius: 6px; font-family: var(--font); font-size: 13px; outline: none; }
+        input:focus { border-color: var(--accent); }
+        button { padding: 8px 16px; border: none; border-radius: 6px; font-family: var(--font); font-size: 13px; font-weight: 600; cursor: pointer; }
+        .btn-primary { background: var(--accent); color: white; }
+        .btn-danger { background: var(--red); color: white; font-size: 11px; padding: 4px 10px; }
+        .btn-secondary { background: var(--bg); color: var(--dim); border: 1px solid var(--border); }
+
+        .lesson-assign { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+        .lesson-tag { background: var(--bg); border: 1px solid var(--border); border-radius: 12px; padding: 4px 10px; font-size: 11px; color: var(--dim); cursor: pointer; }
+        .lesson-tag.assigned { background: rgba(79,143,247,0.15); border-color: var(--accent); color: var(--accent); }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <div class="logo">ILMA <span>Teacher Dashboard</span></div>
+            <a href="index.html">&larr; Back to Editor</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="stats" id="stats"></div>
+
+        <div class="card">
+            <h3>Students</h3>
+            <div class="form-row">
+                <input type="text" id="new-student" placeholder="Add student name...">
+                <button class="btn-primary" id="btn-add-student">Add</button>
+            </div>
+            <div id="student-list"></div>
+        </div>
+
+        <div class="card">
+            <h3>Assign Lessons</h3>
+            <p style="font-size: 13px; color: var(--dim); margin-bottom: 12px;">Click a lesson to assign/unassign it for all students.</p>
+            <div class="lesson-assign" id="lesson-assign"></div>
+        </div>
+
+        <div class="card">
+            <h3>Export Data</h3>
+            <p style="font-size: 13px; color: var(--dim); margin-bottom: 12px;">Download a CSV report of all student progress.</p>
+            <button class="btn-secondary" id="btn-export">Download CSV</button>
+        </div>
+    </div>
+
+    <script>
+        // Teacher Dashboard — localStorage-based
+        const STORAGE_KEY = 'ilma_teacher';
+        const LESSONS_TOTAL = 30;
+
+        function getData() {
+            return JSON.parse(localStorage.getItem(STORAGE_KEY) || '{"students":[],"assigned":[]}');
+        }
+        function saveData(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        function render() {
+            const data = getData();
+            const completed = JSON.parse(localStorage.getItem('ilma_completed') || '[]');
+
+            // Stats
+            document.getElementById('stats').innerHTML = `
+                <div class="stat"><div class="num">${data.students.length}</div><div class="label">Students</div></div>
+                <div class="stat"><div class="num">${data.assigned.length}</div><div class="label">Assigned Lessons</div></div>
+                <div class="stat"><div class="num">${LESSONS_TOTAL}</div><div class="label">Total Lessons</div></div>
+                <div class="stat"><div class="num">${completed.length}</div><div class="label">Your Completed</div></div>
+            `;
+
+            // Student list
+            const list = document.getElementById('student-list');
+            list.innerHTML = '';
+            data.students.forEach((s, i) => {
+                const progress = s.completed || 0;
+                const pct = Math.round(progress / LESSONS_TOTAL * 100);
+                const row = document.createElement('div');
+                row.className = 'student-row';
+                row.innerHTML = `
+                    <span class="student-name">${s.name}</span>
+                    <div style="display:flex;align-items:center;gap:10px;">
+                        <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+                        <span class="progress-text">${progress}/${LESSONS_TOTAL}</span>
+                        <button class="btn-danger" data-idx="${i}">Remove</button>
+                    </div>
+                `;
+                list.appendChild(row);
+            });
+
+            list.querySelectorAll('.btn-danger').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    const d = getData();
+                    d.students.splice(parseInt(btn.dataset.idx), 1);
+                    saveData(d);
+                    render();
+                });
+            });
+
+            // Lesson assignments
+            const assignEl = document.getElementById('lesson-assign');
+            assignEl.innerHTML = '';
+            for (let i = 1; i <= LESSONS_TOTAL; i++) {
+                const tag = document.createElement('span');
+                tag.className = 'lesson-tag' + (data.assigned.includes(i) ? ' assigned' : '');
+                tag.textContent = 'L' + i;
+                tag.addEventListener('click', () => {
+                    const d = getData();
+                    if (d.assigned.includes(i)) {
+                        d.assigned = d.assigned.filter(x => x !== i);
+                    } else {
+                        d.assigned.push(i);
+                        d.assigned.sort((a,b) => a-b);
+                    }
+                    saveData(d);
+                    render();
+                });
+                assignEl.appendChild(tag);
+            }
+        }
+
+        document.getElementById('btn-add-student').addEventListener('click', () => {
+            const input = document.getElementById('new-student');
+            const name = input.value.trim();
+            if (!name) return;
+            const data = getData();
+            data.students.push({ name, completed: 0, joined: new Date().toISOString().split('T')[0] });
+            saveData(data);
+            input.value = '';
+            render();
+        });
+
+        document.getElementById('new-student').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') document.getElementById('btn-add-student').click();
+        });
+
+        document.getElementById('btn-export').addEventListener('click', () => {
+            const data = getData();
+            let csv = 'Name,Completed,Total,Percentage,Joined\n';
+            data.students.forEach(s => {
+                const pct = Math.round((s.completed || 0) / LESSONS_TOTAL * 100);
+                csv += `"${s.name}",${s.completed || 0},${LESSONS_TOTAL},${pct}%,${s.joined || ''}\n`;
+            });
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ilma_progress_report.csv';
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        render();
+    </script>
+</body>
+</html>

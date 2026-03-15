@@ -1,0 +1,23 @@
+# Test: child blueprint overriding parent method
+blueprint Shape:
+
+    create(name):
+        me.name = name
+
+    recipe describe():
+        say "I am a " + me.name
+
+blueprint Circle comes from Shape:
+
+    create(radius):
+        comes_from.create("circle")
+        me.radius = radius
+
+    recipe describe():
+        say "I am a circle with radius " + me.radius
+
+remember s = Shape("triangle")
+s.describe()
+
+remember c = Circle(5)
+c.describe()
