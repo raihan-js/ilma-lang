@@ -48,29 +48,20 @@
 - IlmaWeb: todo app example, SQLite integration
 - 57 compiler tests, all passing
 
-## v0.5.0 — Polish & Publish 📋
+## v0.5.0 — Professional Release ✅
 
-- Publish VS Code extension to Marketplace
+- Interactive REPL with persistent state and multi-line input
+- Language specification (SPEC.md, 1622 lines, full EBNF grammar)
+- Windows PowerShell installer (install.ps1)
+- 65 compiler tests + 2 LSP tests, all passing
+
+## v0.6.0 — Ecosystem Growth 📋
+
 - WASM compilation via Emscripten (real compiler in browser)
 - Full LSP: go-to-definition, auto-complete, rename
 - Cross-platform installers (APT PPA, AUR, Scoop, winget)
-
-## v0.5.0 — IlmaWeb Framework 📋
-
-- Stable web framework for building servers in ILMA
-- Route handlers, query params, JSON responses
-- HTML template engine
-- Database bindings (SQLite)
-- JSON parse/generate in stdlib
-- HTTP client in stdlib
-
-## v0.6.0 — Advanced Language Features 📋
-
-- Lambdas and closures
-- Pattern matching: `check value: when 1: ...`
-- Module/package system: `use math`, `use mypackage`
-- Package manager: `ilma get package-name`
 - Generics / type parameters
+- HTTP client in stdlib
 
 ## v1.0.0 — Production Ready 📋
 

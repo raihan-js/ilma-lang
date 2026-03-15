@@ -1,0 +1,5 @@
+remember s = "Hello, World!"
+say s.upper()
+say s.lower()
+say s.length
+say s.contains("World")

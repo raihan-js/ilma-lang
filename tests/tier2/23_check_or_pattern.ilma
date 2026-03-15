@@ -1,0 +1,12 @@
+recipe classify(animal):
+    check animal:
+        when "cat" or "dog" or "rabbit":
+            give back "pet"
+        when "lion" or "tiger":
+            give back "wild"
+        otherwise:
+            give back "unknown"
+
+say classify("dog")
+say classify("tiger")
+say classify("fish")

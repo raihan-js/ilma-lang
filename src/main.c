@@ -7,8 +7,9 @@
 #include "parser.h"
 #include "codegen.h"
 #include "pkg/ilma_pkg.h"
+#include "repl.h"
 
-#define ILMA_VERSION "0.4.0"
+#define ILMA_VERSION "0.5.0"
 
 static char* read_file(const char* path) {
     FILE* f = fopen(path, "rb");
@@ -35,6 +36,7 @@ static void print_usage(void) {
     printf("  ilma --compile <file.ilma>    Compile to a binary\n");
     printf("  ilma --c <file.ilma>          Show the generated C code\n");
     printf("  ilma --tokens <file.ilma>     Show tokens (for debugging)\n");
+    printf("  ilma --repl                   Start interactive REPL\n");
     printf("  ilma --version                Show version\n");
     printf("  ilma --help                   Show this message\n\n");
     printf("Examples:\n");
@@ -118,7 +120,10 @@ static void find_runtime(char* out, size_t out_size) {
 }
 
 int main(int argc, char** argv) {
-    if (argc < 2) { print_usage(); return 0; }
+    if (argc < 2 || strcmp(argv[1], "--repl") == 0) {
+        repl_start();
+        return 0;
+    }
 
     /* Package manager commands */
     if (strcmp(argv[1], "get") == 0) {

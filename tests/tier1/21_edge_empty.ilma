@@ -1,0 +1,5 @@
+remember x = empty
+if x is empty:
+    say "x is empty"
+otherwise:
+    say "x has a value"

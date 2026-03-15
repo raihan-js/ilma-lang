@@ -4,6 +4,33 @@ All notable changes to ILMA are documented here.
 
 ---
 
+## [0.5.0] — 2026
+
+### Added
+
+**Interactive REPL**
+- `ilma` with no arguments starts an interactive prompt
+- Persistent state across inputs (variables, recipes survive between lines)
+- Multi-line input when lines end with `:` (continuation prompt `...>`)
+- Special commands: quit, help, clear, reset
+
+**Language Specification**
+- SPEC.md — 1622-line formal language specification
+- Complete EBNF grammar for the entire language
+- Full keyword reference, type system, and module API documentation
+
+**Windows Support**
+- PowerShell installer: `irm https://ilma-lang.dev/install.ps1 | iex`
+- Binary download with PATH setup
+- Fallback to source build with MinGW
+
+**Tests**
+- 8 new edge case and integration tests
+- Total: 65 compiler tests (23 Tier 1, 23 Tier 2, 19 Tier 3), all passing
+- Tests for: empty values, string methods, or-patterns, bag.map/filter, blueprints with check/when
+
+---
+
 ## [0.4.0] — 2026
 
 ### Added

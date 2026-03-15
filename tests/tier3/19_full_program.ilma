@@ -1,0 +1,14 @@
+blueprint Counter:
+    create(name):
+        me.name = name
+        me.value = 0
+    recipe increment():
+        me.value = me.value + 1
+    recipe show():
+        say me.name + ": " + me.value
+
+remember c = Counter("clicks")
+c.increment()
+c.increment()
+c.increment()
+c.show()

@@ -888,12 +888,14 @@ static ASTNode* parse_check(Parser* p) {
         } else if (at(p, TOK_WHEN)) {
             advance_tok(p);
 
-            /* Parse patterns (possibly with 'or' for multiple patterns) */
+            /* Parse patterns (possibly with 'or' for multiple patterns)
+               Use parse_and() instead of parse_expression() so that 'or'
+               is reserved as a pattern separator, not a logical operator. */
             ASTNode* patterns[16];
             ASTNode* range_ends[16];
             int pattern_count = 0;
 
-            ASTNode* pat = parse_expression(p);
+            ASTNode* pat = parse_and(p);
             ASTNode* rend = NULL;
             if (at(p, TOK_DOTDOT)) {
                 advance_tok(p);
@@ -905,7 +907,7 @@ static ASTNode* parse_check(Parser* p) {
 
             while (at(p, TOK_OR)) {
                 advance_tok(p);
-                pat = parse_expression(p);
+                pat = parse_and(p);
                 rend = NULL;
                 if (at(p, TOK_DOTDOT)) {
                     advance_tok(p);

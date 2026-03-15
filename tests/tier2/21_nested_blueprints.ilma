@@ -1,0 +1,19 @@
+blueprint Point:
+    create(x, y):
+        me.x = x
+        me.y = y
+    recipe to_text():
+        give back "(" + me.x + ", " + me.y + ")"
+
+remember p = Point(3, 7)
+say p.to_text()
+
+blueprint Rectangle:
+    create(w, h):
+        me.width = w
+        me.height = h
+    recipe area():
+        give back me.width * me.height
+
+remember r = Rectangle(10, 5)
+say "Area: " + r.area()

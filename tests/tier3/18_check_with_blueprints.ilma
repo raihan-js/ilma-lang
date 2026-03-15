@@ -1,0 +1,18 @@
+blueprint Shape:
+    create(kind):
+        me.kind = kind
+    recipe describe():
+        check me.kind:
+            when "circle":
+                say "I am a circle"
+            when "square" or "rectangle":
+                say "I am a polygon"
+            otherwise:
+                say "I am a " + me.kind
+
+remember s1 = Shape("circle")
+remember s2 = Shape("square")
+remember s3 = Shape("triangle")
+s1.describe()
+s2.describe()
+s3.describe()

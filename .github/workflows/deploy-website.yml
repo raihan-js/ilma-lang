@@ -6,6 +6,7 @@ on:
     paths:
       - 'website/**'
       - 'install.sh'
+      - 'scripts/install-windows.ps1'
       - 'VERSION'
   workflow_dispatch:
 
@@ -32,6 +33,7 @@ jobs:
           cp install.sh website/install.sh
           chmod +x website/install.sh
           sed -i 's/\r//' website/install.sh
+          cp scripts/install-windows.ps1 website/install.ps1
           cp VERSION website/VERSION
           VERSION=$(cat VERSION | tr -d '[:space:]')
           cat > website/ilma-version.json << ENDJSON
