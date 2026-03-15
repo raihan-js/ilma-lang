@@ -1,0 +1,19 @@
+# ILMA Strings Package — String utility recipes
+
+recipe repeat_text(text, times):
+    remember result = ""
+    repeat times:
+        result = result + text
+    give back result
+
+recipe starts_with(text, prefix):
+    give back text.slice(0, prefix.length) is prefix
+
+recipe ends_with(text, suffix):
+    remember start = text.length - suffix.length
+    give back text.slice(start, text.length) is suffix
+
+recipe capitalize(text):
+    if text.length is 0:
+        give back text
+    give back text.slice(0, 1).upper() + text.slice(1, text.length)

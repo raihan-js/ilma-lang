@@ -143,6 +143,14 @@ void      ilma_bag_remove(IlmaBag* bag, IlmaValue item);
 IlmaValue ilma_bag_sorted(IlmaBag* bag);
 IlmaValue ilma_bag_size_val(IlmaBag* bag);
 
+/* ── Higher-order bag operations ─────────────────────── */
+
+typedef IlmaValue (*IlmaMapFn)(IlmaValue);
+
+IlmaValue ilma_bag_map(IlmaBag* bag, IlmaMapFn fn);
+IlmaValue ilma_bag_filter(IlmaBag* bag, IlmaMapFn fn);
+void      ilma_bag_each(IlmaBag* bag, IlmaMapFn fn);
+
 /* ── Notebook operations ──────────────────────────────── */
 
 IlmaValue ilma_notebook_new(void);

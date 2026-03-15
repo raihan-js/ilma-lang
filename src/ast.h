@@ -36,6 +36,7 @@ typedef enum {
     NODE_USE,
     NODE_SHOUT,
     NODE_TRY,
+    NODE_CHECK,
     NODE_EXPR_STMT,
     NODE_BLOCK,
     NODE_PROGRAM,
@@ -209,6 +210,17 @@ struct ASTNode {
             ASTNode* try_block;
             ASTNode* when_wrong_block;
         } try_stmt;
+
+        /* NODE_CHECK */
+        struct {
+            ASTNode* subject;
+            ASTNode** case_exprs;      /* pattern expressions */
+            ASTNode** case_range_ends; /* NULL if not range, otherwise end expression */
+            ASTNode** case_bodies;     /* body blocks */
+            int case_count;
+            int case_capacity;
+            ASTNode* otherwise_body;   /* NULL if no otherwise */
+        } check_stmt;
 
         /* NODE_BLOCK / NODE_PROGRAM */
         struct {

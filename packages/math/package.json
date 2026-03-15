@@ -1,0 +1,7 @@
+{
+  "name": "math",
+  "version": "0.1.0",
+  "description": "Extended math functions — sum, average, max, min",
+  "author": "ILMA Team",
+  "license": "MIT"
+}

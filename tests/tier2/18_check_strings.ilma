@@ -1,0 +1,8 @@
+remember day = "Friday"
+check day:
+    when "Friday" or "Saturday":
+        say "Weekend!"
+    when "Monday":
+        say "Start of week"
+    otherwise:
+        say "Weekday"

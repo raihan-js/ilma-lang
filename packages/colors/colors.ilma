@@ -1,0 +1,19 @@
+# ILMA Colors Package — ANSI terminal colors
+
+recipe red(text):
+    give back "\033[31m" + text + "\033[0m"
+
+recipe green(text):
+    give back "\033[32m" + text + "\033[0m"
+
+recipe blue(text):
+    give back "\033[34m" + text + "\033[0m"
+
+recipe yellow(text):
+    give back "\033[33m" + text + "\033[0m"
+
+recipe purple(text):
+    give back "\033[35m" + text + "\033[0m"
+
+recipe bold(text):
+    give back "\033[1m" + text + "\033[0m"

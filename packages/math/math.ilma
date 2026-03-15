@@ -1,0 +1,24 @@
+# ILMA Math Package — Extended math functions
+
+recipe sum(numbers_bag):
+    remember total = 0
+    for each n in numbers_bag:
+        total = total + n
+    give back total
+
+recipe average(numbers_bag):
+    give back sum(numbers_bag) / numbers_bag.size
+
+recipe max_of(numbers_bag):
+    remember best = numbers_bag[0]
+    for each n in numbers_bag:
+        if n > best:
+            best = n
+    give back best
+
+recipe min_of(numbers_bag):
+    remember best = numbers_bag[0]
+    for each n in numbers_bag:
+        if n < best:
+            best = n
+    give back best

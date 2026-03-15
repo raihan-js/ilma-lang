@@ -1,0 +1,7 @@
+{
+  "name": "strings",
+  "version": "0.1.0",
+  "description": "String utility recipes — repeat, pad, reverse, capitalize",
+  "author": "ILMA Team",
+  "license": "MIT"
+}

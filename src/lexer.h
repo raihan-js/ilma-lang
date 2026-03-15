@@ -18,6 +18,7 @@ typedef enum {
     TOK_AND, TOK_OR, TOK_NOT,
     TOK_IS, TOK_IS_NOT,
     TOK_BAG, TOK_NOTEBOOK,
+    TOK_CHECK,
 
     /* Types */
     TOK_TYPE_WHOLE, TOK_TYPE_DECIMAL,

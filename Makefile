@@ -16,7 +16,8 @@ SOURCES = $(SRC_DIR)/main.c \
           $(SRC_DIR)/ast.c \
           $(SRC_DIR)/parser.c \
           $(SRC_DIR)/codegen.c \
-          $(SRC_DIR)/runtime/ilma_runtime.c
+          $(SRC_DIR)/runtime/ilma_runtime.c \
+          $(SRC_DIR)/pkg/ilma_pkg.c
 
 TARGET  = $(BUILD_DIR)/ilma
 ILMA_DEV = ILMA_HOME=$(shell pwd)/src

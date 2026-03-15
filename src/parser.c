@@ -51,8 +51,57 @@ static ASTNode* parse_block(Parser* p);
 
 /* ── Expression parsing ───────────────────────────────── */
 
+static int lambda_counter = 0;
+
 static ASTNode* parse_primary(Parser* p) {
     Token* t = current(p);
+
+    /* Lambda: recipe(params): body */
+    if (at(p, TOK_RECIPE) && peek_tok(p)->type == TOK_LPAREN) {
+        Token* lt = advance_tok(p); /* consume 'recipe' */
+        expect(p, TOK_LPAREN);
+
+        char lambda_name[64];
+        snprintf(lambda_name, sizeof(lambda_name), "_lambda_%d", lambda_counter++);
+
+        ASTNode* node = ast_new(NODE_RECIPE, lt->line);
+        node->data.recipe.name = strdup(lambda_name);
+        node->data.recipe.params = NULL;
+        node->data.recipe.param_count = 0;
+
+        int cap = 4;
+        node->data.recipe.params = malloc(sizeof(char*) * cap);
+
+        if (!at(p, TOK_RPAREN)) {
+            Token* param = expect(p, TOK_IDENT);
+            node->data.recipe.params[node->data.recipe.param_count++] = strdup(param->value);
+            while (at(p, TOK_COMMA)) {
+                advance_tok(p);
+                if (node->data.recipe.param_count >= cap) {
+                    cap *= 2;
+                    node->data.recipe.params = realloc(node->data.recipe.params, sizeof(char*) * cap);
+                }
+                param = expect(p, TOK_IDENT);
+                node->data.recipe.params[node->data.recipe.param_count++] = strdup(param->value);
+            }
+        }
+        expect(p, TOK_RPAREN);
+        expect(p, TOK_COLON);
+
+        /* Check if body is inline (same line) or block (indented) */
+        if (at(p, TOK_NEWLINE) || at(p, TOK_INDENT)) {
+            /* Block body */
+            node->data.recipe.body = parse_block(p);
+        } else {
+            /* Inline body: parse a single statement */
+            ASTNode* body = ast_new(NODE_BLOCK, lt->line);
+            node_list_init(&body->data.block.statements);
+            node_list_add(&body->data.block.statements, parse_statement(p));
+            node->data.recipe.body = body;
+        }
+
+        return node;
+    }
 
     /* Integer literal */
     if (at(p, TOK_INT_LIT)) {
@@ -303,7 +352,17 @@ static ASTNode* parse_postfix(Parser* p) {
     for (;;) {
         if (at(p, TOK_DOT)) {
             advance_tok(p);
-            Token* member = expect(p, TOK_IDENT);
+            /* Accept identifiers or keywords as member names (e.g., .each, .create) */
+            Token* member;
+            if (at(p, TOK_IDENT) || at(p, TOK_EACH) || at(p, TOK_CREATE) ||
+                at(p, TOK_IN) || at(p, TOK_FROM) || at(p, TOK_NOT) ||
+                at(p, TOK_CHECK) || at(p, TOK_WHEN) || at(p, TOK_OR) ||
+                at(p, TOK_AND) || at(p, TOK_IS) || at(p, TOK_BAG) ||
+                at(p, TOK_NOTEBOOK) || at(p, TOK_EMPTY)) {
+                member = advance_tok(p);
+            } else {
+                member = expect(p, TOK_IDENT); /* fallback for error message */
+            }
             ASTNode* access = ast_new(NODE_MEMBER_ACCESS, node->line);
             access->data.member.object = node;
             access->data.member.member = strdup(member->value);
@@ -539,6 +598,13 @@ static ASTNode* parse_remember(Parser* p) {
 
     expect(p, TOK_ASSIGN);
     node->data.remember.value = parse_expression(p);
+
+    /* If the value is a lambda, rename it to match the variable */
+    if (node->data.remember.value && node->data.remember.value->type == NODE_RECIPE) {
+        free(node->data.remember.value->data.recipe.name);
+        node->data.remember.value->data.recipe.name = strdup(node->data.remember.name);
+    }
+
     return node;
 }
 
@@ -784,6 +850,103 @@ static ASTNode* parse_try(Parser* p) {
     return node;
 }
 
+/* check <expr>:
+       when <pattern>:
+           <block>
+       when <lo>..<hi>:
+           <block>
+       when <a> or <b>:
+           <block>
+       otherwise:
+           <block> */
+static ASTNode* parse_check(Parser* p) {
+    Token* t = advance_tok(p); /* consume 'check' */
+    ASTNode* node = ast_new(NODE_CHECK, t->line);
+    node->data.check_stmt.subject = parse_expression(p);
+    expect(p, TOK_COLON);
+
+    /* Initialize arrays */
+    int cap = 8;
+    node->data.check_stmt.case_exprs = malloc(sizeof(ASTNode*) * cap);
+    node->data.check_stmt.case_range_ends = malloc(sizeof(ASTNode*) * cap);
+    node->data.check_stmt.case_bodies = malloc(sizeof(ASTNode*) * cap);
+    node->data.check_stmt.case_count = 0;
+    node->data.check_stmt.case_capacity = cap;
+    node->data.check_stmt.otherwise_body = NULL;
+
+    skip_newlines(p);
+    expect(p, TOK_INDENT);
+
+    while (!at(p, TOK_DEDENT) && !at_end(p)) {
+        skip_newlines(p);
+        if (at(p, TOK_DEDENT) || at_end(p)) break;
+
+        if (at(p, TOK_OTHERWISE)) {
+            advance_tok(p);
+            expect(p, TOK_COLON);
+            node->data.check_stmt.otherwise_body = parse_block(p);
+        } else if (at(p, TOK_WHEN)) {
+            advance_tok(p);
+
+            /* Parse patterns (possibly with 'or' for multiple patterns) */
+            ASTNode* patterns[16];
+            ASTNode* range_ends[16];
+            int pattern_count = 0;
+
+            ASTNode* pat = parse_expression(p);
+            ASTNode* rend = NULL;
+            if (at(p, TOK_DOTDOT)) {
+                advance_tok(p);
+                rend = parse_expression(p);
+            }
+            patterns[pattern_count] = pat;
+            range_ends[pattern_count] = rend;
+            pattern_count++;
+
+            while (at(p, TOK_OR)) {
+                advance_tok(p);
+                pat = parse_expression(p);
+                rend = NULL;
+                if (at(p, TOK_DOTDOT)) {
+                    advance_tok(p);
+                    rend = parse_expression(p);
+                }
+                patterns[pattern_count] = pat;
+                range_ends[pattern_count] = rend;
+                pattern_count++;
+            }
+
+            expect(p, TOK_COLON);
+            ASTNode* body = parse_block(p);
+
+            /* Add all patterns as separate cases sharing the same body */
+            for (int i = 0; i < pattern_count; i++) {
+                /* Grow arrays if needed */
+                if (node->data.check_stmt.case_count >= node->data.check_stmt.case_capacity) {
+                    node->data.check_stmt.case_capacity *= 2;
+                    node->data.check_stmt.case_exprs = realloc(node->data.check_stmt.case_exprs,
+                        sizeof(ASTNode*) * node->data.check_stmt.case_capacity);
+                    node->data.check_stmt.case_range_ends = realloc(node->data.check_stmt.case_range_ends,
+                        sizeof(ASTNode*) * node->data.check_stmt.case_capacity);
+                    node->data.check_stmt.case_bodies = realloc(node->data.check_stmt.case_bodies,
+                        sizeof(ASTNode*) * node->data.check_stmt.case_capacity);
+                }
+                int idx = node->data.check_stmt.case_count++;
+                node->data.check_stmt.case_exprs[idx] = patterns[i];
+                node->data.check_stmt.case_range_ends[idx] = range_ends[i];
+                node->data.check_stmt.case_bodies[idx] = body;
+            }
+        } else {
+            fprintf(stderr, "Oops! Inside check on line %d, expected 'when' or 'otherwise'\n",
+                    current(p)->line);
+            exit(1);
+        }
+        skip_newlines(p);
+    }
+    if (at(p, TOK_DEDENT)) advance_tok(p);
+    return node;
+}
+
 /* General statement dispatcher */
 static ASTNode* parse_statement(Parser* p) {
     skip_newlines(p);
@@ -801,6 +964,7 @@ static ASTNode* parse_statement(Parser* p) {
         case TOK_USE:       return parse_use(p);
         case TOK_SHOUT:     return parse_shout(p);
         case TOK_TRY:       return parse_try(p);
+        case TOK_CHECK:     return parse_check(p);
         default: {
             /* Expression statement (assignment or function call) */
             ASTNode* expr = parse_expression(p);

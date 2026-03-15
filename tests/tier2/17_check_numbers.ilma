@@ -1,0 +1,10 @@
+remember score = 95
+check score:
+    when 100:
+        say "Perfect"
+    when 90..99:
+        say "Excellent"
+    when 70..89:
+        say "Good"
+    otherwise:
+        say "Try again"

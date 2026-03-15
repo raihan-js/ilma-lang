@@ -1,0 +1,5 @@
+use trade
+say trade.profit(200, 350)
+say trade.discount(100, 20)
+remember result = trade.halal_check(no, no, no)
+say result[permissible]

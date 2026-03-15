@@ -90,6 +90,117 @@ static void collect_recipes(ASTNode* program, RecipeList* list) {
     }
 }
 
+/* Recursively collect ALL NODE_RECIPE nodes (including lambdas inside expressions) */
+static void collect_all_recipes_recursive(ASTNode* node, RecipeList* list) {
+    if (!node) return;
+    if (node->type == NODE_RECIPE) {
+        ast_list_add(list, node);
+        /* Still recurse into the body for nested lambdas */
+        collect_all_recipes_recursive(node->data.recipe.body, list);
+        return;
+    }
+    switch (node->type) {
+        case NODE_PROGRAM:
+        case NODE_BLOCK:
+            for (int i = 0; i < node->data.block.statements.count; i++)
+                collect_all_recipes_recursive(node->data.block.statements.items[i], list);
+            break;
+        case NODE_SAY:
+        case NODE_EXPR_STMT:
+            collect_all_recipes_recursive(node->data.say.expr, list);
+            break;
+        case NODE_REMEMBER:
+            collect_all_recipes_recursive(node->data.remember.value, list);
+            break;
+        case NODE_ASSIGN:
+            collect_all_recipes_recursive(node->data.assign.target, list);
+            collect_all_recipes_recursive(node->data.assign.value, list);
+            break;
+        case NODE_IF:
+            collect_all_recipes_recursive(node->data.if_stmt.condition, list);
+            collect_all_recipes_recursive(node->data.if_stmt.then_block, list);
+            collect_all_recipes_recursive(node->data.if_stmt.else_block, list);
+            break;
+        case NODE_CHECK:
+            collect_all_recipes_recursive(node->data.check_stmt.subject, list);
+            for (int i = 0; i < node->data.check_stmt.case_count; i++) {
+                collect_all_recipes_recursive(node->data.check_stmt.case_exprs[i], list);
+                collect_all_recipes_recursive(node->data.check_stmt.case_range_ends[i], list);
+                /* Avoid duplicating body traversals for shared "or" bodies */
+                int is_dup = 0;
+                for (int j = 0; j < i; j++) {
+                    if (node->data.check_stmt.case_bodies[j] == node->data.check_stmt.case_bodies[i]) {
+                        is_dup = 1;
+                        break;
+                    }
+                }
+                if (!is_dup) collect_all_recipes_recursive(node->data.check_stmt.case_bodies[i], list);
+            }
+            collect_all_recipes_recursive(node->data.check_stmt.otherwise_body, list);
+            break;
+        case NODE_REPEAT:
+            collect_all_recipes_recursive(node->data.repeat.count, list);
+            collect_all_recipes_recursive(node->data.repeat.body, list);
+            break;
+        case NODE_RANGE_LOOP:
+            collect_all_recipes_recursive(node->data.range_loop.start, list);
+            collect_all_recipes_recursive(node->data.range_loop.end, list);
+            collect_all_recipes_recursive(node->data.range_loop.body, list);
+            break;
+        case NODE_WHILE:
+            collect_all_recipes_recursive(node->data.while_stmt.condition, list);
+            collect_all_recipes_recursive(node->data.while_stmt.body, list);
+            break;
+        case NODE_FOR_EACH:
+            collect_all_recipes_recursive(node->data.for_each.iterable, list);
+            collect_all_recipes_recursive(node->data.for_each.body, list);
+            break;
+        case NODE_TRY:
+            collect_all_recipes_recursive(node->data.try_stmt.try_block, list);
+            collect_all_recipes_recursive(node->data.try_stmt.when_wrong_block, list);
+            break;
+        case NODE_GIVE_BACK:
+            collect_all_recipes_recursive(node->data.give_back.value, list);
+            break;
+        case NODE_CALL:
+            collect_all_recipes_recursive(node->data.call.callee, list);
+            for (int i = 0; i < node->data.call.args.count; i++)
+                collect_all_recipes_recursive(node->data.call.args.items[i], list);
+            break;
+        case NODE_BINARY_OP:
+            collect_all_recipes_recursive(node->data.binary.left, list);
+            collect_all_recipes_recursive(node->data.binary.right, list);
+            break;
+        case NODE_UNARY_OP:
+            collect_all_recipes_recursive(node->data.unary.operand, list);
+            break;
+        case NODE_MEMBER_ACCESS:
+            collect_all_recipes_recursive(node->data.member.object, list);
+            break;
+        case NODE_INDEX_ACCESS:
+            collect_all_recipes_recursive(node->data.index_access.object, list);
+            collect_all_recipes_recursive(node->data.index_access.index, list);
+            break;
+        case NODE_SHOUT:
+            collect_all_recipes_recursive(node->data.shout.message, list);
+            break;
+        case NODE_STRING_INTERP:
+            for (int i = 0; i < node->data.interp.parts.count; i++)
+                collect_all_recipes_recursive(node->data.interp.parts.items[i], list);
+            break;
+        case NODE_BAG_LIT:
+            for (int i = 0; i < node->data.bag.elements.count; i++)
+                collect_all_recipes_recursive(node->data.bag.elements.items[i], list);
+            break;
+        case NODE_NOTEBOOK_LIT:
+            for (int i = 0; i < node->data.notebook.values.count; i++)
+                collect_all_recipes_recursive(node->data.notebook.values.items[i], list);
+            break;
+        default:
+            break;
+    }
+}
+
 static void collect_blueprints(ASTNode* program, ASTList* list) {
     if (program->type != NODE_PROGRAM && program->type != NODE_BLOCK) return;
     for (int i = 0; i < program->data.block.statements.count; i++) {
@@ -342,6 +453,34 @@ static void gen_expression(CodeGen* cg, ASTNode* node) {
                     fprintf(cg->out, ".as_bag)");
                     break;
                 }
+                /* Higher-order bag methods: map, filter, each */
+                else if (strcmp(method, "map") == 0 || strcmp(method, "filter") == 0 || strcmp(method, "each") == 0) {
+                    const char* rt_fn = strcmp(method, "map") == 0 ? "ilma_bag_map" :
+                                         strcmp(method, "filter") == 0 ? "ilma_bag_filter" : "ilma_bag_each";
+                    if (strcmp(method, "each") == 0) {
+                        fprintf(cg->out, "(");
+                    }
+                    fprintf(cg->out, "%s(", rt_fn);
+                    gen_expression(cg, obj);
+                    fprintf(cg->out, ".as_bag, ");
+                    if (node->data.call.args.count > 0) {
+                        ASTNode* arg = node->data.call.args.items[0];
+                        if (arg->type == NODE_RECIPE) {
+                            char* safe_ln = sanitize_ident(arg->data.recipe.name);
+                            fprintf(cg->out, "ilma_recipe_%s", safe_ln);
+                            free(safe_ln);
+                        } else if (arg->type == NODE_IDENTIFIER) {
+                            char* safe_ln = sanitize_ident(arg->data.ident_name);
+                            fprintf(cg->out, "ilma_recipe_%s", safe_ln);
+                            free(safe_ln);
+                        }
+                    }
+                    fprintf(cg->out, ")");
+                    if (strcmp(method, "each") == 0) {
+                        fprintf(cg->out, ", ilma_empty_val())");
+                    }
+                    break;
+                }
                 /* Text methods: text.join(bag), text.length(), text.upper(), etc. */
                 else if (strcmp(method, "join") == 0) {
                     fprintf(cg->out, "ilma_text_join(");
@@ -552,6 +691,14 @@ static void gen_expression(CodeGen* cg, ASTNode* node) {
             break;
         }
 
+        case NODE_RECIPE: {
+            /* Lambda expression used in expression context — reference the generated function */
+            char* safe = sanitize_ident(node->data.recipe.name);
+            fprintf(cg->out, "ilma_empty_val() /* lambda %s */", safe);
+            free(safe);
+            break;
+        }
+
         default:
             fprintf(cg->out, "/* unhandled expression type %d */ilma_empty_val()", node->type);
             break;
@@ -598,6 +745,8 @@ static void gen_statement(CodeGen* cg, ASTNode* node) {
             break;
 
         case NODE_REMEMBER: {
+            /* Skip lambda assignments — the function is already generated as a top-level recipe */
+            if (node->data.remember.value && node->data.remember.value->type == NODE_RECIPE) break;
             char* safe = sanitize_ident(node->data.remember.name);
             emit(cg, "IlmaValue %s = ", safe);
             gen_expression(cg, node->data.remember.value);
@@ -804,6 +953,54 @@ static void gen_statement(CodeGen* cg, ASTNode* node) {
             break;
         }
 
+        case NODE_CHECK: {
+            int tmp = cg->temp_counter++;
+            emit(cg, "{\n");
+            cg->indent++;
+            emit(cg, "IlmaValue _check%d = ", tmp);
+            gen_expression(cg, node->data.check_stmt.subject);
+            fprintf(cg->out, ";\n");
+
+            for (int i = 0; i < node->data.check_stmt.case_count; i++) {
+                emit(cg, "%sif (", i > 0 ? "} else " : "");
+                if (node->data.check_stmt.case_range_ends[i]) {
+                    /* Range: when 90..99: -> if (val >= 90 && val <= 99) */
+                    fprintf(cg->out, "ilma_is_truthy(ilma_geq(_check%d, ", tmp);
+                    gen_expression(cg, node->data.check_stmt.case_exprs[i]);
+                    fprintf(cg->out, ")) && ilma_is_truthy(ilma_leq(_check%d, ", tmp);
+                    gen_expression(cg, node->data.check_stmt.case_range_ends[i]);
+                    fprintf(cg->out, "))");
+                } else {
+                    /* Exact: when 100: -> if (val == 100) */
+                    fprintf(cg->out, "ilma_is_truthy(ilma_eq(_check%d, ", tmp);
+                    gen_expression(cg, node->data.check_stmt.case_exprs[i]);
+                    fprintf(cg->out, "))");
+                }
+                fprintf(cg->out, ") {\n");
+                cg->indent++;
+                gen_block(cg, node->data.check_stmt.case_bodies[i]);
+                cg->indent--;
+            }
+
+            if (node->data.check_stmt.otherwise_body) {
+                if (node->data.check_stmt.case_count > 0) {
+                    emit(cg, "} else {\n");
+                } else {
+                    emit(cg, "{\n");
+                }
+                cg->indent++;
+                gen_block(cg, node->data.check_stmt.otherwise_body);
+                cg->indent--;
+            }
+
+            if (node->data.check_stmt.case_count > 0 || node->data.check_stmt.otherwise_body) {
+                emit(cg, "}\n");
+            }
+            cg->indent--;
+            emit(cg, "}\n");
+            break;
+        }
+
         case NODE_EXPR_STMT:
             emit(cg, "");
             gen_expression(cg, node->data.say.expr);
@@ -966,13 +1163,15 @@ void codegen_generate(CodeGen* cg, ASTNode* program) {
         else if (strcmp(mod, "quran") == 0)   fprintf(cg->out, "#include \"modules/quran.h\"\n");
         else if (strcmp(mod, "draw") == 0)    fprintf(cg->out, "#include \"modules/draw.h\"\n");
         else if (strcmp(mod, "number") == 0)  fprintf(cg->out, "#include \"modules/number.h\"\n");
+        else if (strcmp(mod, "science") == 0) fprintf(cg->out, "#include \"modules/science.h\"\n");
+        else if (strcmp(mod, "trade") == 0)   fprintf(cg->out, "#include \"modules/trade.h\"\n");
     }
     fprintf(cg->out, "\n");
 
-    /* Collect top-level recipes */
+    /* Collect all recipes (including lambdas nested in expressions) */
     RecipeList recipes;
     ast_list_init(&recipes, 16);
-    collect_recipes(program, &recipes);
+    collect_all_recipes_recursive(program, &recipes);
 
     /* Collect top-level blueprints */
     ASTList blueprints;

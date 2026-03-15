@@ -1,0 +1,42 @@
+# IlmaWeb Todo App — A complete web application in ILMA
+use web
+
+# In-memory todo storage
+remember todos = bag[]
+remember next_id = 1
+
+# Home page — HTML with todo list
+web.route("/"):
+    remember html = "<html><head><title>ILMA Todo App</title></head><body>"
+    html = html + "<h1>ILMA Todo List</h1>"
+    html = html + "<form action='/todos/add' method='POST'>"
+    html = html + "<input name='text' placeholder='New task...' required>"
+    html = html + "<button type='submit'>Add</button></form><ul>"
+    for each todo in todos:
+        html = html + "<li>" + todo[text] + "</li>"
+    html = html + "</ul><p><a href='/about'>About</a></p></body></html>"
+    give back web.html(html)
+
+# API: list all todos as JSON
+web.route("/todos"):
+    give back web.json(todos)
+
+# Add a new todo
+web.route("/todos/add"):
+    remember text = web.query("text")
+    if text is empty:
+        text = "Untitled task"
+    remember todo = notebook[id: next_id, text: text, done: no]
+    todos.add(todo)
+    next_id = next_id + 1
+    give back web.html("<html><body><p>Added!</p><a href='/'>Back</a></body></html>")
+
+# About page
+web.route("/about"):
+    give back web.html("<html><body><h1>About</h1><p>Built with IlmaWeb framework.</p><a href='/'>Home</a></body></html>")
+
+# Health check
+web.route("/health"):
+    give back web.json(notebook[status: "ok", language: "ILMA"])
+
+web.start(port: 3000)

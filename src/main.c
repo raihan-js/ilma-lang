@@ -6,8 +6,9 @@
 #include "lexer.h"
 #include "parser.h"
 #include "codegen.h"
+#include "pkg/ilma_pkg.h"
 
-#define ILMA_VERSION "0.3.0"
+#define ILMA_VERSION "0.4.0"
 
 static char* read_file(const char* path) {
     FILE* f = fopen(path, "rb");
@@ -118,6 +119,21 @@ static void find_runtime(char* out, size_t out_size) {
 
 int main(int argc, char** argv) {
     if (argc < 2) { print_usage(); return 0; }
+
+    /* Package manager commands */
+    if (strcmp(argv[1], "get") == 0) {
+        if (argc < 3) {
+            fprintf(stderr, "Usage: ilma get <package-name>\n");
+            return 1;
+        }
+        return ilma_pkg_install(argv[2]);
+    }
+    if (strcmp(argv[1], "packages") == 0) {
+        if (argc >= 3 && strcmp(argv[2], "--available") == 0) {
+            return ilma_pkg_list_available();
+        }
+        return ilma_pkg_list_installed();
+    }
 
     int show_tokens  = 0;
     int show_c       = 0;

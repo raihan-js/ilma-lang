@@ -1,0 +1,25 @@
+{
+  "packages": [
+    {
+      "name": "math",
+      "version": "0.1.0",
+      "description": "Extended math functions — sum, average, max, min",
+      "url": "https://github.com/raihan-js/ilma-packages/releases/download/math-0.1.0/math.tar.gz",
+      "files": ["math.ilma"]
+    },
+    {
+      "name": "strings",
+      "version": "0.1.0",
+      "description": "String utility recipes — repeat, pad, reverse, capitalize",
+      "url": "https://github.com/raihan-js/ilma-packages/releases/download/strings-0.1.0/strings.tar.gz",
+      "files": ["strings.ilma"]
+    },
+    {
+      "name": "colors",
+      "version": "0.1.0",
+      "description": "ANSI terminal colors for colorful output",
+      "url": "https://github.com/raihan-js/ilma-packages/releases/download/colors-0.1.0/colors.tar.gz",
+      "files": ["colors.ilma"]
+    }
+  ]
+}

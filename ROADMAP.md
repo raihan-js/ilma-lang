@@ -37,13 +37,23 @@
 - Website playground page with 8 examples, share/download
 - 50 compiler tests, all passing
 
-## v0.4.0 — Polish & Publish 📋
+## v0.4.0 — Language Maturity ✅
+
+- Pattern matching: check/when/otherwise with ranges and or-patterns
+- Lambda expressions: anonymous recipes, bag.map/filter/each
+- Multi-line strings (triple quotes) and raw strings (backticks)
+- Package manager: ilma get, ilma packages
+- science module: physics, temperature, energy, Ohm's law
+- trade module: profit, margin, halal trade checker
+- IlmaWeb: todo app example, SQLite integration
+- 57 compiler tests, all passing
+
+## v0.5.0 — Polish & Publish 📋
 
 - Publish VS Code extension to Marketplace
 - WASM compilation via Emscripten (real compiler in browser)
 - Full LSP: go-to-definition, auto-complete, rename
 - Cross-platform installers (APT PPA, AUR, Scoop, winget)
-- Version manager: `ilmaup install latest`
 
 ## v0.5.0 — IlmaWeb Framework 📋
 

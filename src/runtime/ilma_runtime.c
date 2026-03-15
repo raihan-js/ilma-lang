@@ -401,6 +401,33 @@ IlmaValue ilma_bag_sorted(IlmaBag* bag) {
     return new_bag;
 }
 
+/* ── Higher-order bag operations ─────────────────────── */
+
+IlmaValue ilma_bag_map(IlmaBag* bag, IlmaMapFn fn) {
+    IlmaValue result = ilma_bag_new();
+    for (int i = 0; i < bag->count; i++) {
+        ilma_bag_add(result.as_bag, fn(bag->items[i]));
+    }
+    return result;
+}
+
+IlmaValue ilma_bag_filter(IlmaBag* bag, IlmaMapFn fn) {
+    IlmaValue result = ilma_bag_new();
+    for (int i = 0; i < bag->count; i++) {
+        IlmaValue r = fn(bag->items[i]);
+        if (ilma_is_truthy(r)) {
+            ilma_bag_add(result.as_bag, bag->items[i]);
+        }
+    }
+    return result;
+}
+
+void ilma_bag_each(IlmaBag* bag, IlmaMapFn fn) {
+    for (int i = 0; i < bag->count; i++) {
+        fn(bag->items[i]);
+    }
+}
+
 /* ── Notebook operations ──────────────────────────────── */
 
 IlmaValue ilma_notebook_new(void) {

@@ -1,0 +1,4 @@
+use science
+say science.gravity(10)
+say science.celsius_to_fahrenheit(100)
+say science.celsius_to_kelvin(0)

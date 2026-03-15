@@ -4,6 +4,37 @@ All notable changes to ILMA are documented here.
 
 ---
 
+## [0.4.0] — 2026
+
+### Added
+
+**Language Features**
+- Pattern matching: `check`/`when`/`otherwise` syntax with exact values, ranges (`90..99`), and or-patterns (`"cat" or "dog"`)
+- Lambda expressions: `recipe(n): give back n * 2` — anonymous recipes as expressions
+- Higher-order bag methods: `bag.map()`, `bag.filter()`, `bag.each()` with lambda arguments
+- Multi-line strings with triple quotes: `"""multi\nline"""`
+- Raw strings with backticks: `` `no {interpolation}` ``
+
+**Standard Library Modules (C Compiler)**
+- `science` — gravity, kinetic/potential energy, speed, temperature conversions (C/F/K), Ohm's law, light-years, atom count
+- `trade` — profit, margin, markup, break-even, supply/demand pricing, VAT, discount, halal trade checker
+
+**Package Manager**
+- `ilma get <package>` — install packages from the ILMA package registry
+- `ilma packages` — list installed packages
+- `ilma packages --available` — list available packages
+- Package registry with math, strings, and colors starter packages
+
+**IlmaWeb Framework**
+- Todo app example with 5 routes
+- SQLite database integration (optional, compile with `-DILMA_HAS_SQLITE`)
+
+**Tests**
+- 7 new tests: check/when (3), multiline strings, lambdas, science module, trade module
+- Total: 57 compiler tests (20 Tier 1, 20 Tier 2, 17 Tier 3), all passing
+
+---
+
 ## [0.3.0] — 2026
 
 ### Added

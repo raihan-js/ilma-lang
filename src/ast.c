@@ -140,6 +140,26 @@ void ast_free(ASTNode* node) {
             ast_free(node->data.try_stmt.try_block);
             ast_free(node->data.try_stmt.when_wrong_block);
             break;
+        case NODE_CHECK:
+            ast_free(node->data.check_stmt.subject);
+            for (int i = 0; i < node->data.check_stmt.case_count; i++) {
+                ast_free(node->data.check_stmt.case_exprs[i]);
+                ast_free(node->data.check_stmt.case_range_ends[i]);
+                /* Bodies may be shared (from "or" expansion), only free once */
+                int is_dup = 0;
+                for (int j = 0; j < i; j++) {
+                    if (node->data.check_stmt.case_bodies[j] == node->data.check_stmt.case_bodies[i]) {
+                        is_dup = 1;
+                        break;
+                    }
+                }
+                if (!is_dup) ast_free(node->data.check_stmt.case_bodies[i]);
+            }
+            free(node->data.check_stmt.case_exprs);
+            free(node->data.check_stmt.case_range_ends);
+            free(node->data.check_stmt.case_bodies);
+            ast_free(node->data.check_stmt.otherwise_body);
+            break;
         case NODE_EXPR_STMT:
             /* The expression is stored directly as a child — reuse say.expr */
             ast_free(node->data.say.expr);

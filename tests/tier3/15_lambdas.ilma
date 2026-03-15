@@ -1,0 +1,11 @@
+remember double = recipe(n): give back n * 2
+say double(7)
+
+remember numbers = bag[1, 2, 3, 4, 5]
+remember doubled = numbers.map(recipe(n): give back n * 2)
+for each n in doubled:
+    say n
+
+remember evens = numbers.filter(recipe(n): give back n % 2 is 0)
+for each n in evens:
+    say n

@@ -82,13 +82,18 @@ ilma/
         │   ├── ilma_http.h        # HTTP server
         │   ├── ilma_http.c
         │   ├── ilma_web_bridge.h   # ILMA ↔ HTTP bridge
-        │   └── ilma_web_bridge.c
+        │   ├── ilma_web_bridge.c
+        │   ├── ilma_db.h           # SQLite integration (optional)
+        │   └── ilma_db.c
         ├── stdlib/
         │   └── web.ilma            # ILMA API reference
         ├── examples/
-        │   └── hello_world/
-        │       ├── app.ilma            # Source (what you write)
-        │       └── app_generated.c     # Generated C (what the compiler emits)
+        │   ├── hello_world/
+        │   │   ├── app.ilma            # Source (what you write)
+        │   │   └── app_generated.c     # Generated C (what the compiler emits)
+        │   └── todo_app/
+        │       ├── app.ilma            # Todo app source
+        │       └── app_generated.c     # Generated C for the todo app
         ├── Makefile
         └── README.md
 ```
@@ -223,6 +228,115 @@ web.start(port: 3000)
 ```
 
 The ILMA version compiles to a **native binary** — no Node.js, no V8, no `node_modules`.
+
+---
+
+## Todo App
+
+A more complete example — a full CRUD-style todo list with in-memory storage, HTML forms, and a JSON API.
+
+### Source (`examples/todo_app/app.ilma`)
+
+```ilma
+use web
+
+# In-memory todo storage
+remember todos = bag[]
+remember next_id = 1
+
+# Home page — HTML with todo list
+web.route("/"):
+    remember html = "<html><head><title>ILMA Todo App</title></head><body>"
+    html = html + "<h1>ILMA Todo List</h1>"
+    html = html + "<form action='/todos/add' method='POST'>"
+    html = html + "<input name='text' placeholder='New task...' required>"
+    html = html + "<button type='submit'>Add</button></form><ul>"
+    for each todo in todos:
+        html = html + "<li>" + todo[text] + "</li>"
+    html = html + "</ul><p><a href='/about'>About</a></p></body></html>"
+    give back web.html(html)
+
+# API: list all todos as JSON
+web.route("/todos"):
+    give back web.json(todos)
+
+# Add a new todo
+web.route("/todos/add"):
+    remember text = web.query("text")
+    if text is empty:
+        text = "Untitled task"
+    remember todo = notebook[id: next_id, text: text, done: no]
+    todos.add(todo)
+    next_id = next_id + 1
+    give back web.html("<html><body><p>Added!</p><a href='/'>Back</a></body></html>")
+
+# About page
+web.route("/about"):
+    give back web.html("<html><body><h1>About</h1><p>Built with IlmaWeb framework.</p><a href='/'>Home</a></body></html>")
+
+# Health check
+web.route("/health"):
+    give back web.json(notebook[status: "ok", language: "ILMA"])
+
+web.start(port: 3000)
+```
+
+### Routes
+
+| Path          | Method | Description                     |
+|---------------|--------|---------------------------------|
+| `/`           | GET    | HTML page with todo list + form |
+| `/todos`      | GET    | JSON array of all todos         |
+| `/todos/add`  | POST   | Add a new todo from form data   |
+| `/about`      | GET    | About page                      |
+| `/health`     | GET    | JSON health check               |
+
+### Build and run
+
+```bash
+cd frameworks/ilma-web
+make build
+# Or compile manually:
+gcc -O2 -Wall -std=c11 -D_POSIX_C_SOURCE=200809L \
+    -o build/todo_app \
+    examples/todo_app/app_generated.c \
+    src/ilma_http.c src/ilma_web_bridge.c \
+    ../../src/runtime/ilma_runtime.c \
+    -Isrc -I../../src/runtime -lm
+
+./build/todo_app
+```
+
+Visit [http://localhost:3000](http://localhost:3000) to see the todo app.
+
+---
+
+## Database Support
+
+IlmaWeb includes optional SQLite integration for persistent storage. Compile with `-DILMA_HAS_SQLITE -lsqlite3` to enable it.
+
+### API
+
+```ilma
+# Open a database
+remember db = db.open("app.db")
+
+# Execute statements (CREATE, INSERT, UPDATE, DELETE)
+db.exec(db, "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT)")
+db.exec(db, "INSERT INTO users (name) VALUES ('Zayd')")
+
+# Query rows (SELECT) — returns a bag of notebooks
+remember rows = db.query(db, "SELECT * FROM users")
+for each row in rows:
+    say row[name]
+
+# Close the database
+db.close(db)
+```
+
+### Without SQLite
+
+If compiled without `-DILMA_HAS_SQLITE`, all database functions return an error message explaining how to enable SQLite support.
 
 ---
 

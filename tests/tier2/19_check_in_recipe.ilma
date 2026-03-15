@@ -1,0 +1,15 @@
+recipe grade(score):
+    check score:
+        when 90..100:
+            give back "A"
+        when 80..89:
+            give back "B"
+        when 70..79:
+            give back "C"
+        otherwise:
+            give back "F"
+
+say grade(95)
+say grade(83)
+say grade(71)
+say grade(55)

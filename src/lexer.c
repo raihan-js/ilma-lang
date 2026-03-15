@@ -88,6 +88,7 @@ const char* token_type_name(TokenType type) {
         case TOK_IS_NOT:     return "IS_NOT";
         case TOK_BAG:        return "BAG";
         case TOK_NOTEBOOK:   return "NOTEBOOK";
+        case TOK_CHECK:      return "CHECK";
         case TOK_TYPE_WHOLE: return "TYPE_WHOLE";
         case TOK_TYPE_DECIMAL: return "TYPE_DECIMAL";
         case TOK_TYPE_TEXT:  return "TYPE_TEXT";
@@ -169,6 +170,7 @@ static const Keyword keywords[] = {
     {"is",         TOK_IS},
     {"bag",        TOK_BAG},
     {"notebook",   TOK_NOTEBOOK},
+    {"check",      TOK_CHECK},
     {"whole",      TOK_TYPE_WHOLE},
     {"decimal",    TOK_TYPE_DECIMAL},
     {"text",       TOK_TYPE_TEXT},
@@ -210,43 +212,74 @@ static void lex_string(Lexer* L) {
     int start_col = L->col;
     char quote = advance(L); /* consume opening quote */
 
+    /* Check for triple quotes: """ or ''' */
+    int is_triple = 0;
+    if (L->pos + 1 < L->length &&
+        L->source[L->pos] == quote && L->source[L->pos + 1] == quote) {
+        advance(L); advance(L); /* consume second and third quotes */
+        is_triple = 1;
+    }
+
     size_t buf_cap = 64;
     size_t buf_len = 0;
     char* buf = malloc(buf_cap);
 
-    while (L->pos < L->length && L->source[L->pos] != quote) {
-        char c = L->source[L->pos];
-        if (c == '\\' && L->pos + 1 < L->length) {
-            advance(L);
-            char esc = advance(L);
-            char actual;
-            switch (esc) {
-                case 'n': actual = '\n'; break;
-                case 't': actual = '\t'; break;
-                case '\\': actual = '\\'; break;
-                case '"': actual = '"'; break;
-                case '\'': actual = '\''; break;
-                default: actual = esc; break;
+    if (is_triple) {
+        /* Read until closing triple quotes */
+        while (L->pos + 2 <= L->length) {
+            if (L->pos + 2 < L->length &&
+                L->source[L->pos] == quote &&
+                L->source[L->pos + 1] == quote &&
+                L->source[L->pos + 2] == quote) {
+                advance(L); advance(L); advance(L); /* consume closing triple quotes */
+                goto done_string;
             }
-            if (buf_len + 1 >= buf_cap) { buf_cap *= 2; buf = realloc(buf, buf_cap); }
-            buf[buf_len++] = actual;
-        } else {
+            char c = L->source[L->pos];
             if (c == '\n') { L->line++; L->col = 0; }
             advance(L);
             if (buf_len + 1 >= buf_cap) { buf_cap *= 2; buf = realloc(buf, buf_cap); }
             buf[buf_len++] = c;
         }
-    }
-
-    if (L->pos < L->length) {
-        advance(L); /* consume closing quote */
-    } else {
-        fprintf(stderr, "Oops! You forgot to close a piece of text that starts on line %d.\n"
-                        "Every piece of text needs a closing \" mark.\n", start_line);
+        fprintf(stderr, "Oops! Triple-quoted string starting on line %d was never closed.\n", start_line);
         exit(1);
+    } else {
+        /* Original single-quote string scanning */
+        while (L->pos < L->length && L->source[L->pos] != quote) {
+            char c = L->source[L->pos];
+            if (c == '\\' && L->pos + 1 < L->length) {
+                advance(L);
+                char esc = advance(L);
+                char actual;
+                switch (esc) {
+                    case 'n': actual = '\n'; break;
+                    case 't': actual = '\t'; break;
+                    case '\\': actual = '\\'; break;
+                    case '"': actual = '"'; break;
+                    case '\'': actual = '\''; break;
+                    default: actual = esc; break;
+                }
+                if (buf_len + 1 >= buf_cap) { buf_cap *= 2; buf = realloc(buf, buf_cap); }
+                buf[buf_len++] = actual;
+            } else {
+                if (c == '\n') { L->line++; L->col = 0; }
+                advance(L);
+                if (buf_len + 1 >= buf_cap) { buf_cap *= 2; buf = realloc(buf, buf_cap); }
+                buf[buf_len++] = c;
+            }
+        }
+
+        if (L->pos < L->length) {
+            advance(L); /* consume closing quote */
+        } else {
+            fprintf(stderr, "Oops! You forgot to close a piece of text that starts on line %d.\n"
+                            "Every piece of text needs a closing \" mark.\n", start_line);
+            exit(1);
+        }
     }
 
+done_string:
     /* Check for string interpolation (contains unescaped {) */
+    ;
     int has_interp = 0;
     for (size_t i = 0; i < buf_len; i++) {
         if (buf[i] == '{') { has_interp = 1; break; }
@@ -431,6 +464,25 @@ void lexer_tokenize(Lexer* L) {
         /* Numbers */
         if (isdigit((unsigned char)c)) {
             lex_number(L);
+            continue;
+        }
+
+        /* Raw strings with backticks (no escape processing, no interpolation) */
+        if (c == '`') {
+            int start_l = L->line, start_c = L->col;
+            advance(L); /* consume opening backtick */
+            size_t buf_cap = 64, buf_len = 0;
+            char* buf = malloc(buf_cap);
+            while (L->pos < L->length && L->source[L->pos] != '`') {
+                char ch = L->source[L->pos];
+                if (ch == '\n') { L->line++; L->col = 0; }
+                advance(L);
+                if (buf_len + 1 >= buf_cap) { buf_cap *= 2; buf = realloc(buf, buf_cap); }
+                buf[buf_len++] = ch;
+            }
+            if (L->pos < L->length) advance(L); /* consume closing backtick */
+            buf[buf_len] = '\0';
+            emit_token(L, TOK_STRING_LIT, buf, start_l, start_c);
             continue;
         }
 

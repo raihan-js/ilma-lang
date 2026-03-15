@@ -1,0 +1,7 @@
+remember haiku = """
+SubhanAllah
+Three short words
+Infinite meaning"""
+say haiku
+remember raw = `Say: {this is not interpolated}`
+say raw

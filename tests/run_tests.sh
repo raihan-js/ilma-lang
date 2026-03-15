@@ -66,6 +66,12 @@ run_test() {
     if grep -q '#include "modules/number.h"' "$temp_c" 2>/dev/null; then
         module_srcs="$module_srcs $runtime_dir/modules/number.c"
     fi
+    if grep -q '#include "modules/science.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/science.c"
+    fi
+    if grep -q '#include "modules/trade.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/trade.c"
+    fi
 
     # Compile C code
     gcc -o "$temp_bin" "$temp_c" "$PROJECT_DIR/src/runtime/ilma_runtime.c" \
