@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Install ILMA — Get Started in Seconds</title>
+    <meta name="description" content="Install ILMA on Linux, macOS, or Windows. One command is all it takes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════ Navigation ═══════════ -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">ILMA</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="install.html">Install</a>
+            <a href="docs.html">Docs</a>
+            <a href="index.html#playground">Playground</a>
+            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════ Install Hero ═══════════ -->
+<section class="install-hero">
+    <h1>Install ILMA</h1>
+    <p>Get started in seconds</p>
+</section>
+
+<!-- ═══════════ OS Tabs ═══════════ -->
+<section style="padding-top: 0;">
+    <div class="container">
+        <div class="install-tabs">
+            <button class="install-tab active" data-tab="tab-linux">Linux</button>
+            <button class="install-tab" data-tab="tab-macos">macOS</button>
+            <button class="install-tab" data-tab="tab-windows">Windows</button>
+        </div>
+
+        <!-- Linux Panel -->
+        <div class="install-panel active" id="tab-linux">
+            <div class="install-method">
+                <h3>Method 1 — One command (recommended)</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>curl -fsSL https://ilmalang.dev/install.sh | bash</pre>
+                </div>
+            </div>
+            <div class="install-method">
+                <h3>Method 2 — Build from source</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>git clone https://github.com/raihan-js/ilma-lang
+cd ilma-lang && make && sudo make install</pre>
+                </div>
+            </div>
+            <div class="install-method">
+                <h3>Method 3 — Docker</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>docker run --rm -it -v $(pwd):/code ilmalang/ilma ilma /code/hello.ilma</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- macOS Panel -->
+        <div class="install-panel" id="tab-macos">
+            <div class="install-method">
+                <h3>Method 1 — Homebrew</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>brew install ilmalang/ilma/ilma</pre>
+                </div>
+            </div>
+            <div class="install-method">
+                <h3>Method 2 — One command</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>curl -fsSL https://ilmalang.dev/install.sh | bash</pre>
+                </div>
+            </div>
+            <div class="install-method">
+                <h3>Method 3 — Build from source</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>git clone https://github.com/raihan-js/ilma-lang
+cd ilma-lang && make && sudo make install</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows Panel -->
+        <div class="install-panel" id="tab-windows">
+            <div class="install-method">
+                <h3>Method 1 — WSL (recommended)</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre># First install WSL, then:
+curl -fsSL https://ilmalang.dev/install.sh | bash</pre>
+                </div>
+            </div>
+            <div class="install-method">
+                <h3>Method 2 — Direct download</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>Download the latest .zip from GitHub Releases
+https://github.com/raihan-js/ilma-lang/releases</pre>
+                </div>
+            </div>
+            <div class="install-method">
+                <h3>Method 3 — Docker Desktop</h3>
+                <div class="install-code-block">
+                    <button class="copy-btn">Copy</button>
+<pre>docker run --rm -it -v %cd%:/code ilmalang/ilma ilma /code/hello.ilma</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Verify -->
+        <div class="install-verify">
+            <h2>Verify your installation</h2>
+            <p>Run these commands to confirm ILMA is working:</p>
+            <div class="install-code-block" style="margin-top: 1rem;">
+                <button class="copy-btn">Copy</button>
+<pre>ilma --version
+ilma examples/hello.ilma</pre>
+            </div>
+        </div>
+
+        <!-- VS Code -->
+        <div class="install-extras">
+            <h2>Editor support</h2>
+            <p>Get syntax highlighting and IntelliSense for ILMA in Visual Studio Code.</p>
+            <a href="https://marketplace.visualstudio.com/items?itemName=ilmalang.ilma" class="btn btn-primary" target="_blank" rel="noopener" style="margin-top: 1rem;">Get ILMA for VS Code &rarr;</a>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>ILMA</h4>
+                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
+            </div>
+            <div>
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="index.html#playground">Playground</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Made with ILMA</span>
+            <span>&copy; 2026 ILMA Programming Language</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

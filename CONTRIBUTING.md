@@ -15,8 +15,8 @@ Thank you for your interest in contributing. ILMA is a community project and eve
 ## Setting up
 
 ```bash
-git clone https://github.com/raihan-js/ilma
-cd ilma
+git clone https://github.com/raihan-js/ilma-lang
+cd ilma-lang
 make all        # build the compiler
 make test       # all 17 tests must pass before you change anything
 ```

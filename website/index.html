@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILMA — A Programming Language Built for Children</title>
+    <meta name="description" content="ILMA is a programming language designed for children. Simpler than Python. Compiles to C. Reads like English.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════ Navigation ═══════════ -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">ILMA</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="install.html">Install</a>
+            <a href="docs.html">Docs</a>
+            <a href="#playground">Playground</a>
+            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════ Hero Section ═══════════ -->
+<section class="hero">
+    <div class="container">
+        <div class="hero-text">
+            <h1>ILMA</h1>
+            <p class="tagline">A programming language built for children. Simpler than Python. Faster than anything.</p>
+            <div class="hero-buttons">
+                <a href="#playground" class="btn btn-primary">Try it now</a>
+                <a href="install.html" class="btn btn-secondary">Download</a>
+            </div>
+        </div>
+        <div class="hero-code">
+            <div class="code-window">
+                <div class="code-window-header">
+                    <span class="code-window-dot"></span>
+                    <span class="code-window-dot"></span>
+                    <span class="code-window-dot"></span>
+                    <span class="code-window-title">hello.ilma</span>
+                </div>
+                <div class="code-window-body">
+<pre><span class="syn-comment"># Your first ILMA program</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">name</span> <span class="syn-op">=</span> <span class="syn-builtin">ask</span> <span class="syn-string">"What is your name? "</span>
+<span class="syn-keyword">say</span> <span class="syn-string">"Assalamu Alaikum, "</span> <span class="syn-op">+</span> <span class="syn-var">name</span>
+
+<span class="syn-keyword">recipe</span> <span class="syn-func">double</span>(<span class="syn-var">n</span>):
+    <span class="syn-keyword">give back</span> <span class="syn-var">n</span> <span class="syn-op">*</span> <span class="syn-number">2</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">double</span>(<span class="syn-number">21</span>)</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Features Section ═══════════ -->
+<section class="features" id="features">
+    <div class="container">
+        <div class="section-title">
+            <h2>Why ILMA?</h2>
+            <p>A language designed from scratch to teach children programming and real-world knowledge.</p>
+        </div>
+        <div class="features-grid">
+            <!-- Card 1 -->
+            <div class="feature-card">
+                <h3>Reads like English</h3>
+                <p>Every keyword is a real word children already know. No cryptic syntax.</p>
+                <table class="keyword-table">
+                    <thead>
+                        <tr><th>ILMA</th><th>Python</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>say</td><td>print</td></tr>
+                        <tr><td>remember</td><td>let</td></tr>
+                        <tr><td>recipe</td><td>def</td></tr>
+                        <tr><td>blueprint</td><td>class</td></tr>
+                        <tr><td>give back</td><td>return</td></tr>
+                        <tr><td>bag</td><td>list</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <!-- Card 2 -->
+            <div class="feature-card">
+                <h3>Built on C</h3>
+                <p>ILMA compiles to native binaries via C. No virtual machine. No garbage collector. No runtime overhead.</p>
+                <p>Runs on everything from a Raspberry Pi to cloud servers. Programs start instantly and use minimal memory.</p>
+                <p>Your child writes friendly code. The compiler turns it into the fastest language on earth.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="feature-card">
+                <h3>Teaches real life</h3>
+                <p>Built-in knowledge modules that embed real-world concepts into coding lessons.</p>
+                <ul class="module-list">
+                    <li><strong>Finance</strong> — Zakat, compound interest, budgets</li>
+                    <li><strong>Time</strong> — Hijri calendar, date calculations</li>
+                    <li><strong>Quran</strong> — Search ayat, daily verses</li>
+                    <li><strong>Body</strong> — BMI, water intake, health metrics</li>
+                    <li><strong>Science</strong> — Gravity, temperature, energy</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Playground Section ═══════════ -->
+<section class="playground" id="playground">
+    <div class="container">
+        <div class="section-title">
+            <h2>Playground</h2>
+            <p>Write ILMA code and see it run instantly in your browser.</p>
+        </div>
+        <div class="playground-container">
+            <div class="playground-editor-wrap">
+                <div class="playground-header">
+                    <div class="playground-header-left">
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-title">playground.ilma</span>
+                    </div>
+                    <button class="btn-run" id="run-btn">&#9654; Run</button>
+                </div>
+                <textarea class="playground-editor" id="ilma-editor" spellcheck="false"># Zakat Calculator
+remember savings = 10000
+remember nisab = 595
+if savings >= nisab:
+    remember zakat = savings * 0.025
+    say "Your zakat due: " + zakat
+otherwise:
+    say "No zakat due this year"</textarea>
+            </div>
+            <div class="playground-output-wrap">
+                <div class="playground-output-header">Output</div>
+                <div class="playground-output" id="ilma-output">(click Run to execute)</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Three Tiers Section ═══════════ -->
+<section class="tiers" id="tiers">
+    <div class="container">
+        <div class="section-title">
+            <h2>Grows with your child</h2>
+            <p>Three tiers that scale from first words to full applications.</p>
+        </div>
+
+        <div class="tiers-tabs">
+            <button class="tier-tab active" data-tab="tier-seed">Seed (ages 3-7)</button>
+            <button class="tier-tab" data-tab="tier-sapling">Sapling (ages 7-13)</button>
+            <button class="tier-tab" data-tab="tier-tree">Tree (ages 13+)</button>
+        </div>
+
+        <div class="tier-content">
+            <!-- Seed -->
+            <div class="tier-panel active" id="tier-seed">
+                <p class="tier-label">Simple output, variables, and loops. Nothing else to worry about.</p>
+                <div class="code-window">
+                    <div class="code-window-header">
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-title">seed.ilma</span>
+                    </div>
+                    <div class="code-window-body">
+<pre><span class="syn-keyword">say</span> <span class="syn-string">"Hello, World!"</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">age</span> <span class="syn-op">=</span> <span class="syn-number">7</span>
+<span class="syn-keyword">repeat</span> <span class="syn-number">5</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"I love learning"</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sapling -->
+            <div class="tier-panel" id="tier-sapling">
+                <p class="tier-label">Functions, collections, and loops over data. Real programming begins.</p>
+                <div class="code-window">
+                    <div class="code-window-header">
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-title">sapling.ilma</span>
+                    </div>
+                    <div class="code-window-body">
+<pre><span class="syn-keyword">recipe</span> <span class="syn-func">greet</span>(<span class="syn-var">name</span>):
+    <span class="syn-keyword">say</span> <span class="syn-string">"Salaam, "</span> <span class="syn-op">+</span> <span class="syn-var">name</span>
+<span class="syn-func">greet</span>(<span class="syn-string">"Amira"</span>)
+
+<span class="syn-keyword">remember</span> <span class="syn-var">fruits</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[<span class="syn-string">"dates"</span>, <span class="syn-string">"mango"</span>, <span class="syn-string">"apple"</span>]
+<span class="syn-keyword">for each</span> <span class="syn-var">fruit</span> <span class="syn-keyword">in</span> <span class="syn-var">fruits</span>:
+    <span class="syn-keyword">say</span> <span class="syn-var">fruit</span></pre>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tree -->
+            <div class="tier-panel" id="tier-tree">
+                <p class="tier-label">Blueprints (classes), methods, and object-oriented programming.</p>
+                <div class="code-window">
+                    <div class="code-window-header">
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-dot"></span>
+                        <span class="code-window-title">tree.ilma</span>
+                    </div>
+                    <div class="code-window-body">
+<pre><span class="syn-keyword">blueprint</span> <span class="syn-func">Animal</span>:
+    <span class="syn-func">create</span>(<span class="syn-var">name</span>, <span class="syn-var">sound</span>):
+        <span class="syn-var">me.name</span> <span class="syn-op">=</span> <span class="syn-var">name</span>
+        <span class="syn-var">me.sound</span> <span class="syn-op">=</span> <span class="syn-var">sound</span>
+    <span class="syn-keyword">recipe</span> <span class="syn-func">speak</span>():
+        <span class="syn-keyword">say</span> <span class="syn-var">me.name</span> <span class="syn-op">+</span> <span class="syn-string">" says "</span> <span class="syn-op">+</span> <span class="syn-var">me.sound</span>
+
+<span class="syn-keyword">remember</span> <span class="syn-var">cat</span> <span class="syn-op">=</span> <span class="syn-func">Animal</span>(<span class="syn-string">"Whiskers"</span>, <span class="syn-string">"Meow"</span>)
+<span class="syn-var">cat</span>.<span class="syn-func">speak</span>()</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Knowledge Modules Section ═══════════ -->
+<section class="modules" id="modules">
+    <div class="container">
+        <div class="section-title">
+            <h2>Knowledge Modules</h2>
+            <p>Built-in modules that teach real-world concepts through code.</p>
+        </div>
+        <div class="modules-grid">
+            <div class="module-card">
+                <div class="module-emoji">&#x1F4B0;</div>
+                <h3>finance</h3>
+                <p>Compound interest, zakat, budgeting, profit margins</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F54C;</div>
+                <h3>time</h3>
+                <p>Gregorian and Hijri calendar, date calculations</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F4D6;</div>
+                <h3>quran</h3>
+                <p>Search ayat, daily verses, surah lookup</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F52C;</div>
+                <h3>science</h3>
+                <p>Gravity, temperature, kinetic energy</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F6D2;</div>
+                <h3>trade</h3>
+                <p>Profit/loss, supply and demand, halal commerce</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F4AA;</div>
+                <h3>body</h3>
+                <p>BMI, water intake, health metrics</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F522;</div>
+                <h3>number</h3>
+                <p>Binary, hex, Roman numerals, primes, Fibonacci</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F9E0;</div>
+                <h3>think</h3>
+                <p>Reflection questions, decision-making</p>
+            </div>
+            <div class="module-card">
+                <div class="module-emoji">&#x1F3A8;</div>
+                <h3>draw</h3>
+                <p>Canvas graphics, Islamic geometric patterns</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>ILMA</h4>
+                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
+            </div>
+            <div>
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="#playground">Playground</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Made with ILMA</span>
+            <span>&copy; 2026 ILMA Programming Language</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/playground.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

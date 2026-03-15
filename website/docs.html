@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ILMA Docs — Language Reference</title>
+    <meta name="description" content="Complete language reference for ILMA. Keywords, types, variables, functions, blueprints, modules, and more.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ═══════════ Navigation ═══════════ -->
+<nav class="navbar">
+    <div class="container">
+        <a href="index.html" class="nav-logo">ILMA</a>
+        <div class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="install.html">Install</a>
+            <a href="docs.html">Docs</a>
+            <a href="index.html#playground">Playground</a>
+            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
+        </div>
+        <button class="hamburger" aria-label="Toggle navigation">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </div>
+</nav>
+
+<!-- ═══════════ Docs Layout ═══════════ -->
+<div class="container">
+    <div class="docs-layout">
+
+        <!-- Sidebar -->
+        <aside class="docs-sidebar">
+            <h3>Reference</h3>
+            <ul>
+                <li><a href="#getting-started">Getting Started</a></li>
+                <li><a href="#keywords">Keywords</a></li>
+                <li><a href="#types">Types</a></li>
+                <li><a href="#variables">Variables</a></li>
+                <li><a href="#io">I/O</a></li>
+                <li><a href="#control-flow">Control Flow</a></li>
+                <li><a href="#functions">Functions</a></li>
+                <li><a href="#collections">Collections</a></li>
+                <li><a href="#blueprints">Blueprints</a></li>
+                <li><a href="#error-handling">Error Handling</a></li>
+                <li><a href="#modules">Modules</a></li>
+                <li><a href="#string-methods">String Methods</a></li>
+                <li><a href="#bag-methods">Bag Methods</a></li>
+            </ul>
+        </aside>
+
+        <!-- Content -->
+        <main class="docs-content">
+
+            <!-- Getting Started -->
+            <section class="docs-section" id="getting-started">
+                <h2>Getting Started</h2>
+                <p>ILMA is a programming language designed for children ages 3 and up. It uses plain English keywords, compiles to C, and produces native binaries. Every ILMA program is a plain text file with the <span class="docs-inline-code">.ilma</span> extension.</p>
+
+                <h3>Hello World</h3>
+                <p>Create a file called <span class="docs-inline-code">hello.ilma</span> and write:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">say</span> <span class="syn-string">"Hello, World!"</span></pre></div>
+
+                <p>Run it with:</p>
+                <div class="docs-code"><pre>ilma hello.ilma</pre></div>
+
+                <h3>Compile to binary</h3>
+                <p>To compile your program into a standalone executable:</p>
+                <div class="docs-code"><pre>ilma build hello.ilma -o hello</pre></div>
+
+                <div class="docs-note">ILMA uses indentation (4 spaces) to define code blocks, similar to Python. Tabs are also accepted but spaces are recommended.</div>
+            </section>
+
+            <!-- Keywords -->
+            <section class="docs-section" id="keywords">
+                <h2>Keywords</h2>
+                <p>ILMA uses original English keywords that children can understand. Here is the complete list:</p>
+
+                <table class="keyword-table" style="margin-top:1rem; margin-bottom:1.5rem;">
+                    <thead>
+                        <tr><th>Keyword</th><th>Purpose</th><th>Equivalent</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>say</td><td>Print output to the screen</td><td>print</td></tr>
+                        <tr><td>remember</td><td>Declare/assign a variable</td><td>let / var</td></tr>
+                        <tr><td>ask</td><td>Read input from the user</td><td>input</td></tr>
+                        <tr><td>if</td><td>Conditional branch</td><td>if</td></tr>
+                        <tr><td>otherwise</td><td>Else branch</td><td>else</td></tr>
+                        <tr><td>otherwise if</td><td>Else-if branch</td><td>elif / else if</td></tr>
+                        <tr><td>repeat</td><td>Loop a fixed number of times</td><td>for i in range</td></tr>
+                        <tr><td>while</td><td>Loop while condition is true</td><td>while</td></tr>
+                        <tr><td>for each</td><td>Iterate over a collection</td><td>for...in</td></tr>
+                        <tr><td>recipe</td><td>Define a function</td><td>def / function</td></tr>
+                        <tr><td>give back</td><td>Return a value from a function</td><td>return</td></tr>
+                        <tr><td>bag</td><td>Ordered list/array</td><td>list / array</td></tr>
+                        <tr><td>notebook</td><td>Key-value collection</td><td>dict / map</td></tr>
+                        <tr><td>blueprint</td><td>Define a class</td><td>class</td></tr>
+                        <tr><td>create</td><td>Constructor method</td><td>__init__</td></tr>
+                        <tr><td>me</td><td>Reference to current instance</td><td>self / this</td></tr>
+                        <tr><td>inherits</td><td>Class inheritance</td><td>extends</td></tr>
+                        <tr><td>try</td><td>Begin error handling block</td><td>try</td></tr>
+                        <tr><td>when wrong</td><td>Catch an error</td><td>except / catch</td></tr>
+                        <tr><td>use</td><td>Import a module</td><td>import</td></tr>
+                        <tr><td>yes</td><td>Boolean true</td><td>True / true</td></tr>
+                        <tr><td>no</td><td>Boolean false</td><td>False / false</td></tr>
+                        <tr><td>empty</td><td>Null/none value</td><td>None / null</td></tr>
+                        <tr><td>and</td><td>Logical AND</td><td>and / &&</td></tr>
+                        <tr><td>or</td><td>Logical OR</td><td>or / ||</td></tr>
+                        <tr><td>not</td><td>Logical NOT</td><td>not / !</td></tr>
+                        <tr><td>is</td><td>Equality comparison</td><td>==</td></tr>
+                        <tr><td>is not</td><td>Inequality comparison</td><td>!=</td></tr>
+                        <tr><td>stop</td><td>Break out of a loop</td><td>break</td></tr>
+                        <tr><td>skip</td><td>Skip to next iteration</td><td>continue</td></tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Types -->
+            <section class="docs-section" id="types">
+                <h2>Types</h2>
+                <p>ILMA is dynamically typed. Variables can hold any type and change type during execution.</p>
+
+                <h3>Numbers</h3>
+                <p>Both integers and decimals are supported. Arithmetic follows standard precedence.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">age</span> <span class="syn-op">=</span> <span class="syn-number">10</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">price</span> <span class="syn-op">=</span> <span class="syn-number">3.99</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">total</span> <span class="syn-op">=</span> <span class="syn-var">price</span> <span class="syn-op">*</span> <span class="syn-number">5</span></pre></div>
+
+                <h3>Text (Strings)</h3>
+                <p>Text is enclosed in double or single quotes. Concatenate with <span class="docs-inline-code">+</span>.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">greeting</span> <span class="syn-op">=</span> <span class="syn-string">"Salaam"</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">name</span> <span class="syn-op">=</span> <span class="syn-string">"Amira"</span>
+<span class="syn-keyword">say</span> <span class="syn-var">greeting</span> <span class="syn-op">+</span> <span class="syn-string">", "</span> <span class="syn-op">+</span> <span class="syn-var">name</span></pre></div>
+
+                <h3>Booleans</h3>
+                <p>Use <span class="docs-inline-code">yes</span> for true and <span class="docs-inline-code">no</span> for false.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">is_ready</span> <span class="syn-op">=</span> <span class="syn-keyword">yes</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">is_done</span> <span class="syn-op">=</span> <span class="syn-keyword">no</span></pre></div>
+
+                <h3>Empty</h3>
+                <p>The <span class="docs-inline-code">empty</span> keyword represents the absence of a value (like null).</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">result</span> <span class="syn-op">=</span> <span class="syn-keyword">empty</span></pre></div>
+            </section>
+
+            <!-- Variables -->
+            <section class="docs-section" id="variables">
+                <h2>Variables</h2>
+                <p>Variables are declared with <span class="docs-inline-code">remember</span>. Names can contain letters, numbers, and underscores. ILMA supports full Unicode, so Arabic and Urdu variable names work too.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">score</span> <span class="syn-op">=</span> <span class="syn-number">100</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">player_name</span> <span class="syn-op">=</span> <span class="syn-string">"Yusuf"</span>
+<span class="syn-keyword">remember</span> <span class="syn-var">is_winner</span> <span class="syn-op">=</span> <span class="syn-keyword">yes</span></pre></div>
+
+                <h3>Reassignment</h3>
+                <p>Once declared, you can update a variable by assigning a new value:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">count</span> <span class="syn-op">=</span> <span class="syn-number">0</span>
+<span class="syn-var">count</span> <span class="syn-op">=</span> <span class="syn-var">count</span> <span class="syn-op">+</span> <span class="syn-number">1</span>
+<span class="syn-keyword">say</span> <span class="syn-var">count</span>  <span class="syn-comment"># prints 1</span></pre></div>
+
+                <div class="docs-note">Variable names are case-sensitive. <span class="docs-inline-code">Score</span> and <span class="docs-inline-code">score</span> are different variables.</div>
+            </section>
+
+            <!-- I/O -->
+            <section class="docs-section" id="io">
+                <h2>I/O (Input and Output)</h2>
+
+                <h3>Output with <span class="docs-inline-code">say</span></h3>
+                <p>The <span class="docs-inline-code">say</span> keyword prints a value to the screen, followed by a newline.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">say</span> <span class="syn-string">"Hello!"</span>
+<span class="syn-keyword">say</span> <span class="syn-number">42</span>
+<span class="syn-keyword">say</span> <span class="syn-string">"The answer is: "</span> <span class="syn-op">+</span> <span class="syn-number">42</span></pre></div>
+
+                <h3>Input with <span class="docs-inline-code">ask</span></h3>
+                <p>The <span class="docs-inline-code">ask</span> keyword prompts the user for input and returns a text value.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">name</span> <span class="syn-op">=</span> <span class="syn-builtin">ask</span> <span class="syn-string">"What is your name? "</span>
+<span class="syn-keyword">say</span> <span class="syn-string">"Hello, "</span> <span class="syn-op">+</span> <span class="syn-var">name</span></pre></div>
+
+                <div class="docs-note">The <span class="docs-inline-code">ask</span> keyword always returns text. Use <span class="docs-inline-code">number()</span> to convert it to a number: <span class="docs-inline-code">remember age = number(ask "Age? ")</span></div>
+            </section>
+
+            <!-- Control Flow -->
+            <section class="docs-section" id="control-flow">
+                <h2>Control Flow</h2>
+
+                <h3>if / otherwise if / otherwise</h3>
+                <p>Conditional branching uses <span class="docs-inline-code">if</span>, <span class="docs-inline-code">otherwise if</span>, and <span class="docs-inline-code">otherwise</span>. Each block is indented.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">score</span> <span class="syn-op">=</span> <span class="syn-number">85</span>
+
+<span class="syn-keyword">if</span> <span class="syn-var">score</span> <span class="syn-op">>=</span> <span class="syn-number">90</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"Excellent!"</span>
+<span class="syn-keyword">otherwise if</span> <span class="syn-var">score</span> <span class="syn-op">>=</span> <span class="syn-number">70</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"Good job!"</span>
+<span class="syn-keyword">otherwise</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"Keep trying!"</span></pre></div>
+
+                <h3>Comparison operators</h3>
+                <ul>
+                    <li><span class="docs-inline-code">is</span> or <span class="docs-inline-code">==</span> — equality</li>
+                    <li><span class="docs-inline-code">is not</span> or <span class="docs-inline-code">!=</span> — inequality</li>
+                    <li><span class="docs-inline-code">&gt;</span>, <span class="docs-inline-code">&lt;</span>, <span class="docs-inline-code">&gt;=</span>, <span class="docs-inline-code">&lt;=</span> — numeric comparisons</li>
+                    <li><span class="docs-inline-code">and</span>, <span class="docs-inline-code">or</span>, <span class="docs-inline-code">not</span> — logical operators</li>
+                </ul>
+
+                <h3>repeat</h3>
+                <p>Run a block a fixed number of times:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">repeat</span> <span class="syn-number">5</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"ILMA is fun!"</span></pre></div>
+
+                <h3>while</h3>
+                <p>Loop while a condition is true:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">count</span> <span class="syn-op">=</span> <span class="syn-number">0</span>
+<span class="syn-keyword">while</span> <span class="syn-var">count</span> <span class="syn-op">&lt;</span> <span class="syn-number">3</span>:
+    <span class="syn-keyword">say</span> <span class="syn-var">count</span>
+    <span class="syn-var">count</span> <span class="syn-op">=</span> <span class="syn-var">count</span> <span class="syn-op">+</span> <span class="syn-number">1</span></pre></div>
+
+                <h3>for each</h3>
+                <p>Iterate over items in a bag or characters in text:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">colors</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[<span class="syn-string">"red"</span>, <span class="syn-string">"green"</span>, <span class="syn-string">"blue"</span>]
+<span class="syn-keyword">for each</span> <span class="syn-var">color</span> <span class="syn-keyword">in</span> <span class="syn-var">colors</span>:
+    <span class="syn-keyword">say</span> <span class="syn-var">color</span></pre></div>
+
+                <h3>stop and skip</h3>
+                <p>Use <span class="docs-inline-code">stop</span> to break out of a loop and <span class="docs-inline-code">skip</span> to jump to the next iteration:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">repeat</span> <span class="syn-number">10</span>:
+    <span class="syn-keyword">if</span> <span class="syn-var">i</span> <span class="syn-op">==</span> <span class="syn-number">5</span>:
+        <span class="syn-keyword">stop</span>
+    <span class="syn-keyword">say</span> <span class="syn-var">i</span></pre></div>
+            </section>
+
+            <!-- Functions -->
+            <section class="docs-section" id="functions">
+                <h2>Functions (Recipes)</h2>
+                <p>Functions are called "recipes" in ILMA. Define them with <span class="docs-inline-code">recipe</span> and return values with <span class="docs-inline-code">give back</span>.</p>
+
+                <h3>Defining a recipe</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">recipe</span> <span class="syn-func">greet</span>(<span class="syn-var">name</span>):
+    <span class="syn-keyword">say</span> <span class="syn-string">"Salaam, "</span> <span class="syn-op">+</span> <span class="syn-var">name</span>
+
+<span class="syn-func">greet</span>(<span class="syn-string">"Amira"</span>)   <span class="syn-comment"># prints: Salaam, Amira</span></pre></div>
+
+                <h3>Returning values</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">recipe</span> <span class="syn-func">add</span>(<span class="syn-var">a</span>, <span class="syn-var">b</span>):
+    <span class="syn-keyword">give back</span> <span class="syn-var">a</span> <span class="syn-op">+</span> <span class="syn-var">b</span>
+
+<span class="syn-keyword">remember</span> <span class="syn-var">sum</span> <span class="syn-op">=</span> <span class="syn-func">add</span>(<span class="syn-number">3</span>, <span class="syn-number">7</span>)
+<span class="syn-keyword">say</span> <span class="syn-var">sum</span>   <span class="syn-comment"># prints: 10</span></pre></div>
+
+                <h3>Multiple parameters</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">recipe</span> <span class="syn-func">calculate_area</span>(<span class="syn-var">width</span>, <span class="syn-var">height</span>):
+    <span class="syn-keyword">give back</span> <span class="syn-var">width</span> <span class="syn-op">*</span> <span class="syn-var">height</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">calculate_area</span>(<span class="syn-number">5</span>, <span class="syn-number">10</span>)   <span class="syn-comment"># prints: 50</span></pre></div>
+
+                <div class="docs-note">Recipes must be defined before they are called. ILMA does not hoist function definitions.</div>
+            </section>
+
+            <!-- Collections -->
+            <section class="docs-section" id="collections">
+                <h2>Collections</h2>
+
+                <h3>Bags (Lists)</h3>
+                <p>A bag is an ordered collection of items. Create one with <span class="docs-inline-code">bag[...]</span>.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">fruits</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[<span class="syn-string">"apple"</span>, <span class="syn-string">"banana"</span>, <span class="syn-string">"cherry"</span>]
+<span class="syn-keyword">say</span> <span class="syn-var">fruits</span>[<span class="syn-number">0</span>]       <span class="syn-comment"># prints: apple</span>
+<span class="syn-keyword">say</span> <span class="syn-var">fruits</span>.<span class="syn-func">length</span>   <span class="syn-comment"># prints: 3</span></pre></div>
+
+                <h3>Notebooks (Dictionaries)</h3>
+                <p>A notebook is a collection of key-value pairs. Create one with <span class="docs-inline-code">notebook{...}</span>.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">student</span> <span class="syn-op">=</span> <span class="syn-keyword">notebook</span>{<span class="syn-string">"name"</span>: <span class="syn-string">"Ali"</span>, <span class="syn-string">"age"</span>: <span class="syn-number">12</span>}
+<span class="syn-keyword">say</span> <span class="syn-var">student</span>[<span class="syn-string">"name"</span>]   <span class="syn-comment"># prints: Ali</span></pre></div>
+
+                <h3>Nested collections</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">classroom</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[
+    <span class="syn-keyword">notebook</span>{<span class="syn-string">"name"</span>: <span class="syn-string">"Ali"</span>, <span class="syn-string">"grade"</span>: <span class="syn-string">"A"</span>},
+    <span class="syn-keyword">notebook</span>{<span class="syn-string">"name"</span>: <span class="syn-string">"Sara"</span>, <span class="syn-string">"grade"</span>: <span class="syn-string">"B"</span>}
+]</pre></div>
+            </section>
+
+            <!-- Blueprints -->
+            <section class="docs-section" id="blueprints">
+                <h2>Blueprints (Classes)</h2>
+                <p>Blueprints define reusable templates for objects. They support constructors, methods, and inheritance.</p>
+
+                <h3>Basic blueprint</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">blueprint</span> <span class="syn-func">Animal</span>:
+    <span class="syn-func">create</span>(<span class="syn-var">name</span>, <span class="syn-var">sound</span>):
+        <span class="syn-var">me.name</span> <span class="syn-op">=</span> <span class="syn-var">name</span>
+        <span class="syn-var">me.sound</span> <span class="syn-op">=</span> <span class="syn-var">sound</span>
+
+    <span class="syn-keyword">recipe</span> <span class="syn-func">speak</span>():
+        <span class="syn-keyword">say</span> <span class="syn-var">me.name</span> <span class="syn-op">+</span> <span class="syn-string">" says "</span> <span class="syn-op">+</span> <span class="syn-var">me.sound</span>
+
+<span class="syn-keyword">remember</span> <span class="syn-var">cat</span> <span class="syn-op">=</span> <span class="syn-func">Animal</span>(<span class="syn-string">"Whiskers"</span>, <span class="syn-string">"Meow"</span>)
+<span class="syn-var">cat</span>.<span class="syn-func">speak</span>()   <span class="syn-comment"># prints: Whiskers says Meow</span></pre></div>
+
+                <h3>Inheritance</h3>
+                <p>Use <span class="docs-inline-code">inherits</span> to create a blueprint that extends another:</p>
+                <div class="docs-code"><pre><span class="syn-keyword">blueprint</span> <span class="syn-func">Cat</span> <span class="syn-keyword">inherits</span> <span class="syn-func">Animal</span>:
+    <span class="syn-func">create</span>(<span class="syn-var">name</span>):
+        <span class="syn-var">me.name</span> <span class="syn-op">=</span> <span class="syn-var">name</span>
+        <span class="syn-var">me.sound</span> <span class="syn-op">=</span> <span class="syn-string">"Meow"</span>
+
+    <span class="syn-keyword">recipe</span> <span class="syn-func">purr</span>():
+        <span class="syn-keyword">say</span> <span class="syn-var">me.name</span> <span class="syn-op">+</span> <span class="syn-string">" purrs..."</span>
+
+<span class="syn-keyword">remember</span> <span class="syn-var">kitty</span> <span class="syn-op">=</span> <span class="syn-func">Cat</span>(<span class="syn-string">"Luna"</span>)
+<span class="syn-var">kitty</span>.<span class="syn-func">speak</span>()   <span class="syn-comment"># inherited: Luna says Meow</span>
+<span class="syn-var">kitty</span>.<span class="syn-func">purr</span>()    <span class="syn-comment"># Luna purrs...</span></pre></div>
+
+                <div class="docs-note">The <span class="docs-inline-code">me</span> keyword inside a blueprint always refers to the current instance, like <span class="docs-inline-code">self</span> in Python or <span class="docs-inline-code">this</span> in JavaScript.</div>
+            </section>
+
+            <!-- Error Handling -->
+            <section class="docs-section" id="error-handling">
+                <h2>Error Handling</h2>
+                <p>Use <span class="docs-inline-code">try</span> and <span class="docs-inline-code">when wrong</span> to catch and handle errors gracefully.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">try</span>:
+    <span class="syn-keyword">remember</span> <span class="syn-var">result</span> <span class="syn-op">=</span> <span class="syn-number">10</span> <span class="syn-op">/</span> <span class="syn-number">0</span>
+<span class="syn-keyword">when wrong</span> <span class="syn-var">error</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"Something went wrong: "</span> <span class="syn-op">+</span> <span class="syn-var">error</span></pre></div>
+
+                <p>The <span class="docs-inline-code">when wrong</span> block receives a variable containing the error message. You can name it anything you want.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">try</span>:
+    <span class="syn-keyword">remember</span> <span class="syn-var">data</span> <span class="syn-op">=</span> <span class="syn-builtin">read_file</span>(<span class="syn-string">"data.txt"</span>)
+    <span class="syn-keyword">say</span> <span class="syn-var">data</span>
+<span class="syn-keyword">when wrong</span> <span class="syn-var">e</span>:
+    <span class="syn-keyword">say</span> <span class="syn-string">"Could not read file"</span></pre></div>
+            </section>
+
+            <!-- Modules -->
+            <section class="docs-section" id="modules">
+                <h2>Modules</h2>
+                <p>ILMA ships with built-in knowledge modules. Import them with <span class="docs-inline-code">use</span>.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">finance</span>
+<span class="syn-keyword">use</span> <span class="syn-var">science</span></pre></div>
+
+                <h3>finance</h3>
+                <p>Financial calculations for teaching money management.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">finance</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">finance.zakat</span>(<span class="syn-number">10000</span>)           <span class="syn-comment"># 250</span>
+<span class="syn-keyword">say</span> <span class="syn-func">finance.compound</span>(<span class="syn-number">1000</span>, <span class="syn-number">0.05</span>, <span class="syn-number">10</span>) <span class="syn-comment"># compound interest</span>
+<span class="syn-keyword">say</span> <span class="syn-func">finance.profit_margin</span>(<span class="syn-number">50</span>, <span class="syn-number">80</span>)  <span class="syn-comment"># profit margin %</span></pre></div>
+
+                <h3>time</h3>
+                <p>Date and calendar operations including Hijri calendar.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">time</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">time.today</span>()        <span class="syn-comment"># current Gregorian date</span>
+<span class="syn-keyword">say</span> <span class="syn-func">time.hijri_today</span>()  <span class="syn-comment"># current Hijri date</span></pre></div>
+
+                <h3>quran</h3>
+                <p>Search and read Quran verses.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">quran</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">quran.ayah</span>(<span class="syn-number">1</span>, <span class="syn-number">1</span>)           <span class="syn-comment"># Al-Fatiha, verse 1</span>
+<span class="syn-keyword">say</span> <span class="syn-func">quran.search</span>(<span class="syn-string">"mercy"</span>)      <span class="syn-comment"># search for keyword</span></pre></div>
+
+                <h3>science</h3>
+                <p>Physics and science formulas.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">science</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">science.gravity</span>(<span class="syn-number">10</span>)         <span class="syn-comment"># weight from mass</span>
+<span class="syn-keyword">say</span> <span class="syn-func">science.celsius_to_f</span>(<span class="syn-number">100</span>)  <span class="syn-comment"># 212</span>
+<span class="syn-keyword">say</span> <span class="syn-func">science.kinetic</span>(<span class="syn-number">5</span>, <span class="syn-number">10</span>)     <span class="syn-comment"># kinetic energy</span></pre></div>
+
+                <h3>body</h3>
+                <p>Health and fitness calculations.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">body</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">body.bmi</span>(<span class="syn-number">70</span>, <span class="syn-number">1.75</span>)     <span class="syn-comment"># BMI calculation</span>
+<span class="syn-keyword">say</span> <span class="syn-func">body.water</span>(<span class="syn-number">70</span>)         <span class="syn-comment"># daily water intake (ml)</span></pre></div>
+
+                <h3>trade</h3>
+                <p>Commerce and business calculations.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">trade</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">trade.profit</span>(<span class="syn-number">50</span>, <span class="syn-number">80</span>)    <span class="syn-comment"># profit amount</span>
+<span class="syn-keyword">say</span> <span class="syn-func">trade.loss</span>(<span class="syn-number">80</span>, <span class="syn-number">50</span>)      <span class="syn-comment"># loss amount</span></pre></div>
+
+                <h3>number</h3>
+                <p>Number systems and mathematical sequences.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">number</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">number.to_binary</span>(<span class="syn-number">42</span>)    <span class="syn-comment"># "101010"</span>
+<span class="syn-keyword">say</span> <span class="syn-func">number.to_roman</span>(<span class="syn-number">2024</span>)   <span class="syn-comment"># "MMXXIV"</span>
+<span class="syn-keyword">say</span> <span class="syn-func">number.is_prime</span>(<span class="syn-number">17</span>)     <span class="syn-comment"># yes</span>
+<span class="syn-keyword">say</span> <span class="syn-func">number.fibonacci</span>(<span class="syn-number">10</span>)    <span class="syn-comment"># 55</span></pre></div>
+
+                <h3>think</h3>
+                <p>Critical thinking and reflection prompts.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">think</span>
+
+<span class="syn-keyword">say</span> <span class="syn-func">think.reflect</span>()     <span class="syn-comment"># random reflection question</span>
+<span class="syn-keyword">say</span> <span class="syn-func">think.decide</span>(<span class="syn-keyword">bag</span>[<span class="syn-string">"study"</span>, <span class="syn-string">"play"</span>, <span class="syn-string">"rest"</span>])</pre></div>
+
+                <h3>draw</h3>
+                <p>Canvas graphics and geometric patterns.</p>
+                <div class="docs-code"><pre><span class="syn-keyword">use</span> <span class="syn-var">draw</span>
+
+<span class="syn-func">draw.circle</span>(<span class="syn-number">100</span>, <span class="syn-number">100</span>, <span class="syn-number">50</span>)     <span class="syn-comment"># circle at (100,100) radius 50</span>
+<span class="syn-func">draw.star</span>(<span class="syn-number">200</span>, <span class="syn-number">200</span>, <span class="syn-number">8</span>)        <span class="syn-comment"># 8-pointed star</span>
+<span class="syn-func">draw.pattern</span>(<span class="syn-string">"islamic_tile"</span>)  <span class="syn-comment"># geometric pattern</span></pre></div>
+            </section>
+
+            <!-- String Methods -->
+            <section class="docs-section" id="string-methods">
+                <h2>String Methods</h2>
+                <p>Text values have built-in methods for manipulation.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">text</span> <span class="syn-op">=</span> <span class="syn-string">"Hello, World!"</span>
+
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">length</span>          <span class="syn-comment"># 13</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">upper</span>()         <span class="syn-comment"># "HELLO, WORLD!"</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">lower</span>()         <span class="syn-comment"># "hello, world!"</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">contains</span>(<span class="syn-string">"World"</span>) <span class="syn-comment"># yes</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">replace</span>(<span class="syn-string">"World"</span>, <span class="syn-string">"ILMA"</span>) <span class="syn-comment"># "Hello, ILMA!"</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">split</span>(<span class="syn-string">", "</span>)     <span class="syn-comment"># bag["Hello", "World!"]</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">trim</span>()          <span class="syn-comment"># removes leading/trailing spaces</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">starts_with</span>(<span class="syn-string">"He"</span>) <span class="syn-comment"># yes</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">ends_with</span>(<span class="syn-string">"!"</span>)  <span class="syn-comment"># yes</span>
+<span class="syn-keyword">say</span> <span class="syn-var">text</span>.<span class="syn-func">slice</span>(<span class="syn-number">0</span>, <span class="syn-number">5</span>)     <span class="syn-comment"># "Hello"</span></pre></div>
+
+                <div class="docs-note">String methods do not modify the original string. They return a new string.</div>
+            </section>
+
+            <!-- Bag Methods -->
+            <section class="docs-section" id="bag-methods">
+                <h2>Bag Methods</h2>
+                <p>Bags (lists) have built-in methods for adding, removing, and transforming items.</p>
+
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">items</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[<span class="syn-string">"apple"</span>, <span class="syn-string">"banana"</span>]
+
+<span class="syn-var">items</span>.<span class="syn-func">add</span>(<span class="syn-string">"cherry"</span>)        <span class="syn-comment"># append to end</span>
+<span class="syn-var">items</span>.<span class="syn-func">remove</span>(<span class="syn-string">"banana"</span>)     <span class="syn-comment"># remove first match</span>
+<span class="syn-keyword">say</span> <span class="syn-var">items</span>.<span class="syn-func">length</span>            <span class="syn-comment"># 2</span>
+<span class="syn-keyword">say</span> <span class="syn-var">items</span>.<span class="syn-func">contains</span>(<span class="syn-string">"apple"</span>) <span class="syn-comment"># yes</span>
+<span class="syn-keyword">say</span> <span class="syn-var">items</span>.<span class="syn-func">index_of</span>(<span class="syn-string">"apple"</span>) <span class="syn-comment"># 0</span></pre></div>
+
+                <h3>Sorting and reversing</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">nums</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[<span class="syn-number">3</span>, <span class="syn-number">1</span>, <span class="syn-number">4</span>, <span class="syn-number">1</span>, <span class="syn-number">5</span>]
+
+<span class="syn-keyword">say</span> <span class="syn-var">nums</span>.<span class="syn-func">sort</span>()      <span class="syn-comment"># bag[1, 1, 3, 4, 5]</span>
+<span class="syn-keyword">say</span> <span class="syn-var">nums</span>.<span class="syn-func">reverse</span>()   <span class="syn-comment"># bag[5, 4, 3, 1, 1]</span>
+<span class="syn-keyword">say</span> <span class="syn-var">nums</span>.<span class="syn-func">join</span>(<span class="syn-string">", "</span>) <span class="syn-comment"># "3, 1, 4, 1, 5"</span></pre></div>
+
+                <h3>Slicing</h3>
+                <div class="docs-code"><pre><span class="syn-keyword">remember</span> <span class="syn-var">letters</span> <span class="syn-op">=</span> <span class="syn-keyword">bag</span>[<span class="syn-string">"a"</span>, <span class="syn-string">"b"</span>, <span class="syn-string">"c"</span>, <span class="syn-string">"d"</span>, <span class="syn-string">"e"</span>]
+<span class="syn-keyword">say</span> <span class="syn-var">letters</span>.<span class="syn-func">slice</span>(<span class="syn-number">1</span>, <span class="syn-number">3</span>)  <span class="syn-comment"># bag["b", "c"]</span>
+<span class="syn-keyword">say</span> <span class="syn-var">letters</span>.<span class="syn-func">first</span>()     <span class="syn-comment"># "a"</span>
+<span class="syn-keyword">say</span> <span class="syn-var">letters</span>.<span class="syn-func">last</span>()      <span class="syn-comment"># "e"</span></pre></div>
+
+                <div class="docs-note">Most bag methods modify the bag in place. Methods like <span class="docs-inline-code">sort()</span>, <span class="docs-inline-code">reverse()</span>, and <span class="docs-inline-code">slice()</span> return a new bag.</div>
+            </section>
+
+        </main>
+    </div>
+</div>
+
+<!-- Sidebar toggle for mobile -->
+<button class="docs-sidebar-toggle" aria-label="Toggle sidebar">&#9776;</button>
+
+<!-- ═══════════ Footer ═══════════ -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>ILMA</h4>
+                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
+            </div>
+            <div>
+                <h4>Links</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
+                    <li><a href="install.html">Install</a></li>
+                    <li><a href="docs.html">Docs</a></li>
+                    <li><a href="index.html#playground">Playground</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>Community</h4>
+                <ul>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
+                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Made with ILMA</span>
+            <span>&copy; 2026 ILMA Programming Language</span>
+        </div>
+    </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>

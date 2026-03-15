@@ -1,12 +1,12 @@
 # Homebrew formula for ILMA
 # Submit this to homebrew-core or host your own tap:
-#   brew tap ilmalang/ilma https://github.com/raihan-js/homebrew-ilma
+#   brew tap ilmalang/ilma https://github.com/raihan-js/homebrew-ilma-lang
 #   brew install ilma
 
 class Ilma < Formula
   desc "A programming language for children and lifelong learners"
   homepage "https://ilmalang.dev"
-  url "https://github.com/raihan-js/ilma/archive/refs/tags/v0.1.0.tar.gz"
+  url "https://github.com/raihan-js/ilma-lang/archive/refs/tags/v0.1.0.tar.gz"
   # sha256 — fill this in after publishing v0.1.0:
   # Run: shasum -a 256 ilma-0.1.0.tar.gz
   sha256 "FILL_IN_AFTER_RELEASE"

@@ -27,33 +27,39 @@ repeat 3:
 
 ## Quick Start
 
-### Docker (recommended)
+### Install (one command)
+
+```bash
+curl -fsSL https://ilmalang.dev/install.sh | bash
+```
+
+### Or with Homebrew (macOS)
+
+```bash
+brew install ilmalang/ilma/ilma
+```
+
+### Or from source
+
+```bash
+git clone https://github.com/raihan-js/ilma-lang
+cd ilma-lang && make && sudo make install
+```
+
+### Or with Docker
 
 ```bash
 docker compose up -d
 # Open http://localhost:3000
 ```
 
-### From source
+### Run a program
 
 ```bash
-# Build the compiler
-make
-
-# Run an ILMA program
-./build/ilma program.ilma
-
-# Run tests
-make test
-```
-
-### CLI options
-
-```bash
-./build/ilma program.ilma          # compile and run
-./build/ilma --c program.ilma      # show generated C
-./build/ilma --tokens program.ilma # show lexer tokens
-./build/ilma --compile program.ilma # compile to binary only
+ilma program.ilma                  # compile and run
+ilma --c program.ilma              # show generated C
+ilma --tokens program.ilma         # show lexer tokens
+ilma --compile program.ilma        # compile to binary only
 ```
 
 ## The Three Tiers
@@ -149,6 +155,38 @@ The web platform at `web/` includes:
 - Teacher dashboard with progress tracking and CSV export
 - PWA offline support
 - Program sharing via URL
+
+## Build a Web Server
+
+With **IlmaWeb**, you can build web applications entirely in ILMA:
+
+```
+use web
+
+web.route("/"):
+    give back web.html("<h1>Hello from IlmaWeb!</h1>")
+
+web.route("/greet"):
+    remember name = web.query("name")
+    give back web.html("<h1>Salaam, " + name + "!</h1>")
+
+web.route("/api/status"):
+    remember data = notebook["status": "running", "language": "ILMA"]
+    give back web.json(data)
+
+web.start(port: 3000)
+```
+
+See the [IlmaWeb Framework](frameworks/ilma-web/) for the full guide.
+
+## Ecosystem
+
+| Project | Description |
+|---------|-------------|
+| [ilmalang.dev](https://ilmalang.dev) | Official website — docs, playground, install guide |
+| [VS Code Extension](vscode-extension/) | Syntax highlighting, snippets, and run command for VS Code |
+| [IlmaWeb Framework](frameworks/ilma-web/) | Build web servers and APIs entirely in ILMA |
+| [Web IDE](web/) | In-browser Monaco editor with 30 lessons and Socratic tutor |
 
 ## The Name
 

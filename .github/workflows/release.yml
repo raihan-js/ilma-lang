@@ -74,12 +74,19 @@ jobs:
       - uses: actions/checkout@v4
 
       - name: Build x86_64
-        run: make all CFLAGS="-O2 -Wall -Wextra -Wno-unused-parameter -std=c99 -target x86_64-apple-macos11"
-      - run: mv build/ilma build/ilma-x86_64
+        run: |
+          mkdir -p build
+          gcc -O2 -Wall -Wno-unused-parameter -Wno-unused-function -std=c11 -D_POSIX_C_SOURCE=200809L \
+            -target x86_64-apple-macos11 \
+            -o build/ilma-x86_64 src/main.c src/lexer.c src/ast.c src/parser.c src/codegen.c src/runtime/ilma_runtime.c \
+            -Isrc/runtime -lm
 
       - name: Build arm64
-        run: make clean && make all CFLAGS="-O2 -Wall -Wextra -Wno-unused-parameter -std=c99 -target arm64-apple-macos11"
-      - run: mv build/ilma build/ilma-arm64
+        run: |
+          gcc -O2 -Wall -Wno-unused-parameter -Wno-unused-function -std=c11 -D_POSIX_C_SOURCE=200809L \
+            -target arm64-apple-macos11 \
+            -o build/ilma-arm64 src/main.c src/lexer.c src/ast.c src/parser.c src/codegen.c src/runtime/ilma_runtime.c \
+            -Isrc/runtime -lm
 
       - name: Create universal binary
         run: lipo -create build/ilma-x86_64 build/ilma-arm64 -output build/ilma
@@ -120,7 +127,8 @@ jobs:
           VERSION=${GITHUB_REF_NAME#v}
           DIST="ilma-${VERSION}-windows-x86_64"
           mkdir -p "$DIST/bin" "$DIST/lib/ilma/runtime"
-          cp build/ilma "$DIST/bin/ilma.exe"
+          # MinGW auto-appends .exe
+          cp build/ilma.exe "$DIST/bin/ilma.exe" 2>/dev/null || cp build/ilma "$DIST/bin/ilma.exe"
           cp src/runtime/ilma_runtime.c src/runtime/ilma_runtime.h "$DIST/lib/ilma/runtime/"
           cp README.md LICENSE VERSION "$DIST/"
           zip -r "${DIST}.zip" "$DIST"
@@ -160,8 +168,8 @@ jobs:
 
           **Build from source:**
           \`\`\`bash
-          git clone https://github.com/raihan-js/ilma
-          cd ilma && make && sudo make install
+          git clone https://github.com/raihan-js/ilma-lang
+          cd ilma-lang && make && sudo make install
           \`\`\`
 
           ## Downloads

@@ -1,0 +1,110 @@
+{
+  "name": "ilma-language",
+  "displayName": "ILMA Language",
+  "description": "ILMA programming language support — syntax highlighting, snippets, and run commands",
+  "version": "0.1.0",
+  "publisher": "ilmalang",
+  "engines": {
+    "vscode": "^1.85.0"
+  },
+  "categories": [
+    "Programming Languages",
+    "Snippets"
+  ],
+  "icon": "images/ilma-icon.png",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/raihan-js/ilma-lang"
+  },
+  "homepage": "https://ilmalang.dev",
+  "license": "MIT",
+  "keywords": [
+    "ilma",
+    "programming language",
+    "kids",
+    "education",
+    "syntax highlighting"
+  ],
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:ilma"
+  ],
+  "contributes": {
+    "languages": [
+      {
+        "id": "ilma",
+        "aliases": [
+          "ILMA",
+          "ilma"
+        ],
+        "extensions": [
+          ".ilma"
+        ],
+        "configuration": "./language-configuration.json",
+        "icon": {
+          "light": "./images/ilma-icon.svg",
+          "dark": "./images/ilma-icon.svg"
+        }
+      }
+    ],
+    "grammars": [
+      {
+        "language": "ilma",
+        "scopeName": "source.ilma",
+        "path": "./syntaxes/ilma.tmLanguage.json"
+      }
+    ],
+    "snippets": [
+      {
+        "language": "ilma",
+        "path": "./snippets/ilma.json"
+      }
+    ],
+    "commands": [
+      {
+        "command": "ilma.runFile",
+        "title": "Run ILMA File",
+        "category": "ILMA",
+        "icon": "$(play)"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "ilma.runFile",
+        "key": "ctrl+f5",
+        "mac": "cmd+f5",
+        "when": "editorLangId == ilma"
+      }
+    ],
+    "menus": {
+      "editor/title/run": [
+        {
+          "command": "ilma.runFile",
+          "when": "editorLangId == ilma",
+          "group": "navigation"
+        }
+      ],
+      "editor/context": [
+        {
+          "command": "ilma.runFile",
+          "when": "editorLangId == ilma",
+          "group": "1_run"
+        }
+      ]
+    }
+  },
+  "scripts": {
+    "compile": "node esbuild.js",
+    "watch": "node esbuild.js --watch",
+    "package": "vsce package",
+    "lint": "eslint src --ext ts",
+    "prepackage": "npm run compile"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0",
+    "@types/vscode": "^1.85.0",
+    "esbuild": "^0.20.0",
+    "typescript": "^5.3.0",
+    "@vscode/vsce": "^2.22.0"
+  }
+}

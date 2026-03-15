@@ -1,0 +1,83 @@
+# ═══════════════════════════════════════════════════════════
+# IlmaWeb — Build web applications in ILMA
+# ═══════════════════════════════════════════════════════════
+#
+# This is the standard library module that ILMA programmers import
+# with "use web".  It provides a simple, expressive API for building
+# web servers entirely in ILMA.
+#
+# ── Quick start ────────────────────────────────────────────
+#
+#   use web
+#
+#   web.route("/"):
+#       give back web.html("<h1>Hello!</h1>")
+#
+#   web.start(port: 3000)
+#
+# ── Available functions ────────────────────────────────────
+#
+# SERVER SETUP
+# ─────────────
+#   web.route(path)          Register a route handler for the given path.
+#                            The indented block below is the handler body.
+#                            It receives the request implicitly and must
+#                            "give back" a response.
+#
+#   web.start(port: N)       Start the HTTP server on port N.
+#                            This blocks forever, listening for requests.
+#
+# REQUEST DATA
+# ─────────────
+#   web.query(key)           Get a query parameter by name.
+#                            Example: /greet?name=Zayd  ->  web.query("name") = "Zayd"
+#                            Returns empty if the parameter is missing.
+#
+#   web.body()               Get the raw request body as text.
+#                            Useful for POST requests with JSON payloads.
+#
+#   web.header(key)          Get a request header value by name.
+#                            Example: web.header("Content-Type")
+#
+#   web.method()             Get the HTTP method (GET, POST, etc.) as text.
+#
+#   web.path()               Get the request path as text.
+#
+# RESPONSE BUILDERS
+# ──────────────────
+#   web.html(content)        Create an HTML response (status 200).
+#                            content should be a text value containing HTML.
+#
+#   web.json(data)           Create a JSON response (status 200).
+#                            data can be a notebook, bag, text, whole,
+#                            decimal, truth, or empty value.  Notebooks
+#                            become JSON objects, bags become arrays.
+#
+#   web.text(content)        Create a plain text response (status 200).
+#
+# ── Full example ───────────────────────────────────────────
+
+use web
+
+# Home page — serves HTML
+web.route("/"):
+    give back web.html("<h1>Hello from IlmaWeb!</h1>")
+
+# Greeting page with a query parameter
+web.route("/greet"):
+    remember name = web.query("name")
+    if name is empty:
+        remember name = "friend"
+    give back web.html("<h1>Salaam, " + name + "!</h1>")
+
+# JSON API endpoint using a notebook
+web.route("/api/data"):
+    remember data = notebook["message": "Hello", "status": "ok"]
+    give back web.json(data)
+
+# Plain text endpoint
+web.route("/plain"):
+    give back web.text("This is plain text from IlmaWeb.")
+
+# Start the server on port 3000
+web.start(port: 3000)

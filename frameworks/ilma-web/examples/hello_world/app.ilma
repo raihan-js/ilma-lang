@@ -1,0 +1,38 @@
+# ═══════════════════════════════════════════════════════════
+# IlmaWeb Hello World — A complete web application in ILMA
+# ═══════════════════════════════════════════════════════════
+#
+# Run this app and visit http://localhost:3000 in your browser.
+# It demonstrates routes, query parameters, JSON APIs, and HTML pages.
+
+use web
+
+# Home page — links to all the other pages
+web.route("/"):
+    give back web.html("<html><body><h1>Welcome to IlmaWeb!</h1><p>Built entirely in ILMA.</p><ul><li><a href='/about'>About</a></li><li><a href='/greet?name=World'>Greet</a></li><li><a href='/api/status'>API Status</a></li><li><a href='/calculate?a=5&b=3&op=add'>Calculator</a></li></ul></body></html>")
+
+# About page
+web.route("/about"):
+    give back web.html("<html><body><h1>About IlmaWeb</h1><p>IlmaWeb is the first web framework written in ILMA, a programming language built for children that compiles to C.</p><a href='/'>Back home</a></body></html>")
+
+# Greeting with query parameter
+web.route("/greet"):
+    remember name = web.query("name")
+    if name is empty:
+        remember name = "friend"
+    give back web.html("<html><body><h1>Assalamu Alaikum, " + name + "!</h1><p>Welcome to IlmaWeb.</p><a href='/'>Back home</a></body></html>")
+
+# JSON API endpoint
+web.route("/api/status"):
+    remember status = notebook["server": "IlmaWeb", "version": "0.1.0", "status": "running", "language": "ILMA"]
+    give back web.json(status)
+
+# Calculator endpoint with query params
+web.route("/calculate"):
+    remember a_str = web.query("a")
+    remember b_str = web.query("b")
+    remember op = web.query("op")
+    remember result = notebook["a": a_str, "b": b_str, "operation": op, "result": "use ?a=5&b=3&op=add"]
+    give back web.json(result)
+
+web.start(port: 3000)

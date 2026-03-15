@@ -1,0 +1,102 @@
+{
+  "Hello World": {
+    "prefix": "hello",
+    "body": [
+      "say \"Bismillah\"",
+      "remember name = ask \"What is your name? \"",
+      "say \"Assalamu Alaikum, \" + name"
+    ],
+    "description": "ILMA Hello World program"
+  },
+  "Recipe (Function)": {
+    "prefix": "recipe",
+    "body": [
+      "recipe ${1:name}(${2:params}):",
+      "\t${3:# your code}",
+      "\tgive back ${4:result}"
+    ],
+    "description": "Define a recipe (function)"
+  },
+  "Blueprint (Class)": {
+    "prefix": "blueprint",
+    "body": [
+      "blueprint ${1:Name}:",
+      "\tcreate(${2:params}):",
+      "\t\tme.${3:field} = ${4:value}",
+      "",
+      "\trecipe ${5:method}(${6:}):",
+      "\t\t${7:# your code}",
+      "\t\tgive back me.${3:field}"
+    ],
+    "description": "Define a blueprint (class) with constructor and method"
+  },
+  "If / Otherwise": {
+    "prefix": "if",
+    "body": [
+      "if ${1:condition}:",
+      "\t${2:# do something}",
+      "otherwise:",
+      "\t${3:# do something else}"
+    ],
+    "description": "If / otherwise conditional block"
+  },
+  "Repeat Loop": {
+    "prefix": "repeat",
+    "body": [
+      "repeat ${1:10}:",
+      "\t${2:# loop body}"
+    ],
+    "description": "Repeat N times loop"
+  },
+  "For Each Loop": {
+    "prefix": "foreach",
+    "body": [
+      "for each ${1:item} in ${2:collection}:",
+      "\t${3:# loop body}"
+    ],
+    "description": "For each item in collection loop"
+  },
+  "While Loop": {
+    "prefix": "while",
+    "body": [
+      "keep going while ${1:condition}:",
+      "\t${2:# loop body}"
+    ],
+    "description": "Keep going while (while loop)"
+  },
+  "Try / When Wrong": {
+    "prefix": "try",
+    "body": [
+      "try:",
+      "\t${1:# risky code}",
+      "when wrong:",
+      "\t${2:# handle error}"
+    ],
+    "description": "Try / when wrong error handling block"
+  },
+  "Use Finance Module": {
+    "prefix": "use-finance",
+    "body": [
+      "use finance",
+      "",
+      "remember principal = ${1:1000}",
+      "remember rate = ${2:5}",
+      "remember years = ${3:10}",
+      "remember result = finance.compound_interest(principal, rate, years)",
+      "say \"After \" + years + \" years: \" + result"
+    ],
+    "description": "Import finance module with compound interest example"
+  },
+  "Use Time Module": {
+    "prefix": "use-time",
+    "body": [
+      "use time",
+      "",
+      "remember now = time.now()",
+      "say \"Current time: \" + now",
+      "time.wait(${1:1000})",
+      "say \"Done waiting!\""
+    ],
+    "description": "Import time module with basic usage example"
+  }
+}
