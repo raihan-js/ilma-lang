@@ -5,7 +5,7 @@
 
 set -e
 
-ILMA_VERSION="0.1.0"
+ILMA_VERSION="0.4.0"
 ILMA_REPO="https://github.com/raihan-js/ilma-lang"
 INSTALL_DIR="/usr/local"
 BIN_DIR="$INSTALL_DIR/bin"
@@ -158,7 +158,7 @@ main() {
     echo ""
     echo "Learn more:"
     echo "  ilma-lang.dev"
-    echo "  github.com/ilmalang/ilma"
+    echo "  github.com/raihan-js/ilma-lang"
     echo ""
 }
 

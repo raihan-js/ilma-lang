@@ -3,7 +3,10 @@ name: Deploy website to GitHub Pages
 on:
   push:
     branches: [ main ]
-    paths: [ 'website/**' ]
+    paths:
+      - 'website/**'
+      - 'install.sh'
+      - 'VERSION'
   workflow_dispatch:
 
 permissions:
@@ -23,6 +26,23 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Copy static assets into website
+        run: |
+          cp install.sh website/install.sh
+          chmod +x website/install.sh
+          sed -i 's/\r//' website/install.sh
+          cp VERSION website/VERSION
+          VERSION=$(cat VERSION | tr -d '[:space:]')
+          cat > website/ilma-version.json << ENDJSON
+          {
+            "version": "${VERSION}",
+            "repo": "https://github.com/raihan-js/ilma-lang",
+            "install": "curl -fsSL https://ilma-lang.dev/install.sh | bash",
+            "website": "https://ilma-lang.dev"
+          }
+          ENDJSON
+
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3
         with:

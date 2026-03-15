@@ -31,3 +31,8 @@ node_modules/
 /tmp/
 plan.docx
 plan/
+
+# Generated at deploy time (copied from root)
+website/install.sh
+website/VERSION
+website/ilma-version.json
