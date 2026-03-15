@@ -1,0 +1,4 @@
+repeat i in 1..5:
+    say i
+repeat j in 10..12:
+    say j * j

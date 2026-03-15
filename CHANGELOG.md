@@ -4,6 +4,40 @@ All notable changes to ILMA are documented here.
 
 ---
 
+## [0.2.0] — 2026
+
+### Added
+
+**Language Features**
+- String interpolation: `say "Hello {name}, you are {age} years old."`
+- Range loops: `repeat i in 1..10:` — iterate over numeric ranges
+- `..` (dotdot) operator in the lexer for range expressions
+
+**Standard Library Modules (C Compiler)**
+- `finance` — `compound()`, `zakat()`, `profit()`, `margin()`, `simple_interest()`
+- `time` — `today_str()`, `to_hijri()` (Gregorian→Hijri conversion), `days_between()`
+- `body` — `bmi()`, `bmi_category()`, `daily_water()`, `sleep_advice()`
+- `think` — `stoic_question()` (12 rotating questions), `pros_cons_new()`, `weigh_result()`
+- `quran` — `ayah_of_the_day()` (30 embedded ayat), `search()`, `surah()`
+
+**Module System**
+- `use module` now emits proper `#include` directives and links module source files
+- Module method calls (`finance.zakat(...)`) compile to `ilma_finance_zakat(...)` C calls
+- Module source files auto-detected and passed to GCC at compile time
+- Install target copies module files to system library path
+
+**Ecosystem**
+- VS Code extension with TextMate grammar, 10 snippets, and run command
+- ilma-lang.dev website with playground, install page, and language reference
+- IlmaWeb framework for building web servers in ILMA
+- ROADMAP.md with versioned milestones
+
+**Tests**
+- 6 new tests: string interpolation, range loops, finance, body, think, quran modules
+- Total: 47 compiler tests (20 Tier 1, 15 Tier 2, 12 Tier 3), all passing
+
+---
+
 ## [0.1.0] — 2025
 
 ### Added
@@ -86,15 +120,4 @@ All notable changes to ILMA are documented here.
 
 ## Roadmap
 
-### [0.2.0] — planned
-- C compiler standard library modules (finance, time, etc.)
-- ILMA → WebAssembly compilation via Emscripten
-- Multi-line strings
-- String interpolation
-- Package manager
-
-### [1.0.0] — planned
-- Stable language specification
-- ILMA Web framework
-- ILMA Mobile compilation target
-- Full documentation site
+See [ROADMAP.md](ROADMAP.md) for the full versioned roadmap.

@@ -19,6 +19,7 @@ typedef enum {
     NODE_ASK_EXPR,
     NODE_BAG_LIT,
     NODE_NOTEBOOK_LIT,
+    NODE_STRING_INTERP,
 
     /* Statements */
     NODE_SAY,
@@ -27,6 +28,7 @@ typedef enum {
     NODE_IF,
     NODE_REPEAT,
     NODE_WHILE,
+    NODE_RANGE_LOOP,
     NODE_FOR_EACH,
     NODE_RECIPE,
     NODE_GIVE_BACK,
@@ -115,6 +117,11 @@ struct ASTNode {
             NodeList values;
         } notebook;
 
+        /* NODE_STRING_INTERP */
+        struct {
+            NodeList parts;  /* alternating string lit and expression nodes */
+        } interp;
+
         /* NODE_SAY */
         struct {
             ASTNode* expr;
@@ -151,6 +158,14 @@ struct ASTNode {
             ASTNode* condition;
             ASTNode* body;
         } while_stmt;
+
+        /* NODE_RANGE_LOOP */
+        struct {
+            char*    var_name;
+            ASTNode* start;
+            ASTNode* end;
+            ASTNode* body;
+        } range_loop;
 
         /* NODE_FOR_EACH */
         struct {

@@ -15,7 +15,7 @@
 - Docker deployment
 - Multi-platform release builds (Linux, macOS, Windows)
 
-## v0.2.0 — Standard Library 🔄
+## v0.2.0 — Standard Library & Language Features ✅
 
 - Port knowledge modules to C compiler (finance, time, quran, science, trade, body, number, think, draw)
 - String interpolation: `say "Hello {name}"`
@@ -33,9 +33,9 @@
 - Go-to-definition, hover docs, auto-complete
 - Error diagnostics in editor
 
-## v0.4.0 — ilmalang.dev 📋
+## v0.4.0 — ilma-lang.dev 📋
 
-- Launch ilmalang.dev with docs, playground, and install page
+- Launch ilma-lang.dev with docs, playground, and install page
 - Interactive playground with in-browser interpreter
 - Full language reference documentation
 - Cross-platform installers (APT PPA, AUR, Scoop, winget)
@@ -65,6 +65,6 @@
 - Full test coverage and security audit
 - Stable API — no breaking changes
 - Comprehensive standard library
-- SaaS learning platform at ilmalang.dev/learn
+- SaaS learning platform at ilma-lang.dev/learn
 - Full-stack framework for production web apps
 - Debugger integration for VS Code

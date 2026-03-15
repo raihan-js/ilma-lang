@@ -11,6 +11,8 @@ typedef struct {
     int   in_recipe;          /* 1 if currently generating inside a recipe */
     int   in_blueprint;       /* 1 if currently generating inside a blueprint method */
     const char* current_bp;   /* current blueprint name when in_blueprint */
+    char* used_modules[16];   /* module names from 'use' statements */
+    int   used_module_count;
 } CodeGen;
 
 void codegen_init(CodeGen* cg, FILE* out);

@@ -1,0 +1,7 @@
+use finance
+remember result = finance.compound(1000, 0.05, 10)
+say result
+remember zakat = finance.zakat(5000, 595)
+say zakat
+remember profit = finance.profit(200, 340)
+say profit

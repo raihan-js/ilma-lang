@@ -78,6 +78,55 @@ static ASTNode* parse_primary(Parser* p) {
         return node;
     }
 
+    /* String interpolation: "Hello {name}!" */
+    if (at(p, TOK_STRING_INTERP)) {
+        advance_tok(p);
+        ASTNode* node = ast_new(NODE_STRING_INTERP, t->line);
+        node_list_init(&node->data.interp.parts);
+        const char* raw = t->value;
+        size_t len = strlen(raw);
+        size_t i = 0;
+        while (i < len) {
+            /* Collect literal text until { or end */
+            size_t start = i;
+            while (i < len && raw[i] != '{') i++;
+            if (i > start) {
+                char* lit = malloc(i - start + 1);
+                memcpy(lit, raw + start, i - start);
+                lit[i - start] = '\0';
+                ASTNode* lit_node = ast_new(NODE_STRING_LIT, t->line);
+                lit_node->data.string_val = lit;
+                node_list_add(&node->data.interp.parts, lit_node);
+            }
+            if (i < len && raw[i] == '{') {
+                i++; /* skip { */
+                size_t expr_start = i;
+                int depth = 1;
+                while (i < len && depth > 0) {
+                    if (raw[i] == '{') depth++;
+                    else if (raw[i] == '}') { depth--; if (depth == 0) break; }
+                    i++;
+                }
+                size_t expr_len = i - expr_start;
+                char* expr_text = malloc(expr_len + 1);
+                memcpy(expr_text, raw + expr_start, expr_len);
+                expr_text[expr_len] = '\0';
+                /* Sub-lex and sub-parse the expression */
+                Lexer sub_lexer;
+                lexer_init(&sub_lexer, expr_text);
+                lexer_tokenize(&sub_lexer);
+                Parser sub_parser;
+                parser_init(&sub_parser, sub_lexer.tokens, sub_lexer.token_count);
+                ASTNode* expr = parse_expression(&sub_parser);
+                node_list_add(&node->data.interp.parts, expr);
+                lexer_free(&sub_lexer);
+                free(expr_text);
+                if (i < len) i++; /* skip } */
+            }
+        }
+        return node;
+    }
+
     /* Boolean literals */
     if (at(p, TOK_YES)) {
         advance_tok(p);
@@ -524,9 +573,30 @@ static ASTNode* parse_if(Parser* p) {
 }
 
 /* repeat <expr>:
+       <block>
+   repeat <var> in <start>..<end>:
        <block> */
 static ASTNode* parse_repeat(Parser* p) {
     Token* t = advance_tok(p); /* consume 'repeat' */
+
+    /* Check for range loop: repeat <var> in <start>..<end>: */
+    if (at(p, TOK_IDENT) && peek_tok(p)->type == TOK_IN) {
+        Token* var = advance_tok(p); /* consume variable name */
+        advance_tok(p); /* consume 'in' */
+        ASTNode* start = parse_expression(p);
+        expect(p, TOK_DOTDOT);
+        ASTNode* end = parse_expression(p);
+        expect(p, TOK_COLON);
+        ASTNode* body = parse_block(p);
+        ASTNode* node = ast_new(NODE_RANGE_LOOP, t->line);
+        node->data.range_loop.var_name = strdup(var->value);
+        node->data.range_loop.start = start;
+        node->data.range_loop.end = end;
+        node->data.range_loop.body = body;
+        return node;
+    }
+
+    /* Regular repeat: repeat <count>: */
     ASTNode* node = ast_new(NODE_REPEAT, t->line);
     node->data.repeat.count = parse_expression(p);
     expect(p, TOK_COLON);

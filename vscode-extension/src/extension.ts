@@ -74,7 +74,7 @@ function runIlmaFile(): void {
         term.show(true);
 
         // Run the ILMA file; shell will report "command not found" if ilma is missing
-        term.sendText(`ilma "${filePath}" || echo "\\n[ILMA] If 'ilma' is not found, install it from https://ilmalang.dev/install"`);
+        term.sendText(`ilma "${filePath}" || echo "\\n[ILMA] If 'ilma' is not found, install it from https://ilma-lang.dev/install"`);
     });
 }
 

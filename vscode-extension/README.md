@@ -1,6 +1,6 @@
 # ILMA Language — VS Code Extension
 
-Full language support for the [ILMA programming language](https://ilmalang.dev) in Visual Studio Code.
+Full language support for the [ILMA programming language](https://ilma-lang.dev) in Visual Studio Code.
 
 ILMA is a programming language designed for children ages 3+ that grows with them to adulthood. It uses original English keywords like `say`, `remember`, `recipe`, and `blueprint` to make programming intuitive and accessible.
 
@@ -60,10 +60,10 @@ Or in VS Code: **Extensions** > **...** menu > **Install from VSIX...**
 
 ## Requirements
 
-To run ILMA files, you need the ILMA compiler installed on your system. Install it from [ilmalang.dev/install](https://ilmalang.dev/install) or via:
+To run ILMA files, you need the ILMA compiler installed on your system. Install it from [ilma-lang.dev/install](https://ilma-lang.dev/install) or via:
 
 ```bash
-curl -fsSL https://ilmalang.dev/install.sh | bash
+curl -fsSL https://ilma-lang.dev/install.sh | bash
 ```
 
 ## Keyboard Shortcuts
@@ -78,9 +78,9 @@ The extension automatically associates `.ilma` files with the ILMA language mode
 
 ## Links
 
-- [ILMA Website](https://ilmalang.dev)
+- [ILMA Website](https://ilma-lang.dev)
 - [GitHub Repository](https://github.com/raihan-js/ilma-lang)
-- [ILMA Documentation](https://ilmalang.dev/docs)
+- [ILMA Documentation](https://ilma-lang.dev/docs)
 - [Report Issues](https://github.com/raihan-js/ilma-lang/issues)
 
 ## License

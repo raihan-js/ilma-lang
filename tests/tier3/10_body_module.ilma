@@ -1,0 +1,7 @@
+use body
+remember bmi = body.bmi(70, 175)
+say bmi
+remember cat = body.bmi_category(bmi)
+say cat
+remember water = body.daily_water(70)
+say water

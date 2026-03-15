@@ -5,7 +5,7 @@
 
 class Ilma < Formula
   desc "A programming language for children and lifelong learners"
-  homepage "https://ilmalang.dev"
+  homepage "https://ilma-lang.dev"
   url "https://github.com/raihan-js/ilma-lang/archive/refs/tags/v0.1.0.tar.gz"
   # sha256 — fill this in after publishing v0.1.0:
   # Run: shasum -a 256 ilma-0.1.0.tar.gz

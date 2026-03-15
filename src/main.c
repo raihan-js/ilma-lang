@@ -7,7 +7,7 @@
 #include "parser.h"
 #include "codegen.h"
 
-#define ILMA_VERSION "0.1.0"
+#define ILMA_VERSION "0.2.0"
 
 static char* read_file(const char* path) {
     FILE* f = fopen(path, "rb");
@@ -28,7 +28,7 @@ static char* read_file(const char* path) {
 }
 
 static void print_usage(void) {
-    printf("ILMA %s — ilmalang.dev\n\n", ILMA_VERSION);
+    printf("ILMA %s — ilma-lang.dev\n\n", ILMA_VERSION);
     printf("Usage:\n");
     printf("  ilma <file.ilma>              Run an ILMA program\n");
     printf("  ilma --compile <file.ilma>    Compile to a binary\n");
@@ -189,12 +189,24 @@ int main(int argc, char** argv) {
         char runtime[2048];
         find_runtime(runtime, sizeof(runtime));
 
+        /* Build module source file list */
+        char module_files[4096] = "";
+        for (int i = 0; i < cg.used_module_count; i++) {
+            const char* mod = cg.used_modules[i];
+            char mod_path[512];
+            if (strcmp(mod, "time") == 0)
+                snprintf(mod_path, sizeof(mod_path), " \"%s/modules/time_mod.c\"", runtime);
+            else
+                snprintf(mod_path, sizeof(mod_path), " \"%s/modules/%s.c\"", runtime, mod);
+            strncat(module_files, mod_path, sizeof(module_files) - strlen(module_files) - 1);
+        }
+
         /* Compile with GCC */
         char cmd[8192];
         snprintf(cmd, sizeof(cmd),
-            "gcc -O2 -o \"%s\" \"%s\" \"%s/ilma_runtime.c\" -I\"%s\" -lm"
+            "gcc -O2 -o \"%s\" \"%s\" \"%s/ilma_runtime.c\"%s -I\"%s\" -lm"
             " -Wall -Wno-unused-variable -Wno-unused-function 2>&1",
-            base, c_file, runtime, runtime);
+            base, c_file, runtime, module_files, runtime);
 
         int ret = system(cmd);
         remove(c_file);

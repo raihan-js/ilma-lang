@@ -1,0 +1,3 @@
+use think
+remember q = think.stoic_question()
+say q is not empty

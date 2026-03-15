@@ -32,6 +32,6 @@ EXPOSE 80
 
 LABEL org.opencontainers.image.title="ILMA"
 LABEL org.opencontainers.image.description="ILMA Programming Language — Learn to Code"
-LABEL org.opencontainers.image.url="https://ilmalang.dev"
+LABEL org.opencontainers.image.url="https://ilma-lang.dev"
 
 CMD ["nginx", "-g", "daemon off;"]

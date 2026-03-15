@@ -42,9 +42,28 @@ run_test() {
         return
     fi
 
+    # Detect module source files needed from generated C
+    local module_srcs=""
+    local runtime_dir="$PROJECT_DIR/src/runtime"
+    if grep -q '#include "modules/finance.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/finance.c"
+    fi
+    if grep -q '#include "modules/think.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/think.c"
+    fi
+    if grep -q '#include "modules/body.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/body.c"
+    fi
+    if grep -q '#include "modules/time_mod.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/time_mod.c"
+    fi
+    if grep -q '#include "modules/quran.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/quran.c"
+    fi
+
     # Compile C code
     gcc -o "$temp_bin" "$temp_c" "$PROJECT_DIR/src/runtime/ilma_runtime.c" \
-        -I"$PROJECT_DIR/src/runtime" -lm 2>/dev/null
+        $module_srcs -I"$PROJECT_DIR/src/runtime" -lm 2>/dev/null
     if [ $? -ne 0 ]; then
         echo "  FAIL  $test_name (GCC compilation failed)"
         FAIL=$((FAIL + 1))

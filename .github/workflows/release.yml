@@ -163,7 +163,7 @@ jobs:
 
           **Linux and macOS (one command):**
           \`\`\`bash
-          curl -fsSL https://ilmalang.dev/install.sh | bash
+          curl -fsSL https://ilma-lang.dev/install.sh | bash
           \`\`\`
 
           **Build from source:**
@@ -183,7 +183,7 @@ jobs:
 
           ## What is ILMA?
 
-          ILMA is a programming language that reads like plain English, built on C, designed for children and lifelong learners. Learn more at [ilmalang.dev](https://ilmalang.dev).
+          ILMA is a programming language that reads like plain English, built on C, designed for children and lifelong learners. Learn more at [ilma-lang.dev](https://ilma-lang.dev).
           EOF
 
       - name: Create GitHub Release

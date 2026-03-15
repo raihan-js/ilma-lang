@@ -1,5 +1,5 @@
 # ILMA Programming Language — Makefile
-# ilmalang.dev
+# ilma-lang.dev
 
 CC      = gcc
 CFLAGS  = -O2 -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -std=c11 -D_POSIX_C_SOURCE=200809L
@@ -39,10 +39,12 @@ clean:
 # ── Installation ──────────────────────────────────────────────────
 install: $(TARGET)
 	@echo "Installing ilma to $(BINDIR)..."
-	@mkdir -p $(BINDIR) $(LIBDIR)
+	@mkdir -p $(BINDIR) $(LIBDIR) $(LIBDIR)/modules
 	install -m 755 $(TARGET) $(BINDIR)/ilma
 	install -m 644 src/runtime/ilma_runtime.c $(LIBDIR)/ilma_runtime.c
 	install -m 644 src/runtime/ilma_runtime.h $(LIBDIR)/ilma_runtime.h
+	install -m 644 src/runtime/modules/*.c $(LIBDIR)/modules/
+	install -m 644 src/runtime/modules/*.h $(LIBDIR)/modules/
 	@echo ""
 	@echo "ILMA installed successfully!"
 	@echo "Run:  ilma --version"

@@ -1,0 +1,5 @@
+use quran
+remember ayah = quran.ayah_of_the_day()
+say ayah[surah] is not empty
+remember results = quran.search("knowledge")
+say results.size > 0

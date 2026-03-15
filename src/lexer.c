@@ -95,8 +95,9 @@ const char* token_type_name(TokenType type) {
         case TOK_TYPE_ANYTHING: return "TYPE_ANYTHING";
         case TOK_INT_LIT:    return "INT_LIT";
         case TOK_FLOAT_LIT:  return "FLOAT_LIT";
-        case TOK_STRING_LIT: return "STRING_LIT";
-        case TOK_IDENT:      return "IDENT";
+        case TOK_STRING_LIT:    return "STRING_LIT";
+        case TOK_STRING_INTERP: return "STRING_INTERP";
+        case TOK_IDENT:         return "IDENT";
         case TOK_PLUS:       return "PLUS";
         case TOK_MINUS:      return "MINUS";
         case TOK_STAR:       return "STAR";
@@ -111,6 +112,7 @@ const char* token_type_name(TokenType type) {
         case TOK_ASSIGN:     return "ASSIGN";
         case TOK_COLON:      return "COLON";
         case TOK_DOT:        return "DOT";
+        case TOK_DOTDOT:     return "DOTDOT";
         case TOK_COMMA:      return "COMMA";
         case TOK_LPAREN:     return "LPAREN";
         case TOK_RPAREN:     return "RPAREN";
@@ -244,8 +246,14 @@ static void lex_string(Lexer* L) {
         exit(1);
     }
 
+    /* Check for string interpolation (contains unescaped {) */
+    int has_interp = 0;
+    for (size_t i = 0; i < buf_len; i++) {
+        if (buf[i] == '{') { has_interp = 1; break; }
+    }
+
     buf[buf_len] = '\0';
-    emit_token(L, TOK_STRING_LIT, buf, start_line, start_col);
+    emit_token(L, has_interp ? TOK_STRING_INTERP : TOK_STRING_LIT, buf, start_line, start_col);
 }
 
 static void lex_number(Lexer* L) {
@@ -442,7 +450,15 @@ void lexer_tokenize(Lexer* L) {
             case '*': advance(L); emit_token(L, TOK_STAR, NULL, tok_line, tok_col); break;
             case '/': advance(L); emit_token(L, TOK_SLASH, NULL, tok_line, tok_col); break;
             case '%': advance(L); emit_token(L, TOK_PERCENT, NULL, tok_line, tok_col); break;
-            case '.': advance(L); emit_token(L, TOK_DOT, NULL, tok_line, tok_col); break;
+            case '.':
+                advance(L);
+                if (peek(L) == '.') {
+                    advance(L);
+                    emit_token(L, TOK_DOTDOT, NULL, tok_line, tok_col);
+                } else {
+                    emit_token(L, TOK_DOT, NULL, tok_line, tok_col);
+                }
+                break;
             case ',': advance(L); emit_token(L, TOK_COMMA, NULL, tok_line, tok_col); break;
             case '(': advance(L); emit_token(L, TOK_LPAREN, NULL, tok_line, tok_col); break;
             case ')': advance(L); emit_token(L, TOK_RPAREN, NULL, tok_line, tok_col); break;

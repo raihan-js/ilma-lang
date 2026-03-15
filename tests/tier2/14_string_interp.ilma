@@ -1,0 +1,4 @@
+remember name = "Amira"
+remember age = 12
+say "My name is {name} and I am {age} years old."
+say "SubhanAllah times {3 * 3}!"

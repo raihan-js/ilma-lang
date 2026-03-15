@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ILMA Programming Language Installer
-# Usage: curl -fsSL https://ilmalang.dev/install.sh | bash
+# Usage: curl -fsSL https://ilma-lang.dev/install.sh | bash
 # Or:    bash install.sh
 
 set -e
@@ -21,7 +21,7 @@ NC='\033[0m'
 print_banner() {
     echo ""
     echo -e "${BOLD}${BLUE}ILMA Programming Language${NC}"
-    echo -e "${BLUE}ilmalang.dev${NC}"
+    echo -e "${BLUE}ilma-lang.dev${NC}"
     echo -e "Version ${ILMA_VERSION}"
     echo ""
 }
@@ -157,7 +157,7 @@ main() {
     echo -e "  ${BOLD}ilma hello.ilma${NC}"
     echo ""
     echo "Learn more:"
-    echo "  ilmalang.dev"
+    echo "  ilma-lang.dev"
     echo "  github.com/ilmalang/ilma"
     echo ""
 }

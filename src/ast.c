@@ -72,6 +72,11 @@ void ast_free(ASTNode* node) {
             free(node->data.notebook.keys);
             free(node->data.notebook.values.items);
             break;
+        case NODE_STRING_INTERP:
+            for (int i = 0; i < node->data.interp.parts.count; i++)
+                ast_free(node->data.interp.parts.items[i]);
+            free(node->data.interp.parts.items);
+            break;
         case NODE_SAY:
             ast_free(node->data.say.expr);
             break;
@@ -96,6 +101,12 @@ void ast_free(ASTNode* node) {
         case NODE_WHILE:
             ast_free(node->data.while_stmt.condition);
             ast_free(node->data.while_stmt.body);
+            break;
+        case NODE_RANGE_LOOP:
+            free(node->data.range_loop.var_name);
+            ast_free(node->data.range_loop.start);
+            ast_free(node->data.range_loop.end);
+            ast_free(node->data.range_loop.body);
             break;
         case NODE_FOR_EACH:
             free(node->data.for_each.var_name);

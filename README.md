@@ -30,7 +30,7 @@ repeat 3:
 ### Install (one command)
 
 ```bash
-curl -fsSL https://ilmalang.dev/install.sh | bash
+curl -fsSL https://ilma-lang.dev/install.sh | bash
 ```
 
 ### Or with Homebrew (macOS)
@@ -183,7 +183,7 @@ See the [IlmaWeb Framework](frameworks/ilma-web/) for the full guide.
 
 | Project | Description |
 |---------|-------------|
-| [ilmalang.dev](https://ilmalang.dev) | Official website — docs, playground, install guide |
+| [ilma-lang.dev](https://ilma-lang.dev) | Official website — docs, playground, install guide |
 | [VS Code Extension](vscode-extension/) | Syntax highlighting, snippets, and run command for VS Code |
 | [IlmaWeb Framework](frameworks/ilma-web/) | Build web servers and APIs entirely in ILMA |
 | [Web IDE](web/) | In-browser Monaco editor with 30 lessons and Socratic tutor |
