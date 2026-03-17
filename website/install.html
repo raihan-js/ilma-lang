@@ -53,7 +53,7 @@
 <section class="hero" style="padding:72px 0 64px;">
   <div class="container" style="max-width:840px;text-align:center;">
     <div class="hero-eyebrow" style="justify-content:center;">
-      <span class="badge badge-dark">v0.5.0</span>
+      <span class="badge badge-dark">v0.8.0</span>
       <span style="font-size:0.8rem;color:var(--ilma-text-muted);">Latest stable release</span>
     </div>
     <h1 style="color:var(--ilma-white);margin-bottom:16px;">Install <span class="accent">ILMA</span></h1>
@@ -92,9 +92,9 @@
       <div class="code-block">
         <div class="code-block-header">
           <span class="code-block-lang">bash</span>
-          <button class="copy-btn" data-copy="curl -fsSL https://ilma-lang.dev/install.sh | bash">Copy</button>
+          <button class="copy-btn" data-copy="curl -fsSL https://www.ilma-lang.dev/install.sh | bash">Copy</button>
         </div>
-        <pre>curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
+        <pre>curl -fsSL https://www.ilma-lang.dev/install.sh | bash</pre>
       </div>
 
       <div style="margin-top:32px;">
@@ -102,11 +102,11 @@
         <div class="code-block">
           <div class="code-block-header">
             <span class="code-block-lang">bash — apt (Debian/Ubuntu)</span>
-            <button class="copy-btn" data-copy="curl -fsSL https://ilma-lang.dev/install.sh | bash">Copy</button>
+            <button class="copy-btn" data-copy="curl -fsSL https://www.ilma-lang.dev/install.sh | bash">Copy</button>
           </div>
           <pre><span style="color:#98c379;"># Requires curl — install first if needed</span>
 sudo apt update &amp;&amp; sudo apt install -y curl
-curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
+curl -fsSL https://www.ilma-lang.dev/install.sh | bash</pre>
         </div>
       </div>
     </div>
@@ -118,22 +118,22 @@ curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
         Use the install script or Homebrew. Homebrew is recommended if you already have it installed.
       </p>
 
-      <h3 style="margin-bottom:12px;">Option 1 — Homebrew (recommended)</h3>
+      <h3 style="margin-bottom:12px;">Option 1 — Install script (recommended)</h3>
       <div class="code-block">
         <div class="code-block-header">
           <span class="code-block-lang">bash</span>
-          <button class="copy-btn" data-copy="brew tap raihan-js/ilma && brew install ilma">Copy</button>
+          <button class="copy-btn" data-copy="curl -fsSL https://www.ilma-lang.dev/install.sh | bash">Copy</button>
         </div>
-        <pre>brew tap raihan-js/ilma &amp;&amp; brew install ilma</pre>
+        <pre>curl -fsSL https://www.ilma-lang.dev/install.sh | bash</pre>
       </div>
 
-      <h3 style="margin-bottom:12px;margin-top:28px;">Option 2 — Install script</h3>
+      <h3 style="margin-bottom:12px;margin-top:28px;">Option 2 — Homebrew <span style="font-size:0.8em;font-weight:400;color:#888;">(tap coming soon)</span></h3>
       <div class="code-block">
         <div class="code-block-header">
           <span class="code-block-lang">bash</span>
-          <button class="copy-btn" data-copy="curl -fsSL https://ilma-lang.dev/install.sh | bash">Copy</button>
+          <button class="copy-btn" data-copy="brew install --formula https://raw.githubusercontent.com/raihan-js/ilma-lang/main/Formula/ilma.rb">Copy</button>
         </div>
-        <pre>curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
+        <pre>brew install --formula https://raw.githubusercontent.com/raihan-js/ilma-lang/main/Formula/ilma.rb</pre>
       </div>
 
       <p style="color:#5a5880;margin-top:16px;font-size:0.9rem;">
@@ -151,9 +151,9 @@ curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
       <div class="code-block">
         <div class="code-block-header">
           <span class="code-block-lang">powershell</span>
-          <button class="copy-btn" data-copy="irm https://ilma-lang.dev/install.ps1 | iex">Copy</button>
+          <button class="copy-btn" data-copy="irm https://www.ilma-lang.dev/install.ps1 | iex">Copy</button>
         </div>
-        <pre>irm https://ilma-lang.dev/install.ps1 | iex</pre>
+        <pre>irm https://www.ilma-lang.dev/install.ps1 | iex</pre>
       </div>
 
       <p style="color:#5a5880;margin-top:16px;font-size:0.9rem;">
@@ -186,7 +186,7 @@ curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
         <pre>ilma --version</pre>
       </div>
       <p style="color:#5a5880;margin-top:16px;font-size:0.9rem;">
-        You should see output like: <code>ILMA v0.5.0 (linux/amd64)</code>
+        You should see output like: <code>ILMA v0.8.0 (linux/amd64)</code>
       </p>
     </div>
 
@@ -199,13 +199,13 @@ curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
       <div class="code-block">
         <div class="code-block-header">
           <span class="code-block-lang">bash</span>
-          <button class="copy-btn" data-copy="git clone https://github.com/raihan-js/ilma.git
-cd ilma
+          <button class="copy-btn" data-copy="git clone https://github.com/raihan-js/ilma-lang.git
+cd ilma-lang
 make all
 sudo make install">Copy</button>
         </div>
-        <pre>git clone https://github.com/raihan-js/ilma.git
-cd ilma
+        <pre>git clone https://github.com/raihan-js/ilma-lang.git
+cd ilma-lang
 make all
 sudo make install</pre>
       </div>
@@ -297,7 +297,7 @@ sudo make install</pre>
         </a>
         <p>A programming language for children. Reads like English. Compiles to native. Free and open source.</p>
         <div class="footer-social">
-          <a href="https://github.com/raihan-js/ilma" title="GitHub" target="_blank" rel="noopener">
+          <a href="https://github.com/raihan-js/ilma-lang" title="GitHub" target="_blank" rel="noopener">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
           </a>
         </div>
@@ -316,9 +316,9 @@ sudo make install</pre>
         <h4>Community</h4>
         <ul>
           <li><a href="/blog/">Blog</a></li>
-          <li><a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a></li>
-          <li><a href="https://github.com/raihan-js/ilma/issues" target="_blank" rel="noopener">Issues</a></li>
-          <li><a href="https://github.com/raihan-js/ilma/discussions" target="_blank" rel="noopener">Discussions</a></li>
+          <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/raihan-js/ilma-lang/issues" target="_blank" rel="noopener">Issues</a></li>
+          <li><a href="https://github.com/raihan-js/ilma-lang/discussions" target="_blank" rel="noopener">Discussions</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -327,15 +327,15 @@ sudo make install</pre>
           <li><a href="/docs.html#getting-started">Getting Started</a></li>
           <li><a href="/docs.html#standard-library">Standard Library</a></li>
           <li><a href="/blog/why-ilma.html">Why ILMA?</a></li>
-          <li><a href="https://github.com/raihan-js/ilma/releases" target="_blank" rel="noopener">Releases</a></li>
+          <li><a href="https://github.com/raihan-js/ilma-lang/releases" target="_blank" rel="noopener">Releases</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 ILMA Language. Open source under the MIT License.</p>
       <div class="footer-bottom-links">
-        <a href="https://github.com/raihan-js/ilma/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
-        <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a>
       </div>
     </div>
   </div>
