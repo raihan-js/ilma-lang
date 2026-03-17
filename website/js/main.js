@@ -227,6 +227,9 @@
       } else {
         // process non-string part
         var escaped = escapeHtml(part);
+        // operators FIRST — before any span HTML is injected
+        escaped = escaped.replace(/(!=|==|&lt;=|&gt;=|&lt;|&gt;|(?<![=!<>])=(?![=]))/g,
+          '<span class="syn-op">$1</span>');
         // numbers
         escaped = escaped.replace(/\b(\d+(?:\.\d+)?)\b/g, '<span class="syn-number">$1</span>');
         // keywords
@@ -235,9 +238,6 @@
         escaped = escaped.replace(/\b([a-zA-Z_]\w*)\s*(?=\()/g, function (m, name) {
           return '<span class="syn-func">' + name + '</span>';
         });
-        // operators
-        escaped = escaped.replace(/(!=|==|&lt;=|&gt;=|&lt;|&gt;|(?<![=!<>])=(?![=]))/g,
-          '<span class="syn-op">$1</span>');
         result += escaped;
       }
     });
