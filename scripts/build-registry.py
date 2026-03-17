@@ -30,7 +30,7 @@ def main():
             with open(ilma_path, 'rb') as f:
                 content = f.read()
             pkg['file'] = f'{pkg_dir}/{pkg_dir}.ilma'
-            pkg['url'] = f'https://ilma-lang.dev/packages/{pkg_dir}/{pkg_dir}.ilma'
+            pkg['url'] = f'https://www.ilma-lang.dev/packages/{pkg_dir}/{pkg_dir}.ilma'
             pkg['size_bytes'] = len(content)
             pkg['sha256'] = hashlib.sha256(content).hexdigest()
         else:
@@ -42,7 +42,7 @@ def main():
     registry = {
         'version': '1',
         'updated': datetime.date.today().isoformat(),
-        'base_url': 'https://ilma-lang.dev/packages',
+        'base_url': 'https://www.ilma-lang.dev/packages',
         'packages': packages
     }
 
