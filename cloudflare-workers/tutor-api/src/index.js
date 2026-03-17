@@ -36,11 +36,21 @@ on screen — just like saying something out loud. What do you want to show?"`;
 
 export default {
   async fetch(request, env) {
-    // CORS headers — allow requests from ilma-lang.dev
+    // CORS — allow both www and apex domain
+    const origin = request.headers.get("Origin") || "";
+    const allowedOrigins = [
+      "https://ilma-lang.dev",
+      "https://www.ilma-lang.dev"
+    ];
+    const allowOrigin = allowedOrigins.includes(origin)
+      ? origin
+      : "https://ilma-lang.dev";
+
     const corsHeaders = {
-      "Access-Control-Allow-Origin": "https://ilma-lang.dev",
+      "Access-Control-Allow-Origin": allowOrigin,
       "Access-Control-Allow-Methods": "POST, OPTIONS",
       "Access-Control-Allow-Headers": "Content-Type",
+      "Vary": "Origin",
       "Content-Type": "application/json"
     };
 
