@@ -37,4 +37,8 @@ website/install.sh
 website/install.ps1
 website/VERSION
 website/ilma-version.json
-website/packages/registry.json
+website/packages/
+
+# Test artifacts
+drawing.svg
+test_output.txt
