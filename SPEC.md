@@ -4,7 +4,7 @@
 
 **Status:** Draft
 **Date:** 2026-03-15
-**Authors:** Raihan Islam
+**Authors:** Akteruzzaman Raihan
 **License:** MIT
 
 ---
