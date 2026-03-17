@@ -29,6 +29,7 @@
       <a href="/blog/">Blog</a>
     </div>
     <div class="nav-cta">
+      <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" aria-label="GitHub" target="_blank" rel="noopener"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg></a>
       <a href="/install.html" class="btn btn-ghost btn-sm">Install</a>
       <a href="/playground.html" class="btn btn-primary btn-sm">Try Online</a>
     </div>
@@ -64,13 +65,13 @@
     <!-- OS Tabs -->
     <div class="install-os-tabs" style="justify-content:center;">
       <button class="install-os-btn active" data-os="linux" onclick="switchOS('linux',this)">
-        <span class="install-os-icon">🐧</span> Linux
+        <span class="install-os-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg></span> Linux
       </button>
       <button class="install-os-btn" data-os="macos" onclick="switchOS('macos',this)">
-        <span class="install-os-icon">🍎</span> macOS
+        <span class="install-os-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"></path></svg></span> macOS
       </button>
       <button class="install-os-btn" data-os="windows" onclick="switchOS('windows',this)">
-        <span class="install-os-icon">🪟</span> Windows
+        <span class="install-os-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg></span> Windows
       </button>
     </div>
   </div>
@@ -216,7 +217,7 @@ sudo make install</pre>
       <div style="display:grid;gap:10px;">
         <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
           <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
-            <span>🛠 ilma — the compiler &amp; REPL</span>
+            <span>ilma — the compiler &amp; REPL</span>
             <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
           </button>
           <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
@@ -252,7 +253,7 @@ sudo make install</pre>
         </div>
         <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
           <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
-            <span>🔍 ilma check — type checker</span>
+            <span>ilma check — type checker</span>
             <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
           </button>
           <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
@@ -261,7 +262,7 @@ sudo make install</pre>
         </div>
         <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
           <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
-            <span>📡 ilma lsp — language server</span>
+            <span>ilma lsp — language server</span>
             <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
           </button>
           <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">

@@ -15,7 +15,7 @@
 #include <dirent.h>
 #include <unistd.h>
 
-#define DEFAULT_REGISTRY_URL "https://ilma-lang.dev/packages/registry.json"
+#define DEFAULT_REGISTRY_URL "https://www.ilma-lang.dev/packages/registry.json"
 #define REGISTRY_TMP         "/tmp/ilma_registry.json"
 #define MAX_PKG_NAME         128
 #define MAX_URL              1024

@@ -26,9 +26,14 @@
     .pg-separator { width:1px;height:20px;background:var(--ilma-dark-border); }
     .pg-title { font-size:0.82rem;color:var(--ilma-text-muted); }
     .pg-preset-select {
-      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
-      color: rgba(255,255,255,0.75); font-family: var(--font); font-size:0.8rem;
+      background: #1a1a2e; border: 1px solid rgba(255,255,255,0.15);
+      color: rgba(255,255,255,0.85); font-family: var(--font); font-size:0.8rem;
       padding: 5px 10px; border-radius: var(--radius); outline:none; cursor:pointer;
+      color-scheme: dark;
+    }
+    .pg-preset-select option {
+      background: #1a1a2e;
+      color: rgba(255,255,255,0.85);
     }
     .pg-body { display: grid; grid-template-columns: 1fr 1fr; flex: 1; overflow: hidden; }
     @media(max-width:768px) {

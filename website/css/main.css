@@ -240,6 +240,17 @@ pre code {
   font-weight: 600;
 }
 
+.nav-github {
+  display: flex;
+  align-items: center;
+  color: var(--ilma-text-muted);
+  transition: color 0.2s;
+  padding: 2px;
+}
+.nav-github:hover {
+  color: var(--ilma-dark);
+}
+
 .nav-hamburger {
   display: none;
   flex-direction: column;

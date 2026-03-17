@@ -5,7 +5,7 @@
 
 set -e
 
-ILMA_VERSION="0.4.0"
+ILMA_VERSION="0.7.0"
 ILMA_REPO="https://github.com/raihan-js/ilma-lang"
 INSTALL_DIR="/usr/local"
 BIN_DIR="$INSTALL_DIR/bin"

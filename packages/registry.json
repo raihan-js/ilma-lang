@@ -1,7 +1,7 @@
 {
   "version": "1",
   "updated": "2026-03-17",
-  "base_url": "https://ilma-lang.dev/packages",
+  "base_url": "https://www.ilma-lang.dev/packages",
   "packages": [
     {
       "name": "colors",
@@ -10,7 +10,7 @@
       "author": "ILMA Team",
       "license": "MIT",
       "file": "colors/colors.ilma",
-      "url": "https://ilma-lang.dev/packages/colors/colors.ilma",
+      "url": "https://www.ilma-lang.dev/packages/colors/colors.ilma",
       "size_bytes": 434,
       "sha256": "40f18ece0d8bc1defcf3092036a7ebda04ded8aef77794469d679546f94a2000"
     },
@@ -28,7 +28,7 @@
         "utilities"
       ],
       "file": "crypto/crypto.ilma",
-      "url": "https://ilma-lang.dev/packages/crypto/crypto.ilma",
+      "url": "https://www.ilma-lang.dev/packages/crypto/crypto.ilma",
       "size_bytes": 1540,
       "sha256": "c548b9b83fb6e64f8e0ed4f513e31b97a4fee91312929e4c38de926fd2d06332"
     },
@@ -45,7 +45,7 @@
         "utilities"
       ],
       "file": "datetime/datetime.ilma",
-      "url": "https://ilma-lang.dev/packages/datetime/datetime.ilma",
+      "url": "https://www.ilma-lang.dev/packages/datetime/datetime.ilma",
       "size_bytes": 872,
       "sha256": "9d64cf1c07e243a55b19ad3ccb7f570b2553c0730c351ad83ee36cd43212c176"
     },
@@ -62,7 +62,7 @@
         "display"
       ],
       "file": "format/format.ilma",
-      "url": "https://ilma-lang.dev/packages/format/format.ilma",
+      "url": "https://www.ilma-lang.dev/packages/format/format.ilma",
       "size_bytes": 1357,
       "sha256": "911933010d0eea3b357efea34b9fafb9b86ce041e62984048ce5e651ed080366"
     },
@@ -78,7 +78,7 @@
         "utilities"
       ],
       "file": "math/math.ilma",
-      "url": "https://ilma-lang.dev/packages/math/math.ilma",
+      "url": "https://www.ilma-lang.dev/packages/math/math.ilma",
       "size_bytes": 566,
       "sha256": "a7394916de6af57e46fe82acfedd638eff67a9321209fba1ff276370f1be4a3c"
     },
@@ -94,7 +94,7 @@
         "utilities"
       ],
       "file": "random/random.ilma",
-      "url": "https://ilma-lang.dev/packages/random/random.ilma",
+      "url": "https://www.ilma-lang.dev/packages/random/random.ilma",
       "size_bytes": 1098,
       "sha256": "425ec5492ff7c059bcb273a5e0fdcf4c385ef57c6b5f0d1a27a3e7cc0631d603"
     },
@@ -112,7 +112,7 @@
         "files"
       ],
       "file": "storage/storage.ilma",
-      "url": "https://ilma-lang.dev/packages/storage/storage.ilma",
+      "url": "https://www.ilma-lang.dev/packages/storage/storage.ilma",
       "size_bytes": 1059,
       "sha256": "433e0140b32f0d66988df47104565dc26293984ad9f695552d4a58688200a30a"
     },
@@ -123,7 +123,7 @@
       "author": "ILMA Team",
       "license": "MIT",
       "file": "strings/strings.ilma",
-      "url": "https://ilma-lang.dev/packages/strings/strings.ilma",
+      "url": "https://www.ilma-lang.dev/packages/strings/strings.ilma",
       "size_bytes": 546,
       "sha256": "3a73ce1ce6da7182d4da5bfdb3821b39e425f32101c636534e92de0508d65e73"
     },
@@ -139,7 +139,7 @@
         "utilities"
       ],
       "file": "test_helpers/test_helpers.ilma",
-      "url": "https://ilma-lang.dev/packages/test_helpers/test_helpers.ilma",
+      "url": "https://www.ilma-lang.dev/packages/test_helpers/test_helpers.ilma",
       "size_bytes": 1242,
       "sha256": "034b99b6aa0f297f5c97d02c340604ba6bcf14706413566a932ad27a6498bf30"
     },
@@ -156,7 +156,7 @@
         "utilities"
       ],
       "file": "validate/validate.ilma",
-      "url": "https://ilma-lang.dev/packages/validate/validate.ilma",
+      "url": "https://www.ilma-lang.dev/packages/validate/validate.ilma",
       "size_bytes": 1114,
       "sha256": "bb16ece57a550e556cbea4295cff85b3b92da121e3e6509f435cfcc2cbb38059"
     }
