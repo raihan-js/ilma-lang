@@ -3,12 +3,6 @@ name: Deploy website to GitHub Pages
 on:
   push:
     branches: [ main ]
-    paths:
-      - 'website/**'
-      - 'packages/**'
-      - 'install.sh'
-      - 'scripts/install-windows.ps1'
-      - 'VERSION'
   workflow_dispatch:
 
 permissions:

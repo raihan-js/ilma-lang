@@ -100,14 +100,22 @@ jobs:
           mkdir -p build
           gcc -O2 -Wall -Wno-unused-parameter -Wno-unused-function -std=c11 -D_POSIX_C_SOURCE=200809L \
             -target x86_64-apple-macos11 \
-            -o build/ilma-x86_64 src/main.c src/lexer.c src/ast.c src/parser.c src/codegen.c src/runtime/ilma_runtime.c \
+            -o build/ilma-x86_64 \
+            src/main.c src/lexer.c src/ast.c src/parser.c src/codegen.c \
+            src/runtime/ilma_runtime.c src/pkg/ilma_pkg.c \
+            src/repl.c src/evaluator.c src/errors.c \
+            src/test_runner.c src/formatter.c src/checker.c src/docgen.c \
             -Isrc/runtime -lm
 
       - name: Build arm64
         run: |
           gcc -O2 -Wall -Wno-unused-parameter -Wno-unused-function -std=c11 -D_POSIX_C_SOURCE=200809L \
             -target arm64-apple-macos11 \
-            -o build/ilma-arm64 src/main.c src/lexer.c src/ast.c src/parser.c src/codegen.c src/runtime/ilma_runtime.c \
+            -o build/ilma-arm64 \
+            src/main.c src/lexer.c src/ast.c src/parser.c src/codegen.c \
+            src/runtime/ilma_runtime.c src/pkg/ilma_pkg.c \
+            src/repl.c src/evaluator.c src/errors.c \
+            src/test_runner.c src/formatter.c src/checker.c src/docgen.c \
             -Isrc/runtime -lm
 
       - name: Create universal binary
