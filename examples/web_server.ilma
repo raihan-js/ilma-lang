@@ -1,0 +1,28 @@
+use web
+
+say "Starting web server..."
+web.listen(3000)
+
+keep going while web.accept():
+    remember path = web.path()
+    remember method = web.method()
+
+    if path is "/":
+        web.send(web.html("<html><body><h1>Assalamu Alaikum!</h1><p>Welcome to my ILMA web server.</p><ul><li><a href='/about'>About</a></li><li><a href='/greet?name=World'>Greet</a></li><li><a href='/api/status'>API Status</a></li></ul></body></html>"))
+
+    otherwise if path is "/about":
+        web.send(web.html("<html><body><h1>About</h1><p>This server is written in ILMA — a programming language for children!</p><a href='/'>Home</a></body></html>"))
+
+    otherwise if path is "/greet":
+        remember name = web.query("name")
+        if name is empty:
+            remember name = "friend"
+        web.send(web.html("<html><body><h1>Hello, " + name + "!</h1><a href='/'>Home</a></body></html>"))
+
+    otherwise if path is "/api/status":
+        remember data = notebook[status: "ok", language: "ILMA", version: "0.8.0"]
+        web.send(web.json(data))
+
+    otherwise:
+        web.status(404)
+        web.send(web.html("<html><body><h1>404 — Page not found</h1><a href='/'>Home</a></body></html>"))

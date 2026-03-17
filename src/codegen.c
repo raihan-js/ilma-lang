@@ -1219,6 +1219,7 @@ void codegen_generate(CodeGen* cg, ASTNode* program) {
         else if (strcmp(mod, "trade") == 0)   fprintf(cg->out, "#include \"modules/trade.h\"\n");
         else if (strcmp(mod, "json") == 0)    fprintf(cg->out, "#include \"modules/json.h\"\n");
         else if (strcmp(mod, "http") == 0)    fprintf(cg->out, "#include \"modules/http.h\"\n");
+        else if (strcmp(mod, "web") == 0)     fprintf(cg->out, "#include \"modules/web.h\"\n");
     }
     fprintf(cg->out, "\n");
 

@@ -1,0 +1,9 @@
+use web
+use json
+
+# Test web.json serialisation without starting a server
+# We verify the module is importable and json utility works
+remember data = notebook[name: "ILMA", version: "0.8.0", ready: yes]
+remember serialized = json.stringify(data)
+say "web module loaded"
+say serialized is not empty

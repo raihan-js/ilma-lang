@@ -275,6 +275,8 @@ int main(int argc, char** argv) {
                 snprintf(mod_path, sizeof(mod_path), " \"%s/modules/json.c\"", runtime);
             else if (strcmp(mod, "http") == 0)
                 snprintf(mod_path, sizeof(mod_path), " \"%s/modules/http.c\"", runtime);
+            else if (strcmp(mod, "web") == 0)
+                snprintf(mod_path, sizeof(mod_path), " \"%s/modules/web.c\"", runtime);
             else
                 snprintf(mod_path, sizeof(mod_path), " \"%s/modules/%s.c\"", runtime, mod);
             strncat(module_files, mod_path, sizeof(module_files) - strlen(module_files) - 1);

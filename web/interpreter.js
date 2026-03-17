@@ -222,6 +222,24 @@ class IlmaInterpreter {
             pi: () => Math.PI,
         };
 
+        // web module — server-side only; browser stub shows helpful message
+        this.modules.web = {
+            _type: 'module',
+            listen: (port) => { throw new IlmaError(`The web module runs as a native server. Compile with: ilma build app.ilma — then run ./app to serve on port ${port || 3000}.`, 0); },
+            accept:   () => false,
+            path:     () => '/',
+            method:   () => 'GET',
+            query:    () => null,
+            body:     () => '',
+            header:   () => null,
+            html:     (c) => c,
+            json:     (d) => JSON.stringify(d),
+            text:     (c) => c,
+            send:     () => null,
+            status:   () => null,
+            redirect: () => null,
+        };
+
         // draw module — produces SVG rendering
         this.modules.draw = {
             _type: 'module',
@@ -1035,7 +1053,7 @@ class IlmaInterpreter {
 
             case 'use': {
                 const mod = this.modules[stmt.module];
-                if (!mod) throw new IlmaError(`I don't know the module "${stmt.module}". Available: finance, time, think, body`, stmt.line);
+                if (!mod) throw new IlmaError(`I don't know the module "${stmt.module}". Available: finance, time, think, body, science, trade, number, quran, draw, web`, stmt.line);
                 env[stmt.module] = mod;
                 this.globals[stmt.module] = mod;
                 break;

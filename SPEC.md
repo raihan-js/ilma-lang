@@ -1,6 +1,6 @@
 # ILMA Language Specification
 
-## Version 0.5.0
+## Version 0.8.0
 
 **Status:** Draft
 **Date:** 2026-03-15
@@ -926,7 +926,7 @@ say data[name]     # => Yusuf
 
 #### 9.1 Overview
 
-ILMA ships with nine built-in knowledge modules. Each module is imported with the
+ILMA ships with eleven built-in modules. Each module is imported with the
 `use` statement and its functions are called via dot notation.
 
 ```
@@ -1055,7 +1055,54 @@ Functions for commerce and business education.
 | `discount` | `discount(price, discount_pct)` | Price after discount |
 | `halal_check` | `halal_check(interest, gambling, alcohol)` | Halal compliance check |
 
-#### 9.11 Package Manager
+#### 9.11 http Module
+
+Functions for making outbound HTTP requests.
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `get` | `get(url)` | HTTP GET — returns `notebook[status, body, headers]` |
+| `post` | `post(url, body, content_type)` | HTTP POST — returns response notebook |
+| `get_json` | `get_json(url)` | GET then parse JSON body |
+| `post_json` | `post_json(url, data)` | POST JSON, parse response |
+
+#### 9.12 web Module
+
+Build HTTP web servers using an event-loop pattern. No external dependencies — pure POSIX sockets.
+
+```
+use web
+
+web.listen(3000)
+keep going while web.accept():
+    remember path = web.path()
+    if path is "/":
+        web.send(web.html("<h1>Hello!</h1>"))
+    otherwise if path is "/api/status":
+        remember data = notebook[status: "ok", version: "0.8.0"]
+        web.send(web.json(data))
+    otherwise:
+        web.status(404)
+        web.send(web.html("<h1>404 Not Found</h1>"))
+```
+
+| Function | Signature | Description |
+|----------|-----------|-------------|
+| `listen` | `listen(port)` | Bind and start listening on the given port |
+| `accept` | `accept()` | Accept next connection; returns `yes` on success |
+| `path` | `path()` | Request path, e.g. `"/about"` |
+| `method` | `method()` | HTTP method, e.g. `"GET"` |
+| `query` | `query(key)` | Query-string parameter value, or `empty` |
+| `body` | `body()` | Raw request body text |
+| `header` | `header(name)` | Request header value by name (case-insensitive) |
+| `html` | `html(content)` | Wrap content as `text/html` response |
+| `json` | `json(data)` | Serialize notebook/bag to `application/json` response |
+| `text` | `text(content)` | Wrap content as `text/plain` response |
+| `send` | `send(response)` | Send response and close connection |
+| `status` | `status(code)` | Set HTTP status code for next `send()` (default 200) |
+| `redirect` | `redirect(url)` | Send 302 redirect |
+
+#### 9.13 Package Manager
 
 ILMA includes a built-in package manager for community packages.
 
