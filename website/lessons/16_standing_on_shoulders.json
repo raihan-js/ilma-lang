@@ -1,0 +1,15 @@
+{
+  "id": 16,
+  "title": "Standing on Shoulders",
+  "tier": "tree",
+  "duration_minutes": 20,
+  "concept": "comes from — inheritance",
+  "real_world": "Building on knowledge",
+  "knowledge_note": "Every Muslim scholar built on those before them. Ibn Rushd built on Aristotle. You build on their work every time you write 'comes from'.",
+  "explanation": "'comes from' lets one blueprint inherit everything from another. You can then add new abilities or change existing ones.",
+  "starter_code": "blueprint Animal:\n    create(name):\n        me.name = name\n    recipe speak():\n        say me.name + \" makes a sound\"\n\nblueprint Cat comes from Animal:\n    create(name):\n        comes_from.create(name)\n    recipe speak():\n        say me.name + \" says: Meow!\"\n\nremember c = Cat(\"Whiskers\")\nc.speak()",
+  "worked_example": "blueprint Animal:\n    create(name):\n        me.name = name\n    recipe speak():\n        say me.name + \" makes a sound\"\n\nblueprint Cat comes from Animal:\n    create(name):\n        comes_from.create(name)\n    recipe speak():\n        say me.name + \" says: Meow!\"\n\nremember c = Cat(\"Whiskers\")\nc.speak()",
+  "challenge": "Create a Dog blueprint that says \"Woof!\"",
+  "hint": "Copy the Cat blueprint and change the name and \"Meow!\" to \"Woof!\"",
+  "expected_output": "Whiskers says: Meow!"
+}

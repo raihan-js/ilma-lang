@@ -1,0 +1,15 @@
+{
+  "id": 14,
+  "title": "Working with Words",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "string operations",
+  "real_world": "Language matters",
+  "knowledge_note": "Arabic has over 300 words for love alone. Strings let programs work with all of human language — every tongue, every script.",
+  "explanation": "Strings have built-in abilities: upper(), lower(), length, contains(), split(), and more. These let you transform and inspect text.",
+  "starter_code": "remember name = \"Amira Yusuf\"\nsay name.upper()\nsay name.length\nsay name.contains(\"Yusuf\")",
+  "worked_example": "remember name = \"Amira Yusuf\"\nsay name.upper()\nsay name.length\nsay name.contains(\"Yusuf\")",
+  "challenge": "Make the name lowercase and check if it contains your name.",
+  "hint": "Use name.lower() and name.contains(\"your name\")",
+  "expected_output": "AMIRA YUSUF\n11\nyes"
+}

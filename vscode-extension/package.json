@@ -22,7 +22,7 @@
   "homepage": "https://ilma-lang.dev",
   "license": "MIT",
   "galleryBanner": {
-    "color": "#2d6a4f",
+    "color": "#534AB7",
     "theme": "dark"
   },
   "qna": "marketplace",
@@ -133,8 +133,8 @@
   "devDependencies": {
     "@types/node": "^20.11.0",
     "@types/vscode": "^1.85.0",
+    "@vscode/vsce": "^2.32.0",
     "esbuild": "^0.20.0",
-    "typescript": "^5.3.0",
-    "@vscode/vsce": "^2.22.0"
+    "typescript": "^5.3.0"
   }
 }

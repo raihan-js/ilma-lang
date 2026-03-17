@@ -1,0 +1,15 @@
+{
+  "id": 2,
+  "title": "Remembering Things",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "remember — variables",
+  "real_world": "What is memory?",
+  "knowledge_note": "The brain stores memories so you can use them later. Computers do the same thing with variables — little named boxes that hold values.",
+  "explanation": "The keyword 'remember' creates a variable — a named box to store a value. You can then use that name anywhere to get the value back.",
+  "starter_code": "remember name = \"Yusuf\"\nsay name",
+  "worked_example": "remember name = \"Yusuf\"\nremember age = 12\nsay name\nsay age",
+  "challenge": "Remember your age and say it.",
+  "hint": "Use remember age = (your age) then say age.",
+  "expected_output": "Yusuf"
+}

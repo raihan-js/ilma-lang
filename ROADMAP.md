@@ -82,13 +82,24 @@
 - Release workflow: pre-release checks, version/tag verification
 - Benchmark tests: fibonacci, string concatenation, bag operations
 
+## v0.8.0 — The Platform Version ✅
+
+- Cloudflare Pages deployment (build command: `bash build.sh`)
+- CI: build validation workflow, no more GitHub Pages deployment
+- AI Tutor: Cloudflare Workers AI (Llama 3.1 8B, zero cost, free tier)
+- AI Tutor in web IDE — conversational input, async hints, rate limiting
+- AI Tutor widget in website/playground.html — Output/Tutor tabs
+- 21 lesson JSON files in website/lessons/ (seed/sapling/tree)
+- VS Code extension: compiled + packaged as .vsix, gallery banner #534AB7
+- Worker ready to deploy: `cloudflare-workers/tutor-api/` — 5 minutes
+
 ## v1.0.0 — Production Ready 📋
 
-- Language specification document frozen
-- Homebrew formula published
-- Full test coverage and security audit
-- Stable API — no breaking changes
-- Comprehensive standard library
-- SaaS learning platform at ilma-lang.dev/learn
-- Full-stack framework for production web apps
-- Debugger integration for VS Code
+Remaining before v1.0.0:
+
+- [ ] Deploy Cloudflare Worker — `cd cloudflare-workers/tutor-api && npx wrangler deploy`
+- [ ] Set `enabled: true` in `website/js/tutor-config.js` with real Worker URL
+- [ ] Publish VS Code extension — follow `vscode-extension/PUBLISH.md`
+- [ ] Freeze language specification (SPEC.md)
+- [ ] Publish Homebrew formula
+- [ ] Tag v1.0.0 release and post to Hacker News

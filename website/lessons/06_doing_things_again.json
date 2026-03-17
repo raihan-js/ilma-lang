@@ -1,0 +1,15 @@
+{
+  "id": 6,
+  "title": "Doing Things Again",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "repeat — loops",
+  "real_world": "Practice and mastery",
+  "knowledge_note": "Repetition is the mother of learning (ancient proverb). Computers repeat millions of times per second — that is their superpower.",
+  "explanation": "The keyword 'repeat' runs the indented block a fixed number of times. This lets you do things again and again without writing them over and over.",
+  "starter_code": "repeat 3:\n    say \"SubhanAllah\"",
+  "worked_example": "repeat 3:\n    say \"SubhanAllah\"",
+  "challenge": "Make it say \"Alhamdulillah\" 5 times.",
+  "hint": "Change 3 to 5 and \"SubhanAllah\" to \"Alhamdulillah\".",
+  "expected_output": "SubhanAllah\nSubhanAllah\nSubhanAllah"
+}

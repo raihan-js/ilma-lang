@@ -1,0 +1,15 @@
+{
+  "id": 3,
+  "title": "Maths with Code",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "arithmetic — +, -, *, /",
+  "real_world": "Why maths matters",
+  "knowledge_note": "Zakat is 2.5% of savings above nisab — computers calculate it instantly for millions of people. Maths in code serves the world.",
+  "explanation": "ILMA can do maths just like a calculator. Use +, -, *, and / to add, subtract, multiply, and divide. The result appears with say.",
+  "starter_code": "say 5 + 3\nsay 10 - 4\nsay 2 * 6",
+  "worked_example": "say 5 + 3\nsay 10 - 4\nsay 2 * 6\nsay 100 / 4",
+  "challenge": "Calculate 7 * 8.",
+  "hint": "Try say 7 * 8 and run it.",
+  "expected_output": "8\n6\n12"
+}

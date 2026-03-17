@@ -1,0 +1,15 @@
+{
+  "id": 10,
+  "title": "Collections",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "bag — lists",
+  "real_world": "Organising things",
+  "knowledge_note": "The first libraries were organised collections of knowledge. Bags in ILMA organise data the same way.",
+  "explanation": "A 'bag' holds many values in one place. You can loop through them, add items, check sizes, and more.",
+  "starter_code": "remember marks = bag[85, 92, 78, 96, 88]\nremember total = 0\nfor each m in marks:\n    total = total + m\nsay \"Total: \" + total",
+  "worked_example": "remember marks = bag[85, 92, 78, 96, 88]\nremember total = 0\nfor each m in marks:\n    total = total + m\nsay \"Total: \" + total",
+  "challenge": "Find the highest mark (hint: use remember best = 0).",
+  "hint": "Inside the loop, check: if m > best: then best = m",
+  "expected_output": "Total: 439"
+}

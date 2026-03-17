@@ -1,0 +1,15 @@
+{
+  "id": 7,
+  "title": "Going Through Everything",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "for each — iteration",
+  "real_world": "Fairness",
+  "knowledge_note": "The Quran says each soul will see exactly what it did — nothing missed, nothing added. A for each loop ensures every item is visited.",
+  "explanation": "A 'for each' loop goes through every item in a bag one by one. Each time the loop runs, the item variable holds the current item.",
+  "starter_code": "remember fruits = bag[\"dates\", \"mango\", \"apple\"]\nfor each fruit in fruits:\n    say fruit",
+  "worked_example": "remember fruits = bag[\"dates\", \"mango\", \"apple\"]\nfor each fruit in fruits:\n    say fruit",
+  "challenge": "Make your own bag of 3 things and loop through them.",
+  "hint": "Create remember things = bag[\"...\", \"...\", \"...\"] with your own items.",
+  "expected_output": "dates\nmango\napple"
+}

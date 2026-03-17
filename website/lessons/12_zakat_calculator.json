@@ -1,0 +1,15 @@
+{
+  "id": 12,
+  "title": "Zakat Calculator",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "use finance — modules",
+  "real_world": "Giving back",
+  "knowledge_note": "Zakat purifies wealth. 2.5% of savings above nisab goes to those in need. Computing zakat accurately helps millions of Muslims every year.",
+  "explanation": "The 'use' keyword imports a module — a collection of built-in recipes. The finance module knows how to calculate zakat, profit, and more.",
+  "starter_code": "use finance\nremember savings = 5000\nremember nisab = 595\nremember zakat = finance.zakat(wealth: savings, nisab: nisab)\nsay \"Zakat due: \" + zakat",
+  "worked_example": "use finance\nremember savings = 5000\nremember nisab = 595\nremember zakat = finance.zakat(wealth: savings, nisab: nisab)\nsay \"Zakat due: \" + zakat",
+  "challenge": "Change the savings amount and recalculate.",
+  "hint": "Try savings = 10000 and run again.",
+  "expected_output": "Zakat due: 125.0"
+}

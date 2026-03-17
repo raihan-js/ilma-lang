@@ -1,0 +1,15 @@
+{
+  "id": 19,
+  "title": "Science with Code",
+  "tier": "tree",
+  "duration_minutes": 20,
+  "concept": "use science — science module",
+  "real_world": "Physics is everywhere",
+  "knowledge_note": "Ibn al-Haytham (Alhazen) invented the scientific method 1000 years ago. Science and Islam walk together — curiosity about the universe is an act of worship.",
+  "explanation": "The science module gives you physics formulas as ready-made recipes. Gravity, speed, energy, temperature — all built in.",
+  "starter_code": "use science\nremember mass = 70\nremember force = science.gravity(mass)\nsay \"Gravity force: \" + force + \" N\"\nsay science.celsius_to_fahrenheit(100)",
+  "worked_example": "use science\nremember mass = 70\nremember force = science.gravity(mass)\nsay \"Gravity force: \" + force + \" N\"\nsay science.celsius_to_fahrenheit(100)",
+  "challenge": "Calculate the gravity force for your own weight.",
+  "hint": "Change mass = 70 to your weight in kg.",
+  "expected_output": "Gravity force: 686.0 N\n212.0"
+}

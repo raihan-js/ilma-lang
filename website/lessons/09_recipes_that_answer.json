@@ -1,0 +1,15 @@
+{
+  "id": 9,
+  "title": "Recipes That Answer",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "give back — return values",
+  "real_world": "Solving problems",
+  "knowledge_note": "Ibn Sina's medical books described treatments that 'returned' results based on inputs. A recipe that gives back does the same.",
+  "explanation": "A recipe can compute a value and send it back using 'give back'. The caller receives that value and can use it however they like.",
+  "starter_code": "recipe double(n):\n    give back n * 2\n\nsay double(5)\nsay double(21)",
+  "worked_example": "recipe double(n):\n    give back n * 2\n\nsay double(5)\nsay double(21)",
+  "challenge": "Write a recipe that triples a number.",
+  "hint": "recipe triple(n): give back n * 3",
+  "expected_output": "10\n42"
+}

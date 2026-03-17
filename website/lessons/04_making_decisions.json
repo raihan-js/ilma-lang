@@ -1,0 +1,15 @@
+{
+  "id": 4,
+  "title": "Making Decisions",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "if / otherwise — conditionals",
+  "real_world": "Good decisions",
+  "knowledge_note": "The Quran says 'think deeply' many times. An if/otherwise block is a computer thinking — it checks a condition and chooses the right path.",
+  "explanation": "The keyword 'if' lets your program make decisions. If the condition is true, the first block runs. Otherwise, the second block runs.",
+  "starter_code": "remember age = 10\nif age > 5:\n    say \"You can learn to code!\"\notherwise:\n    say \"Almost ready!\"",
+  "worked_example": "remember age = 10\nif age > 5:\n    say \"You can learn to code!\"\notherwise:\n    say \"Almost ready!\"",
+  "challenge": "Change age to different numbers and see what happens.",
+  "hint": "Try age = 3 and age = 15.",
+  "expected_output": "You can learn to code!"
+}

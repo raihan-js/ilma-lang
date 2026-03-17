@@ -1,0 +1,15 @@
+{
+  "id": 21,
+  "title": "Build Something Real",
+  "tier": "tree",
+  "duration_minutes": 30,
+  "concept": "capstone — full program",
+  "real_world": "Your gift to the world",
+  "knowledge_note": "The greatest scholars completed their work and shared it. Ibn Sina's Canon of Medicine took decades. Your program, completed and working, is your gift to the world.",
+  "explanation": "Now bring everything together — blueprints, bags, loops, recipes, and modules — to build a complete program.",
+  "starter_code": "use finance\n\nblueprint Student:\n    create(name):\n        me.name = name\n        me.grades = bag[]\n    recipe add_grade(score):\n        me.grades.add(score)\n    recipe average():\n        if me.grades.size is 0:\n            give back 0\n        remember total = 0\n        for each g in me.grades:\n            total = total + g\n        give back total / me.grades.size\n    recipe report():\n        say me.name + \" — average: \" + me.average()\n\nremember s = Student(\"Amira\")\ns.add_grade(92)\ns.add_grade(85)\ns.add_grade(97)\ns.report()",
+  "worked_example": "use finance\n\nblueprint Student:\n    create(name):\n        me.name = name\n        me.grades = bag[]\n    recipe add_grade(score):\n        me.grades.add(score)\n    recipe average():\n        if me.grades.size is 0:\n            give back 0\n        remember total = 0\n        for each g in me.grades:\n            total = total + g\n        give back total / me.grades.size\n    recipe report():\n        say me.name + \" — average: \" + me.average()\n\nremember s = Student(\"Amira\")\ns.add_grade(92)\ns.add_grade(85)\ns.add_grade(97)\ns.report()",
+  "challenge": "Add yourself as a student with your own grades.",
+  "hint": "Create remember me = Student(\"(your name)\") and call add_grade() a few times.",
+  "expected_output": "Amira — average: 91.33333333333333"
+}

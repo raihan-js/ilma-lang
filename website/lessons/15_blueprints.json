@@ -1,0 +1,15 @@
+{
+  "id": 15,
+  "title": "Blueprints",
+  "tier": "tree",
+  "duration_minutes": 20,
+  "concept": "blueprint — classes",
+  "real_world": "Design before you build",
+  "knowledge_note": "Every great mosque was planned before it was built. Al-Jazari drew blueprints for machines 800 years ago. A blueprint in ILMA describes what something is and can do.",
+  "explanation": "A 'blueprint' defines a type of thing — its data and its abilities. You then create instances from the blueprint, each with their own values.",
+  "starter_code": "blueprint Person:\n    create(name, age):\n        me.name = name\n        me.age = age\n    recipe introduce():\n        say \"I am \" + me.name + \", age \" + me.age\n\nremember p = Person(\"Yusuf\", 15)\np.introduce()",
+  "worked_example": "blueprint Person:\n    create(name, age):\n        me.name = name\n        me.age = age\n    recipe introduce():\n        say \"I am \" + me.name + \", age \" + me.age\n\nremember p = Person(\"Yusuf\", 15)\np.introduce()",
+  "challenge": "Add a \"city\" field and mention it in introduce().",
+  "hint": "Add me.city = city to create(), then add city to the say line.",
+  "expected_output": "I am Yusuf, age 15"
+}

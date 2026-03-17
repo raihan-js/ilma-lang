@@ -122,14 +122,29 @@
       </div>
     </div>
 
-    <!-- Output -->
+    <!-- Output + Tutor tabs -->
     <div class="pg-panel">
       <div class="pg-panel-bar">
-        <span class="pg-panel-label">Output</span>
+        <div style="display:flex;gap:2px;">
+          <button id="tab-output-btn" onclick="switchPgTab('output')" style="background:rgba(255,255,255,0.08);color:rgba(255,255,255,0.8);border:none;border-radius:4px;padding:3px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;">Output</button>
+          <button id="tab-tutor-btn" onclick="switchPgTab('tutor')" style="background:transparent;color:rgba(255,255,255,0.4);border:none;border-radius:4px;padding:3px 10px;font-size:0.75rem;font-weight:600;cursor:pointer;">Tutor</button>
+        </div>
         <button class="copy-btn" id="copy-output-btn" title="Copy output">Copy</button>
       </div>
-      <div class="pg-output" id="pg-output">
+      <div class="pg-output" id="pg-output" style="display:flex;flex-direction:column;">
         <span class="out-hint">Press Run (or Ctrl+Enter) to run your code.</span>
+      </div>
+      <div id="pg-tutor-panel" style="display:none;flex:1;overflow:hidden;flex-direction:column;background:var(--ilma-code-bg);">
+        <div id="playground-tutor-messages" style="flex:1;overflow-y:auto;padding:16px;font-size:0.875rem;line-height:1.6;color:var(--ilma-code-text,#e6edf3)">
+          <p style="opacity:0.5;font-style:italic;margin:0">Ask me anything about your ILMA code. I'll guide you — not give you the answer!</p>
+        </div>
+        <div style="display:flex;gap:8px;padding:12px;border-top:1px solid rgba(255,255,255,0.08);flex-shrink:0;">
+          <input id="playground-tutor-input" type="text"
+                 placeholder="Ask the tutor..." maxlength="200"
+                 style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;color:inherit;padding:8px 12px;font-size:0.875rem;outline:none;">
+          <button id="playground-tutor-send"
+                  style="background:#534AB7;color:#fff;border:none;border-radius:6px;padding:8px 16px;cursor:pointer;font-size:0.875rem;">Ask</button>
+        </div>
       </div>
     </div>
   </div>
@@ -145,6 +160,8 @@
 
 <!-- Load interpreter -->
 <script src="/js/playground.js"></script>
+<script src="/js/tutor-config.js"></script>
+<script src="/js/ai-tutor-widget.js"></script>
 
 <!-- Monaco Editor -->
 <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
@@ -227,7 +244,7 @@
         } catch(e) {}
       }
 
-      monacoEditor = monaco.editor.create(document.getElementById('monaco-container'), {
+      monacoEditor = window.ilmaEditor = monaco.editor.create(document.getElementById('monaco-container'), {
         value: savedCode || DEFAULT_CODE,
         language: 'ilma',
         theme: 'ilma-dark',
@@ -376,6 +393,29 @@
       e.preventDefault(); runCode();
     }
   });
+
+  // ── Tab switching ─────────────────────────────────────
+  window.switchPgTab = function(tab) {
+    var outPanel = document.getElementById('pg-output');
+    var tutorPanel = document.getElementById('pg-tutor-panel');
+    var outBtn = document.getElementById('tab-output-btn');
+    var tutorBtn = document.getElementById('tab-tutor-btn');
+    if (tab === 'tutor') {
+      outPanel.style.display = 'none';
+      tutorPanel.style.display = 'flex';
+      outBtn.style.background = 'transparent';
+      outBtn.style.color = 'rgba(255,255,255,0.4)';
+      tutorBtn.style.background = 'rgba(255,255,255,0.08)';
+      tutorBtn.style.color = 'rgba(255,255,255,0.8)';
+    } else {
+      outPanel.style.display = 'flex';
+      tutorPanel.style.display = 'none';
+      outBtn.style.background = 'rgba(255,255,255,0.08)';
+      outBtn.style.color = 'rgba(255,255,255,0.8)';
+      tutorBtn.style.background = 'transparent';
+      tutorBtn.style.color = 'rgba(255,255,255,0.4)';
+    }
+  };
 
   // ── Init Monaco ───────────────────────────────────────
   if (typeof require !== 'undefined') {

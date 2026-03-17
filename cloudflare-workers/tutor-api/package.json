@@ -1,0 +1,12 @@
+{
+  "name": "ilma-tutor-worker",
+  "version": "0.1.0",
+  "description": "ILMA AI Tutor — Cloudflare Workers AI",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy"
+  },
+  "devDependencies": {
+    "wrangler": "^3.0.0"
+  }
+}

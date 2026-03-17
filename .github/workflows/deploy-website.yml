@@ -1,55 +1,43 @@
-name: Deploy website to GitHub Pages
+name: Validate build
 
 on:
   push:
     branches: [ main ]
-  workflow_dispatch:
-
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-concurrency:
-  group: pages
-  cancel-in-progress: false
+  pull_request:
+    branches: [ main ]
 
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  build-check:
+    name: Validate Cloudflare Pages build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Copy static assets into website
-        run: |
-          cp install.sh website/install.sh
-          chmod +x website/install.sh
-          sed -i 's/\r//' website/install.sh
-          cp scripts/install-windows.ps1 website/install.ps1
-          cp VERSION website/VERSION
-          VERSION=$(cat VERSION | tr -d '[:space:]')
-          cat > website/ilma-version.json << ENDJSON
-          {
-            "version": "${VERSION}",
-            "repo": "https://github.com/raihan-js/ilma-lang",
-            "install": "curl -fsSL https://ilma-lang.dev/install.sh | bash",
-            "website": "https://ilma-lang.dev"
-          }
-          ENDJSON
+      - name: Install Python deps
+        run: pip install --break-system-packages requests 2>/dev/null || true
 
-      - name: Copy packages registry to website
-        run: |
-          mkdir -p website/packages
-          cp -r packages/* website/packages/
-          python3 scripts/build-registry.py
-          cp packages/registry.json website/packages/registry.json
+      - name: Run build script
+        run: bash build.sh
 
-      - uses: actions/configure-pages@v4
-      - uses: actions/upload-pages-artifact@v3
-        with:
-          path: website/
-      - id: deployment
-        uses: actions/deploy-pages@v4
+      - name: Verify critical files exist
+        run: |
+          echo "Checking build output..."
+          [ -f website/index.html ]             && echo "OK: index.html"       || (echo "MISSING: index.html" && exit 1)
+          [ -f website/install.sh ]             && echo "OK: install.sh"       || (echo "MISSING: install.sh" && exit 1)
+          [ -f website/packages/registry.json ] && echo "OK: registry.json"    || (echo "MISSING: registry.json" && exit 1)
+          [ -f website/ilma-version.json ]      && echo "OK: version.json"     || (echo "MISSING: version.json" && exit 1)
+          echo "Build validation passed."
+
+      - name: Validate registry JSON
+        run: |
+          python3 -c "
+          import json, sys
+          with open('website/packages/registry.json') as f:
+              reg = json.load(f)
+          pkgs = reg.get('packages', [])
+          print(f'Registry has {len(pkgs)} packages')
+          for p in pkgs:
+              assert 'name' in p, f'Package missing name: {p}'
+              assert 'url'  in p, f'Package missing url: {p}'
+          print('Registry JSON valid')
+          "

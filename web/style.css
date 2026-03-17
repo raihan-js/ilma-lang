@@ -515,6 +515,56 @@ html, body {
 }
 .tutor-actions button:hover { background: var(--accent-hover); }
 
+/* ── Tutor Input Row ──────────────────────────────── */
+.tutor-input-row {
+    display: flex;
+    gap: 6px;
+    padding: 8px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+}
+.tutor-input-row input {
+    flex: 1;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 6px;
+    color: #fff;
+    padding: 6px 10px;
+    font-size: 0.85rem;
+    outline: none;
+}
+.tutor-input-row input:focus {
+    border-color: rgba(127,119,221,0.6);
+}
+.tutor-input-row button {
+    background: #534AB7;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 14px;
+    font-size: 0.85rem;
+    cursor: pointer;
+}
+.tutor-msg-user .tutor-body {
+    background: rgba(83,74,183,0.25);
+    border-radius: 8px;
+    padding: 6px 10px;
+    margin-left: 20px;
+    font-size: 0.85rem;
+    font-style: italic;
+}
+.tutor-thinking .tutor-body {
+    opacity: 0.5;
+    font-style: italic;
+}
+.tutor-badge {
+    background: rgba(255,255,255,0.1);
+    border-radius: 4px;
+    padding: 1px 6px;
+    font-size: 0.7rem;
+    color: #aaa;
+    margin-right: 4px;
+}
+
 /* ── Scrollbar ────────────────────────────────────── */
 ::-webkit-scrollbar { width: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }

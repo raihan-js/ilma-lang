@@ -1,0 +1,15 @@
+{
+  "id": 8,
+  "title": "Writing Recipes",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "recipe — functions",
+  "real_world": "Skills you can share",
+  "knowledge_note": "Islamic scholars wrote recipe-like books to share knowledge across centuries. A recipe in ILMA does the same — write it once, share it forever.",
+  "explanation": "A 'recipe' is a named block of code you can use over and over. Define it once, then call it by name whenever you need it.",
+  "starter_code": "recipe greet(name):\n    say \"Assalamu Alaikum, \" + name\n\ngreet(\"Amira\")\ngreet(\"Yusuf\")",
+  "worked_example": "recipe greet(name):\n    say \"Assalamu Alaikum, \" + name\n\ngreet(\"Amira\")\ngreet(\"Yusuf\")",
+  "challenge": "Write a recipe that says \"Bismillah before (action)\".",
+  "hint": "recipe bismillah(action): say \"Bismillah before \" + action",
+  "expected_output": "Assalamu Alaikum, Amira\nAssalamu Alaikum, Yusuf"
+}

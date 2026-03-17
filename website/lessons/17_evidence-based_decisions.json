@@ -1,0 +1,15 @@
+{
+  "id": 17,
+  "title": "Evidence-Based Decisions",
+  "tier": "tree",
+  "duration_minutes": 20,
+  "concept": "check / when — pattern matching",
+  "real_world": "Evidence-based decisions",
+  "knowledge_note": "Islamic jurisprudence (fiqh) uses evidence to reach rulings — check the evidence, decide accordingly. Pattern matching in code does the same.",
+  "explanation": "A 'check' block tests a value against many patterns. The first matching 'when' block runs. 'otherwise' handles anything not matched.",
+  "starter_code": "remember score = 87\ncheck score:\n    when 90..100:\n        say \"Excellent — A\"\n    when 80..89:\n        say \"Good — B\"\n    when 70..79:\n        say \"Passing — C\"\n    otherwise:\n        say \"Keep trying\"",
+  "worked_example": "remember score = 87\ncheck score:\n    when 90..100:\n        say \"Excellent — A\"\n    when 80..89:\n        say \"Good — B\"\n    when 70..79:\n        say \"Passing — C\"\n    otherwise:\n        say \"Keep trying\"",
+  "challenge": "Change the score and see the result change.",
+  "hint": "Try score = 95, score = 72, score = 55.",
+  "expected_output": "Good — B"
+}

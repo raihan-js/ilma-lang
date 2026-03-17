@@ -4,6 +4,50 @@ All notable changes to ILMA are documented here.
 
 ---
 
+## [0.8.0] — 2026-03-18
+
+### Added
+
+**Cloudflare Pages + CI**
+- Moved deployment from GitHub Pages to Cloudflare Pages (build command: `bash build.sh`)
+- Replaced GitHub Pages CI workflow with build-validation-only workflow
+- `build.sh` now the single source of truth for website output
+- `.gitignore` updated: `website/packages/registry.json` excluded from git
+
+**AI Tutor — Cloudflare Workers AI**
+- `cloudflare-workers/tutor-api/` — zero-cost AI tutor using Llama 3.1 8B
+- Free tier: 10,000 AI requests/day via Cloudflare Workers AI
+- Socratic tutor prompt: guides children without giving direct answers
+- CORS configured for `https://ilma-lang.dev`
+- Deploy in 5 minutes: `cd cloudflare-workers/tutor-api && npx wrangler deploy`
+
+**AI Tutor Integration — Web IDE (`web/`)**
+- `web/ai-tutor.js` — `IlmaAITutor` class wrapping AI endpoint with rule-based fallback
+- Conversational chat input added to tutor panel (type and press Enter)
+- Hint button now async with "Thinking..." state
+- `currentLessonTitle` passed to tutor for context-aware responses
+- Rate limiting: 20 requests per hour (client-side)
+- CSS added: tutor input row, user message bubbles, thinking indicator, badge
+
+**AI Tutor Widget — Website Playground**
+- `website/js/tutor-config.js` — endpoint + enabled flag (set after deploy)
+- `website/js/ai-tutor-widget.js` — standalone IIFE widget for `playground.html`
+- Tutor tab added to `website/playground.html` alongside Output tab
+- Tab switching: Output / Tutor with visual active state
+
+**21 Lesson JSON Files**
+- `website/lessons/` — 21 structured lesson files (seed/sapling/tree tiers)
+- Each lesson: id, title, tier, concept, real_world, knowledge_note, explanation, starter_code, challenge, hint, expected_output
+- Islamic and scientific knowledge notes woven into each lesson
+- `scripts/create-lessons.py` generates all 21 files
+
+**VS Code Extension**
+- Gallery banner updated to ILMA purple (`#534AB7`)
+- Extension compiled and packaged: `vscode-extension/ilma-language-0.1.0.vsix`
+- Ready to publish to VS Code Marketplace (see `PUBLISH.md`)
+
+---
+
 ## [0.7.0] — 2026-03-17
 
 ### Added

@@ -1,0 +1,15 @@
+{
+  "id": 1,
+  "title": "Your First Program",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "say — output to screen",
+  "real_world": "What is a computer?",
+  "knowledge_note": "The word 'algorithm' comes from Al-Khwarizmi, a 9th-century Muslim mathematician from Baghdad who wrote the first algebra textbook. Every program you write follows his work.",
+  "explanation": "The simplest thing ILMA can do is show words on screen. The keyword 'say' does this — like speaking out loud. Write it, then the words in quotes, and your program speaks.",
+  "starter_code": "say \"Bismillah\"\nsay \"Hello, World!\"",
+  "worked_example": "say \"Bismillah\"\nremember name = \"Amira\"\nsay \"Hello, \" + name",
+  "challenge": "Change the program to say your own name.",
+  "hint": "Change \"Amira\" to your name inside the quotation marks.",
+  "expected_output": "Bismillah\nHello, World!"
+}

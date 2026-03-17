@@ -1,0 +1,15 @@
+{
+  "id": 18,
+  "title": "Recipes as Values",
+  "tier": "tree",
+  "duration_minutes": 20,
+  "concept": "lambdas — first-class functions",
+  "real_world": "Functions are first class",
+  "knowledge_note": "In mathematics, functions can take other functions as input. Al-Khwarizmi used this concept in algebra 1200 years ago.",
+  "explanation": "In ILMA, a recipe can be stored in a variable and passed around. A short recipe with no name is called a lambda.",
+  "starter_code": "remember double = recipe(n): give back n * 2\nremember nums = bag[1, 2, 3, 4, 5]\nremember doubled = nums.map(double)\nfor each n in doubled:\n    say n",
+  "worked_example": "remember double = recipe(n): give back n * 2\nremember nums = bag[1, 2, 3, 4, 5]\nremember doubled = nums.map(double)\nfor each n in doubled:\n    say n",
+  "challenge": "Write a triple lambda and map it over the same bag.",
+  "hint": "remember triple = recipe(n): give back n * 3",
+  "expected_output": "2\n4\n6\n8\n10"
+}

@@ -274,6 +274,7 @@ function openLesson(id) {
     currentLesson = id;
     document.getElementById('lesson-list').classList.add('hidden');
     document.getElementById('lesson-content').classList.remove('hidden');
+    currentLessonTitle = lesson.title;
     document.getElementById('lesson-title').textContent = `${lesson.id}. ${lesson.title}`;
     document.getElementById('lesson-body').innerHTML = lesson.body;
 
@@ -352,11 +353,13 @@ function loadFromURL() {
 window.addEventListener('hashchange', loadFromURL);
 
 // ── Tutor ──────────────────────────────────────────
-const tutor = new IlmaTutor();
+const tutor = new IlmaAITutor();
+// Configure from website config if available
+if (typeof ILMA_TUTOR_CONFIG !== 'undefined') {
+    tutor.configure(ILMA_TUTOR_CONFIG);
+}
 let lastError = null;
-
-// Override appendOutput to capture errors
-const origAppendOutput = appendOutput;
+let currentLessonTitle = null;
 
 document.getElementById('btn-tutor').addEventListener('click', () => {
     document.getElementById('tutor-panel').classList.toggle('hidden');
@@ -366,15 +369,64 @@ document.getElementById('btn-close-tutor').addEventListener('click', () => {
     document.getElementById('tutor-panel').classList.add('hidden');
 });
 
-document.getElementById('btn-hint').addEventListener('click', () => {
+document.getElementById('btn-hint').addEventListener('click', async () => {
     const code = editor ? editor.getValue() : '';
-    const hint = tutor.analyze(code, lastError);
+    const btn = document.getElementById('btn-hint');
+    btn.disabled = true;
+    btn.textContent = 'Thinking...';
+
+    const result = await tutor.ask(
+        "Give me a hint for what I should do next.",
+        code,
+        currentLessonTitle || ''
+    );
+
+    btn.disabled = false;
+    btn.textContent = 'Give me a hint';
+
     const msgs = document.getElementById('tutor-messages');
-    const div = document.createElement('div');
+    const div  = document.createElement('div');
     div.className = 'tutor-msg';
-    div.innerHTML = `<div class="tutor-title">${hint.title}</div><div class="tutor-body">${hint.message}</div>`;
+    const badge = result.source === 'ai' ? '' :
+                  '<span class="tutor-badge">hint</span>';
+    div.innerHTML = `<div class="tutor-body">${badge} ${result.message}</div>`;
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
+});
+
+function sendTutorMessage() {
+    const input = document.getElementById('tutor-input');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+
+    const code = editor ? editor.getValue() : '';
+    const msgs = document.getElementById('tutor-messages');
+
+    const userDiv = document.createElement('div');
+    userDiv.className = 'tutor-msg tutor-msg-user';
+    userDiv.innerHTML = `<div class="tutor-body">${msg}</div>`;
+    msgs.appendChild(userDiv);
+
+    const thinkingDiv = document.createElement('div');
+    thinkingDiv.className = 'tutor-msg tutor-thinking';
+    thinkingDiv.innerHTML = '<div class="tutor-body">...</div>';
+    msgs.appendChild(thinkingDiv);
+    msgs.scrollTop = msgs.scrollHeight;
+
+    tutor.ask(msg, code, currentLessonTitle || '').then(result => {
+        thinkingDiv.remove();
+        const replyDiv = document.createElement('div');
+        replyDiv.className = 'tutor-msg';
+        replyDiv.innerHTML = `<div class="tutor-body">${result.message}</div>`;
+        msgs.appendChild(replyDiv);
+        msgs.scrollTop = msgs.scrollHeight;
+    });
+}
+
+document.getElementById('btn-ask-tutor').addEventListener('click', sendTutorMessage);
+document.getElementById('tutor-input').addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') sendTutorMessage();
 });
 
 // Handle window resize for Monaco

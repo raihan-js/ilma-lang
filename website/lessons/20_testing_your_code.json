@@ -1,0 +1,15 @@
+{
+  "id": 20,
+  "title": "Testing Your Code",
+  "tier": "tree",
+  "duration_minutes": 20,
+  "concept": "ilma test — automated tests",
+  "real_world": "Quality matters",
+  "knowledge_note": "Muslim engineers tested their machines before use. A program without tests is a bridge without inspection — you never know when it will fail.",
+  "explanation": "A 'test' block checks that your code does exactly what you expect. Run tests to catch mistakes before your users do.",
+  "starter_code": "test \"doubling works\":\n    remember result = 2 * 21\n    check result is 42\n\ntest \"strings work\":\n    remember s = \"hello\"\n    check s.upper() is \"HELLO\"",
+  "worked_example": "test \"doubling works\":\n    remember result = 2 * 21\n    check result is 42\n\ntest \"strings work\":\n    remember s = \"hello\"\n    check s.upper() is \"HELLO\"",
+  "challenge": "Write a test for a recipe you created.",
+  "hint": "Write a recipe, then write test \"my recipe works\": and check its output.",
+  "expected_output": "All tests passed!"
+}

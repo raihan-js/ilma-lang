@@ -1,0 +1,15 @@
+{
+  "id": 11,
+  "title": "Labels and Values",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "notebook — key-value store",
+  "real_world": "Record keeping",
+  "knowledge_note": "Muslim scholars kept detailed records called diwan. A notebook in ILMA is a digital record book — information stored with labels.",
+  "explanation": "A 'notebook' stores values with named labels. You can add any information and look it up by its label later.",
+  "starter_code": "remember student = notebook[name: \"Amira\", age: 12, grade: \"A\"]\nsay student[name]\nsay student[grade]",
+  "worked_example": "remember student = notebook[name: \"Amira\", age: 12, grade: \"A\"]\nsay student[name]\nsay student[grade]",
+  "challenge": "Add a \"subject\" key and say it.",
+  "hint": "Add subject: \"Maths\" to the notebook, then say student[subject].",
+  "expected_output": "Amira\nA"
+}

@@ -1,0 +1,15 @@
+{
+  "id": 13,
+  "title": "When Things Go Wrong",
+  "tier": "sapling",
+  "duration_minutes": 15,
+  "concept": "try / when wrong — error handling",
+  "real_world": "Resilience",
+  "knowledge_note": "Every failure is a lesson. The Quran says 'with hardship comes ease.' Handle errors gracefully and your programs will be stronger.",
+  "explanation": "A 'try' block runs code that might fail. If something goes wrong, the 'when wrong' block catches the error and lets you recover gracefully.",
+  "starter_code": "try:\n    shout \"test error\"\nwhen wrong:\n    say \"Something went wrong, but I handled it!\"",
+  "worked_example": "try:\n    shout \"test error\"\nwhen wrong:\n    say \"Something went wrong, but I handled it!\"",
+  "challenge": "Try dividing by zero inside a try block.",
+  "hint": "Put say 10 / 0 inside the try block.",
+  "expected_output": "Something went wrong, but I handled it!"
+}

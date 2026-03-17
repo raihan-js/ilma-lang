@@ -1,0 +1,15 @@
+{
+  "id": 5,
+  "title": "Asking Questions",
+  "tier": "seed",
+  "duration_minutes": 10,
+  "concept": "ask — user input",
+  "real_world": "Listening is important",
+  "knowledge_note": "The Prophet (peace be upon him) was known for listening before speaking. Programs that ask before acting are better programs.",
+  "explanation": "The keyword 'ask' pauses your program and waits for the user to type something. The answer is stored in a variable for you to use.",
+  "starter_code": "remember name = ask \"What is your name? \"\nsay \"Assalamu Alaikum, \" + name",
+  "worked_example": "remember name = ask \"What is your name? \"\nsay \"Assalamu Alaikum, \" + name",
+  "challenge": "Ask for someone's favourite colour and say it back.",
+  "hint": "Use remember colour = ask \"What is your favourite colour? \" then say colour.",
+  "expected_output": "Assalamu Alaikum, (your name)"
+}

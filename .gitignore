@@ -34,5 +34,7 @@ plan/
 
 # Generated at deploy time (copied from root)
 website/install.sh
+website/install.ps1
 website/VERSION
 website/ilma-version.json
+website/packages/registry.json
