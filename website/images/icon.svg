@@ -1,14 +1,14 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
   <defs>
-    <linearGradient id="g" x1="0%" y1="0%" x2="0%" y2="100%">
-      <stop offset="0%" style="stop-color:#7F77DD"/>
-      <stop offset="100%" style="stop-color:#3C3489"/>
+    <linearGradient id="ag" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#A89FEF"/>
+      <stop offset="100%" stop-color="#5248C0"/>
     </linearGradient>
   </defs>
-  <path d="M 24 5 C 25 5 27 8 26 14 C 25 20 23 26 22 31 C 21 35 20 38 19 41"
-        stroke="url(#g)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
-  <path d="M 11 39 C 14 37 19 38 24 40 C 28 42 32 41 33 39"
-        stroke="url(#g)" stroke-width="3" stroke-linecap="round" fill="none"/>
-  <path d="M 24 5 C 23 3 21 2 20 4"
-        stroke="url(#g)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  <!-- Alef main stroke -->
+  <path d="M 27 6 C 27 8 26.5 13 26 19 C 25.5 25 24.5 31 23.5 36 C 23 39 22 41 21 43"
+        stroke="url(#ag)" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+  <!-- Alef base sweep -->
+  <path d="M 11 42 C 15 39 19 40 23 42"
+        stroke="url(#ag)" stroke-width="3" stroke-linecap="round" fill="none"/>
 </svg>

@@ -182,8 +182,17 @@ pre code {
 .nav-logo img {
   height: 32px;
   width: auto;
-  filter: brightness(0) invert(1);
 }
+
+/* Lucide icon sizing inside feature cards and showcase tabs */
+.feature-icon svg,
+.stb-icon svg {
+  display: block;
+}
+.feature-icon svg { stroke: var(--ilma-purple); }
+.feature-icon-dark svg { stroke: #a89fef; }
+.stb-icon svg { stroke: var(--ilma-purple); }
+.showcase-tab-btn.active .stb-icon svg { stroke: #fff; }
 
 .nav-logo-text {
   font-family: var(--font);
@@ -252,6 +261,9 @@ pre code {
 .nav-hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
 .nav-hamburger.open span:nth-child(2) { opacity: 0; }
 .nav-hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* Mobile menu hidden by default on all breakpoints */
+.mobile-menu { display: none; }
 
 /* ── Buttons ─────────────────────────────────────────── */
 .btn {
