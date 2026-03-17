@@ -3,7 +3,14 @@
 
 CC      = gcc
 CFLAGS  = -O2 -Wall -Wextra -Wno-unused-parameter -Wno-unused-function -std=c11 -D_POSIX_C_SOURCE=200809L
-LDFLAGS = -lm
+LDFLAGS = -lm -lpthread
+
+# ── Optional readline support for REPL ──────────────────
+READLINE := $(shell pkg-config --libs readline 2>/dev/null || echo "")
+ifneq ($(READLINE),)
+  CFLAGS  += -DHAVE_READLINE
+  LDFLAGS += $(READLINE)
+endif
 PREFIX  = /usr/local
 BINDIR  = $(PREFIX)/bin
 LIBDIR  = $(PREFIX)/lib/ilma/runtime
@@ -19,7 +26,12 @@ SOURCES = $(SRC_DIR)/main.c \
           $(SRC_DIR)/runtime/ilma_runtime.c \
           $(SRC_DIR)/pkg/ilma_pkg.c \
           $(SRC_DIR)/repl.c \
-          $(SRC_DIR)/evaluator.c
+          $(SRC_DIR)/evaluator.c \
+          $(SRC_DIR)/errors.c \
+          $(SRC_DIR)/test_runner.c \
+          $(SRC_DIR)/formatter.c \
+          $(SRC_DIR)/checker.c \
+          $(SRC_DIR)/docgen.c
 
 TARGET  = $(BUILD_DIR)/ilma
 ILMA_DEV = ILMA_HOME=$(shell pwd)/src
@@ -29,7 +41,7 @@ LSP_SOURCES = $(SRC_DIR)/lsp/lsp_main.c \
               $(SRC_DIR)/lexer.c
 LSP_TARGET  = $(BUILD_DIR)/ilma-lsp
 
-.PHONY: all clean install uninstall test test-verbose memcheck lsp
+.PHONY: all clean install uninstall test test-verbose memcheck lsp self-test bench
 
 all: $(TARGET)
 
@@ -77,6 +89,13 @@ test: $(TARGET)
 test-verbose: $(TARGET)
 	@bash tests/run_tests.sh
 
+self-test: $(TARGET)
+	@echo "Running ILMA self-tests..."
+	@for f in tests/self_test/*.ilma; do \
+		echo "Testing $$f..."; \
+		$(ILMA_DEV) $(TARGET) test "$$f" || echo "  SELF-TEST FAILED: $$f"; \
+	done
+
 memcheck: $(TARGET)
 	@echo "Running memory checks..."
 	@for f in tests/tier1/*.ilma; do \
@@ -84,3 +103,11 @@ memcheck: $(TARGET)
 		valgrind --error-exitcode=1 --leak-check=full $(TARGET) --c "$$f" > /dev/null 2>&1 || \
 		echo "  MEMORY ISSUE in $$f"; \
 	done
+
+bench: $(TARGET)
+	@echo "=== Benchmark: fibonacci fib(30) ==="
+	@ILMA_HOME=$(shell pwd)/src time ./build/ilma tests/bench/fibonacci.ilma
+	@echo "=== Benchmark: string concatenation x1000 ==="
+	@ILMA_HOME=$(shell pwd)/src time ./build/ilma tests/bench/string_concat.ilma
+	@echo "=== Benchmark: bag operations x1000 ==="
+	@ILMA_HOME=$(shell pwd)/src time ./build/ilma tests/bench/bag_operations.ilma

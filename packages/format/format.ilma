@@ -1,0 +1,52 @@
+# ILMA format package — text and number formatting
+
+### Repeat a character N times
+recipe repeat_char(ch, n):
+    remember result = ""
+    repeat n:
+        result = result + ch
+    give back result
+
+### Left-pad text to a given width
+recipe pad_left(text, width, ch):
+    remember s = "" + text
+    keep going while s.length < width:
+        s = ch + s
+    give back s
+
+### Right-pad text to a given width
+recipe pad_right(text, width, ch):
+    remember s = "" + text
+    keep going while s.length < width:
+        s = s + ch
+    give back s
+
+### Center text in a given width
+recipe center(text, width):
+    remember s = "" + text
+    remember padding = width - s.length
+    if padding <= 0:
+        give back s
+    remember left = padding / 2
+    remember right = padding - left
+    give back repeat_char(" ", left) + s + repeat_char(" ", right)
+
+### Format a table cell (left-aligned, fixed width)
+recipe cell(text, width):
+    remember s = "" + text
+    if s.length >= width:
+        give back s.slice(0, width)
+    keep going while s.length < width:
+        s = s + " "
+    give back s
+
+### Format a percentage: 0.25 -> "25%"
+recipe percentage(decimal):
+    give back "" + (decimal * 100) + "%"
+
+### Add a border around text
+recipe box(text):
+    remember line = repeat_char("-", text.length + 4)
+    say line
+    say "| " + text + " |"
+    say line

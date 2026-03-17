@@ -3,6 +3,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
+#include <time.h>
+#include <inttypes.h>
 
 /* ── Constructor helpers ──────────────────────────────── */
 
@@ -689,4 +691,65 @@ IlmaValue ilma_file_exists(IlmaValue path) {
     FILE* f = fopen(path.as_text, "r");
     if (f) { fclose(f); return ilma_yes(); }
     return ilma_no();
+}
+
+/* ── System built-ins ────────────────────────────────── */
+
+void ilma_print(IlmaValue v) {
+    /* Like ilma_say but no newline */
+    switch (v.type) {
+        case ILMA_WHOLE:   printf("%" PRId64, v.as_whole); break;
+        case ILMA_DECIMAL: printf("%g", v.as_decimal); break;
+        case ILMA_TEXT:    printf("%s", v.as_text ? v.as_text : ""); break;
+        case ILMA_TRUTH:   printf("%s", v.as_truth ? "yes" : "no"); break;
+        case ILMA_EMPTY:   printf("empty"); break;
+        default:           printf("[value]"); break;
+    }
+}
+
+IlmaValue ilma_timestamp(void) {
+    time_t t = time(NULL);
+    return ilma_whole((int64_t)t);
+}
+
+void ilma_exit_program(IlmaValue code) {
+    int c = 0;
+    if (code.type == ILMA_WHOLE) c = (int)code.as_whole;
+    exit(c);
+}
+
+IlmaValue ilma_env_get(IlmaValue name) {
+    if (name.type != ILMA_TEXT || !name.as_text) return ilma_empty_val();
+    const char* val = getenv(name.as_text);
+    if (!val) return ilma_empty_val();
+    return ilma_text(val);
+}
+
+/* Global argv storage for ilma_args_get */
+static char** g_ilma_argv = NULL;
+static int     g_ilma_argc = 0;
+
+void ilma_set_args(int argc, char** argv) {
+    g_ilma_argc = argc;
+    g_ilma_argv = argv;
+}
+
+IlmaValue ilma_args_get(void) {
+    IlmaValue bag = ilma_bag_new();
+    for (int i = 0; i < g_ilma_argc; i++) {
+        ilma_bag_add(bag.as_bag, ilma_text(g_ilma_argv[i]));
+    }
+    return bag;
+}
+
+void ilma_sleep_ms(IlmaValue ms) {
+    int64_t msec = 0;
+    if (ms.type == ILMA_WHOLE) msec = ms.as_whole;
+    else if (ms.type == ILMA_DECIMAL) msec = (int64_t)ms.as_decimal;
+    if (msec > 0) {
+        struct timespec ts;
+        ts.tv_sec = msec / 1000;
+        ts.tv_nsec = (msec % 1000) * 1000000;
+        nanosleep(&ts, NULL);
+    }
 }

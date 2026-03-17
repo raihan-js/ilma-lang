@@ -1,0 +1,9 @@
+{
+  "name": "storage",
+  "version": "0.1.0",
+  "description": "File-based data persistence using JSON",
+  "author": "ILMA Team",
+  "license": "MIT",
+  "ilma_version": ">=0.6.0",
+  "tags": ["storage", "persistence", "json", "files"]
+}

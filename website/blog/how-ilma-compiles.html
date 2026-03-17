@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How ILMA Compiles: From .ilma to Native Binary — ILMA Blog</title>
+  <meta name="description" content="A technical walk-through of the ILMA compilation pipeline — lexer, parser, transpiler and how we call GCC to produce a real executable.">
+  <link rel="canonical" href="https://ilma-lang.dev/blog/how-ilma-compiles.html">
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/logo.svg" alt="ILMA" height="32" onerror="this.style.display='none'">
+      <span class="nav-logo-text">ILMA</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs.html">Docs</a>
+      <a href="/learn.html">Learn</a>
+      <a href="/packages.html">Packages</a>
+      <a href="/playground.html">Playground</a>
+      <a href="/blog/" class="active">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/install.html" class="btn btn-ghost btn-sm">Install</a>
+      <a href="/playground.html" class="btn btn-primary btn-sm">Try Online</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="/docs.html">Docs</a>
+  <a href="/learn.html">Learn</a>
+  <a href="/packages.html">Packages</a>
+  <a href="/playground.html">Playground</a>
+  <a href="/blog/">Blog</a>
+  <div class="mobile-divider"></div>
+  <a href="/install.html">Install</a>
+  <a href="/playground.html" class="btn btn-primary" style="margin-top:8px;text-align:center;">Try Online</a>
+</div>
+
+<!-- ═══ HERO ════════════════════════════════════════════ -->
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container" style="max-width:760px;">
+    <a href="/blog/" style="display:inline-flex;align-items:center;gap:6px;color:var(--ilma-text-muted);font-size:0.875rem;margin-bottom:24px;text-decoration:none;">&larr; Back to Blog</a>
+    <div class="article-eyebrow">
+      <span class="badge badge-dark">Technical</span>
+    </div>
+    <h1 style="color:var(--ilma-white);font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:16px 0;">
+      How ILMA Compiles: From .ilma to Native Binary
+    </h1>
+    <div class="article-meta" style="color:var(--ilma-text-muted);">
+      <span>Raihan</span>
+      <span>&bull;</span>
+      <span>March 2026</span>
+      <span>&bull;</span>
+      <span>10 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARTICLE BODY ════════════════════════════════════ -->
+<main>
+  <div class="article-layout">
+    <div class="article-body">
+
+      <p>
+        When you type <code>ilma build hello.ilma</code>, a chain of transformations happens in under a second that takes your friendly English-like source code and produces a native binary ready to run on your machine. This post walks through every stage of that pipeline in detail.
+      </p>
+
+      <h2>The pipeline at a glance</h2>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">diagram</span></div>
+        <pre>source.ilma
+    │
+    ▼
+[ Lexer ] ──── tokens
+    │
+    ▼
+[ Parser ] ──── AST (Abstract Syntax Tree)
+    │
+    ▼
+[ Resolver ] ── scope / name resolution
+    │
+    ▼
+[ Transpiler ] ─ C source code
+    │
+    ▼
+[ GCC / Clang ] native binary</pre>
+      </div>
+
+      <h2>Stage 1: Lexing</h2>
+
+      <p>
+        The lexer reads your ILMA source file character by character and groups them into <em>tokens</em> — the atomic units of meaning in the language. A token has a type (keyword, identifier, number, string, operator, newline) and a value.
+      </p>
+
+      <p>
+        For example, the line <code>remember age = 12</code> is tokenised as:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">token stream</span></div>
+        <pre>KEYWORD("remember")
+IDENTIFIER("age")
+OP("=")
+NUMBER(12)
+NEWLINE</pre>
+      </div>
+
+      <p>
+        The lexer handles ILMA's multi-word keywords — <code>give back</code>, <code>for each</code>, <code>keep going while</code>, <code>when wrong</code>, <code>comes from</code> — by looking ahead when it sees the first word. This is a deliberate design choice: it means the grammar stays clean and unambiguous even though keywords look like phrases.
+      </p>
+
+      <p>
+        Indentation is significant in ILMA, so the lexer emits <code>INDENT</code> and <code>DEDENT</code> tokens (similar to Python) whenever the indentation level changes. This avoids needing curly braces to denote blocks.
+      </p>
+
+      <h2>Stage 2: Parsing</h2>
+
+      <p>
+        The parser takes the token stream and builds an <em>Abstract Syntax Tree</em> — a tree structure that represents the logical structure of your program, independent of the exact syntax used.
+      </p>
+
+      <p>
+        ILMA's parser is a hand-written recursive descent parser. Each grammar rule has a corresponding function. Here's what the AST looks like for a simple <code>if</code> statement:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">ilma source</span></div>
+        <pre class="ilma-code">if score >= 90:
+    say "Excellent!"
+otherwise:
+    say "Try harder."</pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">AST (pseudo-JSON)</span></div>
+        <pre>{
+  "type": "IfStatement",
+  "condition": {
+    "type": "BinaryExpr",
+    "op": ">=",
+    "left":  { "type": "Identifier", "name": "score" },
+    "right": { "type": "NumberLiteral", "value": 90 }
+  },
+  "body": [
+    { "type": "SayStatement", "expr": { "type": "StringLiteral", "value": "Excellent!" } }
+  ],
+  "otherwise": [
+    { "type": "SayStatement", "expr": { "type": "StringLiteral", "value": "Try harder." } }
+  ]
+}</pre>
+      </div>
+
+      <p>
+        Errors caught at the parse stage produce friendly messages that explain the problem in plain language — designed to be understandable by a child learning to code, not just an experienced programmer.
+      </p>
+
+      <h2>Stage 3: Name Resolution</h2>
+
+      <p>
+        Before generating code, the compiler walks the AST to resolve all names. It verifies that every variable referenced has been declared, every recipe called exists, and every <code>give back</code> occurs inside a recipe body. This stage catches a large class of common mistakes early with helpful error messages.
+      </p>
+
+      <p>
+        ILMA uses lexical scoping: each block (recipe body, loop body, <code>if</code> body) introduces a new scope. Inner scopes can read variables from outer scopes, but inner assignments create local variables by default — consistent with how most modern languages work.
+      </p>
+
+      <h2>Stage 4: C Transpilation</h2>
+
+      <p>
+        This is the most distinctive part of ILMA's architecture. Rather than generating machine code directly, the compiler transpiles the AST to C source code. This was a deliberate choice that provides several advantages:
+      </p>
+
+      <ul>
+        <li><strong>Portability:</strong> Any platform with a C compiler (GCC, Clang, MSVC) can compile ILMA programs.</li>
+        <li><strong>Performance:</strong> Modern C compilers apply years of optimisation work that would take a new language decades to replicate.</li>
+        <li><strong>Correctness:</strong> We can rely on the C standard library for memory management, I/O and maths — battle-tested code we don't need to rewrite.</li>
+        <li><strong>Transparency:</strong> Advanced learners can inspect the generated C code and see the direct translation of their ILMA constructs.</li>
+      </ul>
+
+      <p>
+        Here's what a simple ILMA recipe transpiles to:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">ilma input</span></div>
+        <pre class="ilma-code">recipe square(n):
+    give back n * n
+
+say square(7)</pre>
+      </div>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">generated C</span></div>
+        <pre>#include &lt;stdio.h&gt;
+#include &lt;stdlib.h&gt;
+#include "ilma_runtime.h"
+
+IlmaValue ilma_square(IlmaValue n) {
+    return ilma_mul(n, n);
+}
+
+int main(void) {
+    IlmaValue _v0 = ilma_square(ilma_number(7));
+    ilma_say(_v0);
+    return 0;
+}</pre>
+      </div>
+
+      <p>
+        ILMA values are boxed in a tagged union type <code>IlmaValue</code> that can hold numbers, strings, booleans, lists and dictionaries. The runtime library (<code>ilma_runtime.h</code> and <code>ilma_runtime.c</code>) provides the implementation of all built-in operations.
+      </p>
+
+      <h2>Stage 5: Compilation with GCC</h2>
+
+      <p>
+        Once the C file is written to a temporary directory, the compiler shells out to <code>gcc</code> (or <code>clang</code> if GCC is not found) to produce the final binary:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">internal command</span></div>
+        <pre>gcc -O2 -o hello /tmp/ilma_build_abc123/hello.c \
+    /usr/local/lib/ilma/ilma_runtime.c \
+    -lm -I/usr/local/include/ilma</pre>
+      </div>
+
+      <p>
+        The <code>-O2</code> flag enables standard optimisations — loop unrolling, constant propagation, inlining. For production builds, <code>ilma build --release</code> uses <code>-O3 -flto</code> for maximum performance.
+      </p>
+
+      <h2>The REPL</h2>
+
+      <p>
+        The ILMA REPL (<code>ilma repl</code>) uses a slightly different path: instead of producing a binary, it compiles each entered statement to a shared object (<code>.so</code>) and dynamically loads it. This gives true interactive compilation with sub-millisecond latency for simple expressions, which is essential for a language aimed at learners who expect immediate feedback.
+      </p>
+
+      <h2>What's next in the compiler</h2>
+
+      <p>
+        The current compiler is functional but has room to grow. Planned improvements include:
+      </p>
+
+      <ul>
+        <li>Type inference — automatically inferring types where possible to produce tighter C code</li>
+        <li>Incremental compilation — only recompiling changed modules</li>
+        <li>WebAssembly output — so ILMA programs can run in the browser natively (not just in the JS interpreter)</li>
+        <li>Debug info — DWARF symbols so <code>gdb</code> and VS Code debuggers show ILMA source lines, not C</li>
+      </ul>
+
+      <p>
+        If you are interested in contributing to the compiler, the source is on <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>. The codebase is written in C with no dependencies outside the standard library.
+      </p>
+
+      <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--ilma-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <p style="font-size:0.9rem;color:#5a5880;margin:0;">Written by <strong style="color:#1a1a2e;">Raihan</strong> &bull; March 2026</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <a href="/install.html" class="btn btn-primary btn-sm">Install ILMA</a>
+          <a href="/blog/" class="btn btn-outline btn-sm" style="border-color:var(--ilma-border);color:#5a5880;">More Articles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/images/logo.svg" alt="ILMA" onerror="this.style.display='none'">
+          <span class="footer-logo-text">ILMA</span>
+        </a>
+        <p>A programming language for children. Reads like English. Compiles to native. Free and open source.</p>
+        <div class="footer-social">
+          <a href="https://github.com/raihan-js/ilma" title="GitHub" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Language</h4>
+        <ul>
+          <li><a href="/docs.html">Documentation</a></li>
+          <li><a href="/learn.html">Learn ILMA</a></li>
+          <li><a href="/playground.html">Playground</a></li>
+          <li><a href="/packages.html">Packages</a></li>
+          <li><a href="/install.html">Install</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/issues" target="_blank" rel="noopener">Issues</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/discussions" target="_blank" rel="noopener">Discussions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/docs.html#getting-started">Getting Started</a></li>
+          <li><a href="/docs.html#standard-library">Standard Library</a></li>
+          <li><a href="/blog/why-ilma.html">Why ILMA?</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/releases" target="_blank" rel="noopener">Releases</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ILMA Language. Open source under the MIT License.</p>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/raihan-js/ilma/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

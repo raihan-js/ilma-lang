@@ -1,0 +1,12 @@
+{
+  "name": "ILMA Programming Language",
+  "short_name": "ILMA",
+  "description": "A programming language for children",
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#534AB7",
+  "background_color": "#0f0e17",
+  "icons": [
+    { "src": "/images/icon.svg", "sizes": "any", "type": "image/svg+xml" }
+  ]
+}

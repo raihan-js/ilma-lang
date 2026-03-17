@@ -1,0 +1,8 @@
+remember person = notebook[name: "Yusuf", age: 25, city: "London"]
+say person[name]
+say person[age]
+say person[city]
+
+remember scores = notebook[maths: 95, science: 88, english: 92]
+remember total = scores[maths] + scores[science] + scores[english]
+say total

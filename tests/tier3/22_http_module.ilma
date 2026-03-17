@@ -1,0 +1,8 @@
+use http
+use json
+
+remember response = http.get("http://httpbin.org/get")
+if response is not empty:
+    say response[status] is 200
+otherwise:
+    say "SKIP: no internet"

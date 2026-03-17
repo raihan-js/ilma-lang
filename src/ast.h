@@ -37,6 +37,10 @@ typedef enum {
     NODE_SHOUT,
     NODE_TRY,
     NODE_CHECK,
+    NODE_TEST,
+    NODE_ASSERT,
+    NODE_RUN_STMT,
+    NODE_WAIT_STMT,
     NODE_EXPR_STMT,
     NODE_BLOCK,
     NODE_PROGRAM,
@@ -221,6 +225,29 @@ struct ASTNode {
             int case_capacity;
             ASTNode* otherwise_body;   /* NULL if no otherwise */
         } check_stmt;
+
+        /* NODE_TEST */
+        struct {
+            char*    name;    /* test label string */
+            ASTNode* body;    /* block with assert statements */
+        } test_stmt;
+
+        /* NODE_ASSERT */
+        struct {
+            ASTNode* expr;   /* boolean expression to assert is yes */
+            char*    label;  /* NULL or user-provided label */
+        } assert_stmt;
+
+        /* NODE_RUN_STMT */
+        struct {
+            char*    task_name;  /* "task1" from "run task1 = greet()" */
+            ASTNode* call;       /* the call expression */
+        } run_stmt;
+
+        /* NODE_WAIT_STMT */
+        struct {
+            char*    task_name;
+        } wait_stmt;
 
         /* NODE_BLOCK / NODE_PROGRAM */
         struct {

@@ -1,0 +1,9 @@
+{
+  "name": "crypto",
+  "version": "0.1.0",
+  "description": "Simple hashing, encoding, and checksum utilities",
+  "author": "ILMA Team",
+  "license": "MIT",
+  "ilma_version": ">=0.6.0",
+  "tags": ["crypto", "hashing", "encoding", "utilities"]
+}

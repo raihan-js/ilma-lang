@@ -48,6 +48,10 @@ static void skip_newlines(Parser* p) {
 static ASTNode* parse_expression(Parser* p);
 static ASTNode* parse_statement(Parser* p);
 static ASTNode* parse_block(Parser* p);
+static ASTNode* parse_test(Parser* p);
+static ASTNode* parse_assert(Parser* p);
+static ASTNode* parse_run(Parser* p);
+static ASTNode* parse_wait(Parser* p);
 
 /* ── Expression parsing ───────────────────────────────── */
 
@@ -949,6 +953,49 @@ static ASTNode* parse_check(Parser* p) {
     return node;
 }
 
+/* test "label":
+       assert <expr>
+       ... */
+static ASTNode* parse_test(Parser* p) {
+    Token* t = advance_tok(p); /* consume 'test' */
+    ASTNode* node = ast_new(NODE_TEST, t->line);
+    /* parse label string */
+    Token* label = expect(p, TOK_STRING_LIT);
+    node->data.test_stmt.name = strdup(label->value);
+    expect(p, TOK_COLON);
+    node->data.test_stmt.body = parse_block(p);
+    return node;
+}
+
+/* assert <expr> */
+static ASTNode* parse_assert(Parser* p) {
+    Token* t = advance_tok(p); /* consume 'assert' */
+    ASTNode* node = ast_new(NODE_ASSERT, t->line);
+    node->data.assert_stmt.expr = parse_expression(p);
+    node->data.assert_stmt.label = NULL;
+    return node;
+}
+
+/* run <name> = <call_expr> */
+static ASTNode* parse_run(Parser* p) {
+    Token* t = advance_tok(p); /* consume 'run' */
+    ASTNode* node = ast_new(NODE_RUN_STMT, t->line);
+    Token* name = expect(p, TOK_IDENT);
+    node->data.run_stmt.task_name = strdup(name->value);
+    expect(p, TOK_ASSIGN);
+    node->data.run_stmt.call = parse_expression(p);
+    return node;
+}
+
+/* wait <name> */
+static ASTNode* parse_wait(Parser* p) {
+    Token* t = advance_tok(p); /* consume 'wait' */
+    ASTNode* node = ast_new(NODE_WAIT_STMT, t->line);
+    Token* name = expect(p, TOK_IDENT);
+    node->data.wait_stmt.task_name = strdup(name->value);
+    return node;
+}
+
 /* General statement dispatcher */
 static ASTNode* parse_statement(Parser* p) {
     skip_newlines(p);
@@ -967,6 +1014,10 @@ static ASTNode* parse_statement(Parser* p) {
         case TOK_SHOUT:     return parse_shout(p);
         case TOK_TRY:       return parse_try(p);
         case TOK_CHECK:     return parse_check(p);
+        case TOK_TEST:      return parse_test(p);
+        case TOK_ASSERT:    return parse_assert(p);
+        case TOK_RUN:       return parse_run(p);
+        case TOK_WAIT:      return parse_wait(p);
         default: {
             /* Expression statement (assignment or function call) */
             ASTNode* expr = parse_expression(p);

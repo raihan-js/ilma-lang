@@ -1,0 +1,39 @@
+# ILMA validate package — input validation recipes
+
+### Check if text is a valid email (basic check)
+recipe is_email(text):
+    give back text.contains("@") and text.contains(".")
+
+### Check if text only contains digits
+recipe is_digits(text):
+    if text.length is 0:
+        give back no
+    remember i = 0
+    keep going while i < text.length:
+        remember ch = text.slice(i, i + 1)
+        if ch < "0" or ch > "9":
+            give back no
+        i = i + 1
+    give back yes
+
+### Check if a number is positive
+recipe is_positive(n):
+    give back n > 0
+
+### Check text is within length bounds
+recipe in_length(text, min_len, max_len):
+    give back text.length >= min_len and text.length <= max_len
+
+### Check if a password meets minimum requirements
+recipe is_strong_password(password):
+    if password.length < 8:
+        give back no
+    give back yes
+
+### Check if text is a valid URL (basic)
+recipe is_url(text):
+    give back text.starts_with("http://") or text.starts_with("https://")
+
+### Check if a whole number is in a range
+recipe in_range(n, low, high):
+    give back n >= low and n <= high

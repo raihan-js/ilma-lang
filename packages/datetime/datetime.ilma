@@ -1,0 +1,29 @@
+# ILMA datetime package — date and time utilities
+use time
+
+### Format today as DD/MM/YYYY
+recipe today_formatted():
+    remember t = time.today_str()
+    give back t
+
+### Check if a year is a leap year
+recipe is_leap_year(year):
+    if year % 400 is 0:
+        give back yes
+    if year % 100 is 0:
+        give back no
+    if year % 4 is 0:
+        give back yes
+    give back no
+
+### Get day name from number (0=Monday, 6=Sunday)
+recipe day_name(n):
+    remember days = bag["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+    give back days[n % 7]
+
+### Get month name from number (1-12)
+recipe month_name(n):
+    remember months = bag["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+    if n < 1 or n > 12:
+        give back "Unknown"
+    give back months[n - 1]

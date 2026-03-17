@@ -1,0 +1,11 @@
+test "addition":
+    remember result = 2 + 2
+    assert result is 4
+
+test "subtraction":
+    remember result = 10 - 3
+    assert result is 7
+
+test "multiplication":
+    remember result = 6 * 7
+    assert result is 42

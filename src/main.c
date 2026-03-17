@@ -8,8 +8,13 @@
 #include "codegen.h"
 #include "pkg/ilma_pkg.h"
 #include "repl.h"
+#include "test_runner.h"
+#include "formatter.h"
+#include "checker.h"
+#include "docgen.h"
+#include "runtime/ilma_runtime.h"
 
-#define ILMA_VERSION "0.5.0"
+#define ILMA_VERSION "0.7.0"
 
 static char* read_file(const char* path) {
     FILE* f = fopen(path, "rb");
@@ -38,10 +43,16 @@ static void print_usage(void) {
     printf("  ilma --tokens <file.ilma>     Show tokens (for debugging)\n");
     printf("  ilma --repl                   Start interactive REPL\n");
     printf("  ilma --version                Show version\n");
-    printf("  ilma --help                   Show this message\n\n");
+    printf("  ilma --help                   Show this message\n");
+    printf("  ilma test <file.ilma>         Run built-in test blocks\n");
+    printf("  ilma fmt <file.ilma>          Format source file in-place\n");
+    printf("  ilma fmt <file.ilma> --check  Check if file needs formatting\n");
+    printf("  ilma check <file.ilma>        Run static checker\n");
+    printf("  ilma doc <file.ilma> [out]    Generate HTML documentation\n\n");
     printf("Examples:\n");
     printf("  ilma hello.ilma\n");
-    printf("  ilma --compile myapp.ilma\n\n");
+    printf("  ilma --compile myapp.ilma\n");
+    printf("  ilma test tests/mytest.ilma\n\n");
 }
 
 static void print_tokens(Token* tokens, int count) {
@@ -120,9 +131,52 @@ static void find_runtime(char* out, size_t out_size) {
 }
 
 int main(int argc, char** argv) {
+    ilma_set_args(argc, argv);
+
     if (argc < 2 || strcmp(argv[1], "--repl") == 0) {
         repl_start();
         return 0;
+    }
+
+    /* ilma test <file.ilma> */
+    if (strcmp(argv[1], "test") == 0) {
+        if (argc < 3) { fprintf(stderr, "Usage: ilma test <file.ilma>\n"); return 1; }
+        char* source = read_file(argv[2]);
+        Lexer lexer; lexer_init(&lexer, source); lexer_tokenize(&lexer);
+        Parser parser; parser_init(&parser, lexer.tokens, lexer.token_count);
+        ASTNode* program = parser_parse(&parser);
+        int ret = ilma_run_tests(program, argv[2]);
+        ast_free(program); lexer_free(&lexer); free(source);
+        return ret;
+    }
+
+    /* ilma fmt <file.ilma> [--check] */
+    if (strcmp(argv[1], "fmt") == 0) {
+        if (argc < 3) { fprintf(stderr, "Usage: ilma fmt <file.ilma> [--check]\n"); return 1; }
+        int check_only = (argc >= 4 && strcmp(argv[3], "--check") == 0);
+        return ilma_fmt_file(argv[2], check_only);
+    }
+
+    /* ilma check <file.ilma> */
+    if (strcmp(argv[1], "check") == 0) {
+        if (argc < 3) { fprintf(stderr, "Usage: ilma check <file.ilma>\n"); return 1; }
+        char* source = read_file(argv[2]);
+        Lexer lexer; lexer_init(&lexer, source); lexer_tokenize(&lexer);
+        Parser parser; parser_init(&parser, lexer.tokens, lexer.token_count);
+        ASTNode* program = parser_parse(&parser);
+        int errors = ilma_check(program, argv[2]);
+        ast_free(program); lexer_free(&lexer); free(source);
+        return errors > 0 ? 1 : 0;
+    }
+
+    /* ilma doc <file.ilma> [output.html] */
+    if (strcmp(argv[1], "doc") == 0) {
+        if (argc < 3) { fprintf(stderr, "Usage: ilma doc <file.ilma> [output.html]\n"); return 1; }
+        char* source = read_file(argv[2]);
+        const char* output = (argc >= 4) ? argv[3] : "";
+        int ret = ilma_doc_generate(source, argv[2], output);
+        free(source);
+        return ret;
     }
 
     /* Package manager commands */
@@ -217,6 +271,10 @@ int main(int argc, char** argv) {
             char mod_path[512];
             if (strcmp(mod, "time") == 0)
                 snprintf(mod_path, sizeof(mod_path), " \"%s/modules/time_mod.c\"", runtime);
+            else if (strcmp(mod, "json") == 0)
+                snprintf(mod_path, sizeof(mod_path), " \"%s/modules/json.c\"", runtime);
+            else if (strcmp(mod, "http") == 0)
+                snprintf(mod_path, sizeof(mod_path), " \"%s/modules/http.c\"", runtime);
             else
                 snprintf(mod_path, sizeof(mod_path), " \"%s/modules/%s.c\"", runtime, mod);
             strncat(module_files, mod_path, sizeof(module_files) - strlen(module_files) - 1);
@@ -225,7 +283,7 @@ int main(int argc, char** argv) {
         /* Compile with GCC */
         char cmd[8192];
         snprintf(cmd, sizeof(cmd),
-            "gcc -O2 -o \"%s\" \"%s\" \"%s/ilma_runtime.c\"%s -I\"%s\" -lm"
+            "gcc -O2 -o \"%s\" \"%s\" \"%s/ilma_runtime.c\"%s -I\"%s\" -lm -lpthread"
             " -Wall -Wno-unused-variable -Wno-unused-function 2>&1",
             base, c_file, runtime, module_files, runtime);
 

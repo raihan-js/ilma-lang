@@ -1,440 +1,397 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ILMA Playground — Write and Run ILMA Code</title>
-    <meta name="description" content="Write and run ILMA code in your browser. A full-featured online playground for the ILMA programming language.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
-    <style>
-        .playground-page {
-            padding-top: calc(var(--nav-height) + 1.5rem);
-            padding-bottom: 2rem;
-            min-height: calc(100vh - 200px);
-        }
-
-        .playground-toolbar {
-            display: flex;
-            align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1rem;
-            flex-wrap: wrap;
-        }
-
-        .playground-toolbar select {
-            font-family: var(--font);
-            font-size: 0.9rem;
-            padding: 0.5rem 1rem;
-            border-radius: var(--radius);
-            border: 2px solid var(--border);
-            background: var(--bg);
-            color: var(--text);
-            cursor: pointer;
-            min-width: 180px;
-        }
-
-        .playground-toolbar select:focus {
-            outline: none;
-            border-color: var(--primary);
-        }
-
-        .btn-toolbar {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.4rem;
-            padding: 0.5rem 1.25rem;
-            border-radius: var(--radius);
-            font-weight: 600;
-            font-size: 0.9rem;
-            cursor: pointer;
-            transition: opacity 0.2s;
-        }
-
-        .btn-toolbar:hover {
-            opacity: 0.9;
-        }
-
-        .btn-toolbar-run {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-        }
-
-        .btn-toolbar-outline {
-            background: transparent;
-            color: var(--text);
-            border: 2px solid var(--border);
-        }
-
-        .btn-toolbar-outline:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-
-        .playground-full-editor {
-            width: 100%;
-            height: 55vh;
-            background: var(--code-bg);
-            color: var(--code-text);
-            border: none;
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            font-family: var(--mono);
-            font-size: 0.92rem;
-            line-height: 1.7;
-            resize: vertical;
-            outline: none;
-            tab-size: 4;
-        }
-
-        .playground-full-editor::placeholder {
-            color: #6B7280;
-        }
-
-        .playground-full-output-wrap {
-            margin-top: 1rem;
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            background: var(--code-bg);
-        }
-
-        .playground-full-output-header {
-            padding: 10px 16px;
-            background: rgba(255,255,255,0.05);
-            color: rgba(255,255,255,0.5);
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-
-        .playground-full-output {
-            padding: 1.25rem 1.5rem;
-            height: 20vh;
-            color: #86EFAC;
-            font-family: var(--mono);
-            font-size: 0.9rem;
-            line-height: 1.6;
-            white-space: pre-wrap;
-            overflow-y: auto;
-        }
-
-        .playground-full-output .error {
-            color: #FCA5A5;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 0.25rem 0.75rem;
-            border-radius: 999px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            margin-top: 0.75rem;
-        }
-
-        .badge-preview {
-            background: var(--primary-light);
-            color: var(--primary);
-        }
-
-        .badge-wasm {
-            background: #D1FAE5;
-            color: #065F46;
-        }
-
-        .toolbar-spacer {
-            flex: 1;
-        }
-
-        @media (max-width: 768px) {
-            .playground-full-editor {
-                height: 45vh;
-                font-size: 0.85rem;
-                padding: 1rem;
-            }
-
-            .playground-full-output {
-                height: 15vh;
-            }
-
-            .playground-toolbar {
-                gap: 0.5rem;
-            }
-
-            .playground-toolbar select {
-                min-width: 140px;
-                font-size: 0.85rem;
-            }
-
-            .btn-toolbar {
-                padding: 0.5rem 1rem;
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .playground-full-editor {
-                height: 40vh;
-                font-size: 0.8rem;
-            }
-
-            .playground-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .toolbar-spacer {
-                display: none;
-            }
-
-            .toolbar-buttons {
-                display: flex;
-                gap: 0.5rem;
-            }
-
-            .toolbar-buttons .btn-toolbar {
-                flex: 1;
-                justify-content: center;
-            }
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ILMA Playground — Write and Run ILMA Code</title>
+  <meta name="description" content="Write and run ILMA code in your browser. No installation needed. Full Monaco editor with ILMA syntax highlighting.">
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <style>
+    body { overflow: hidden; background: var(--ilma-dark); }
+    .pg-wrap { display: flex; flex-direction: column; height: 100vh; }
+    .pg-topbar {
+      display: flex; align-items: center; gap: 12px;
+      height: 48px; padding: 0 16px;
+      background: var(--ilma-dark-mid);
+      border-bottom: 1px solid var(--ilma-dark-border);
+      flex-shrink: 0;
+    }
+    .pg-logo { display:flex;align-items:center;gap:8px;text-decoration:none;color:white;font-weight:700;font-size:0.95rem; }
+    .pg-logo img { height:24px;filter:brightness(0) invert(1); }
+    .pg-separator { width:1px;height:20px;background:var(--ilma-dark-border); }
+    .pg-title { font-size:0.82rem;color:var(--ilma-text-muted); }
+    .pg-preset-select {
+      background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+      color: rgba(255,255,255,0.75); font-family: var(--font); font-size:0.8rem;
+      padding: 5px 10px; border-radius: var(--radius); outline:none; cursor:pointer;
+    }
+    .pg-body { display: grid; grid-template-columns: 1fr 1fr; flex: 1; overflow: hidden; }
+    @media(max-width:768px) {
+      body { overflow: auto; }
+      .pg-body { grid-template-columns: 1fr; grid-template-rows: 50vh 50vh; }
+    }
+    .pg-panel { display: flex; flex-direction: column; overflow: hidden; }
+    .pg-panel-bar {
+      display:flex;align-items:center;justify-content:space-between;
+      padding: 8px 14px;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--ilma-dark-border);
+      flex-shrink: 0;
+    }
+    .pg-panel-label { font-size:0.75rem;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:rgba(255,255,255,0.4); }
+    .pg-editor-wrap { flex:1;overflow:hidden;position:relative;border-right:1px solid var(--ilma-dark-border); }
+    #monaco-container { width:100%;height:100%; }
+    .pg-output { flex:1;overflow-y:auto;padding:16px 20px;font-family:var(--mono);font-size:0.875rem;line-height:1.75;background:var(--ilma-code-bg);white-space:pre-wrap; }
+    .out-success { color: #98c379; }
+    .out-error   { color: #ff7b72; }
+    .out-hint    { color: rgba(255,255,255,0.3);font-style:italic; }
+    .out-prompt  { color: var(--ilma-teal); }
+    .pg-statusbar {
+      display:flex;align-items:center;gap:16px;
+      height:26px;padding:0 14px;
+      background:var(--ilma-dark);
+      border-top:1px solid var(--ilma-dark-border);
+      font-size:0.72rem;color:rgba(255,255,255,0.35);
+      flex-shrink:0;
+    }
+    .status-ok  { color: #28ca41; }
+    .status-err { color: #ff7b72; }
+  </style>
 </head>
 <body>
+<div class="pg-wrap">
 
-<!-- Navigation -->
-<nav class="navbar">
-    <div class="container">
-        <a href="index.html" class="nav-logo">ILMA</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="install.html">Install</a>
-            <a href="docs.html">Docs</a>
-            <a href="playground.html">Playground</a>
-            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
-        </div>
-        <button class="hamburger" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+  <!-- ─── Top Bar ─────────────────────────────────────── -->
+  <div class="pg-topbar">
+    <a href="/" class="pg-logo">
+      <img src="/images/logo.svg" alt="ILMA" onerror="this.style.display='none'">
+      ILMA
+    </a>
+    <div class="pg-separator"></div>
+    <span class="pg-title">Playground</span>
+    <div class="pg-separator"></div>
+
+    <select class="pg-preset-select" id="preset-select" title="Load an example">
+      <option value="">Examples...</option>
+      <option value="hello">Hello World</option>
+      <option value="fibonacci">Fibonacci</option>
+      <option value="patterns">Pattern Matching</option>
+      <option value="bags">Bags &amp; Higher-Order</option>
+      <option value="blueprints">Blueprints</option>
+      <option value="science">Science Module</option>
+      <option value="finance">Zakat Calculator</option>
+      <option value="try_catch">Error Handling</option>
+      <option value="lambdas">Lambdas</option>
+      <option value="notebook">Notebooks</option>
+    </select>
+
+    <div style="margin-left:auto;display:flex;gap:8px;align-items:center;">
+      <button class="btn btn-ghost btn-sm" id="share-btn" data-share-url title="Copy share link">
+        <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11 2.5a2.5 2.5 0 1 1 .603 1.628l-6.718 3.12a2.499 2.499 0 0 1 0 1.504l6.718 3.12a2.5 2.5 0 1 1-.488.876l-6.718-3.12a2.5 2.5 0 1 1 0-3.256l6.718-3.12A2.5 2.5 0 0 1 11 2.5z"/></svg>
+        Share
+      </button>
+      <button class="btn btn-primary btn-sm" id="run-btn">
+        <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M2 1.5v9l8-4.5z"/></svg>
+        Run <span style="opacity:.6;font-size:.75em;margin-left:2px;">Ctrl+↵</span>
+      </button>
     </div>
-</nav>
+  </div>
 
-<!-- Playground -->
-<section class="playground-page">
-    <div class="container">
-        <div class="playground-toolbar">
-            <select id="example-selector">
-                <option value="">Select an example...</option>
-                <option value="Hello World">Hello World</option>
-                <option value="Zakat Calculator">Zakat Calculator</option>
-                <option value="Fibonacci">Fibonacci</option>
-                <option value="String Interpolation">String Interpolation</option>
-                <option value="Range Loop">Range Loop</option>
-                <option value="Daily Quran Verse">Daily Quran Verse</option>
-                <option value="BMI Calculator">BMI Calculator</option>
-                <option value="Prime Numbers">Prime Numbers</option>
-            </select>
-            <div class="toolbar-spacer"></div>
-            <div class="toolbar-buttons">
-                <button class="btn-toolbar btn-toolbar-run" id="pg-run-btn">&#9654; Run</button>
-                <button class="btn-toolbar btn-toolbar-outline" id="pg-share-btn">Share</button>
-                <button class="btn-toolbar btn-toolbar-outline" id="pg-download-btn">Download</button>
-            </div>
-        </div>
-
-        <textarea class="playground-full-editor" id="pg-editor" spellcheck="false" placeholder="Write your ILMA code here...">say "Bismillah"
-remember name = "Yusuf"
-say "Assalamu Alaikum, {name}!"</textarea>
-
-        <div class="playground-full-output-wrap">
-            <div class="playground-full-output-header">Output</div>
-            <div class="playground-full-output" id="pg-output">(click Run to execute)</div>
-        </div>
-
-        <div id="compiler-badge" class="badge badge-preview">Preview mode</div>
+  <!-- ─── Editor + Output ──────────────────────────────── -->
+  <div class="pg-body">
+    <!-- Editor -->
+    <div class="pg-panel">
+      <div class="pg-panel-bar">
+        <span class="pg-panel-label">Editor</span>
+        <span id="editor-info" style="font-size:.72rem;color:rgba(255,255,255,.3);">ILMA</span>
+      </div>
+      <div class="pg-editor-wrap">
+        <div id="monaco-container"></div>
+        <!-- Fallback textarea if Monaco fails -->
+        <textarea id="fallback-editor" style="display:none;width:100%;height:100%;background:var(--ilma-code-bg);color:var(--ilma-code-text);font-family:var(--mono);font-size:0.875rem;line-height:1.75;padding:20px 24px;border:none;outline:none;resize:none;tab-size:4;" spellcheck="false"></textarea>
+      </div>
     </div>
-</section>
 
-<!-- Footer -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>ILMA</h4>
-                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
-            </div>
-            <div>
-                <h4>Links</h4>
-                <ul>
-                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
-                    <li><a href="install.html">Install</a></li>
-                    <li><a href="docs.html">Docs</a></li>
-                    <li><a href="playground.html">Playground</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Community</h4>
-                <ul>
-                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
-                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
-                </ul>
-            </div>
-        </div>
-        <div class="footer-bottom">
-            <span>Made with ILMA</span>
-            <span>&copy; 2026 ILMA Programming Language</span>
-        </div>
+    <!-- Output -->
+    <div class="pg-panel">
+      <div class="pg-panel-bar">
+        <span class="pg-panel-label">Output</span>
+        <button class="copy-btn" id="copy-output-btn" title="Copy output">Copy</button>
+      </div>
+      <div class="pg-output" id="pg-output">
+        <span class="out-hint">Press Run (or Ctrl+Enter) to run your code.</span>
+      </div>
     </div>
-</footer>
+  </div>
 
-<script src="js/playground.js"></script>
-<script src="js/wasm-compiler.js"></script>
+  <!-- ─── Status Bar ───────────────────────────────────── -->
+  <div class="pg-statusbar">
+    <span id="status-msg" class="status-ok">Ready</span>
+    <span style="margin-left:auto;">ILMA v0.5.0</span>
+    <a href="/docs.html" style="color:rgba(255,255,255,.35);text-decoration:none;">Docs</a>
+    <a href="/install.html" style="color:rgba(255,255,255,.35);text-decoration:none;">Install</a>
+  </div>
+</div>
+
+<!-- Load interpreter -->
+<script src="/js/playground.js"></script>
+
+<!-- Monaco Editor -->
+<script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
 <script>
-(function() {
-    var examples = {
-        "Hello World": "say \"Bismillah\"\nremember name = \"Yusuf\"\nsay \"Assalamu Alaikum, {name}!\"",
-        "Zakat Calculator": "remember savings = 10000\nremember nisab = 595\nif savings >= nisab:\n    remember zakat = savings * 0.025\n    say \"Zakat due: {zakat}\"\notherwise:\n    say \"No zakat due\"",
-        "Fibonacci": "recipe fibonacci(n):\n    if n <= 1:\n        give back n\n    give back fibonacci(n - 1) + fibonacci(n - 2)\n\nrepeat i in 1..10:\n    say fibonacci(i)",
-        "String Interpolation": "remember name = \"Amira\"\nremember age = 12\nsay \"My name is {name}\"\nsay \"I am {age} years old\"\nsay \"Next year I will be {age + 1}\"",
-        "Range Loop": "repeat i in 1..5:\n    say \"Step {i}\"\n\nremember total = 0\nrepeat n in 1..100:\n    total = total + n\nsay \"Sum 1..100 = {total}\"",
-        "Daily Quran Verse": "# This runs on the server with the quran module\n# In preview mode, here is a simulation\nsay \"Verse of the day:\"\nsay \"Read in the name of your Lord who created\"\nsay \"- Al-Alaq 96:1\"",
-        "BMI Calculator": "remember weight = 70\nremember height = 175\nremember height_m = height / 100\nremember bmi = weight / (height_m * height_m)\nsay \"Your BMI: {bmi}\"\nif bmi < 18.5:\n    say \"Underweight\"\notherwise if bmi < 25:\n    say \"Healthy\"\notherwise:\n    say \"Overweight\"",
-        "Prime Numbers": "recipe is_prime(n):\n    if n < 2:\n        give back no\n    repeat i in 2..n:\n        if i * i > n:\n            give back yes\n        if n % i is 0:\n            give back no\n    give back yes\n\nsay \"Primes under 30:\"\nrepeat n in 2..30:\n    if is_prime(n):\n        say n"
-    };
+(function(){
+  'use strict';
 
-    var editor = document.getElementById('pg-editor');
+  var EXAMPLES = {
+    hello: '# Hello World\nremember name = "Yusuf"\nsay "Assalamu Alaikum, {name}!"\nsay "The answer is {6 * 7}"',
+    fibonacci: '# Fibonacci Sequence\nrecipe fib(n):\n    if n <= 1:\n        give back n\n    give back fib(n-1) + fib(n-2)\n\nremember i = 0\nrepeat 10:\n    say fib(i)\n    i = i + 1',
+    patterns: '# Pattern Matching\nrecipe grade(score):\n    check score:\n        when 90..100:\n            give back "A — Excellent!"\n        when 80..89:\n            give back "B — Very Good"\n        when 70..79:\n            give back "C — Good"\n        when 60..69:\n            give back "D — Needs Improvement"\n        otherwise:\n            give back "F — Please study more"\n\nsay grade(95)\nsay grade(83)\nsay grade(54)',
+    bags: '# Bags and Higher-Order Recipes\nremember nums = bag[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\n\nremember evens = nums.filter(recipe(x): x % 2 == 0)\nremember doubled = evens.map(recipe(x): x * 2)\n\nsay evens\nsay doubled\nsay doubled.join(", ")',
+    blueprints: '# Blueprints (Classes)\nblueprint Shape:\n    recipe setup(name, colour):\n        me.name = name\n        me.colour = colour\n\n    recipe describe():\n        say "A {me.colour} {me.name}"\n\nblueprint Circle comes from Shape:\n    recipe setup(colour, radius):\n        Shape.setup(me, "circle", colour)\n        me.radius = radius\n\n    recipe area():\n        give back 3.14159 * me.radius * me.radius\n\nremember c = Circle("red", 5)\nc.describe()\nsay "Area: {c.area()}"',
+    science: '# Science Module\nuse science\n\nremember mass = 10\nsay "Gravitational force: {science.gravity(mass)} N"\nsay "100°C in Fahrenheit: {science.celsius_to_fahrenheit(100)}°F"\nsay "Speed (100m in 10s): {science.speed(100, 10)} m/s"\nsay "Kinetic energy (2kg at 10m/s): {science.kinetic_energy(2, 10)} J"',
+    finance: '# Zakat Calculator\nuse finance\n\nremember wealth = 25000\nremember nisab = 595   # gold nisab threshold\n\nif wealth >= nisab:\n    remember zakat = finance.zakat(wealth, nisab)\n    say "Mashallah! Your wealth: {wealth}"\n    say "Zakat due (2.5%): {zakat}"\notherwise:\n    say "No zakat due — wealth below nisab"',
+    try_catch: '# Error Handling\nrecipe safe_divide(a, b):\n    if b == 0:\n        shout "Division by zero is not allowed!"\n    give back a / b\n\ntry:\n    say safe_divide(10, 2)\n    say safe_divide(10, 0)\nwhen wrong:\n    say "Caught error: {error}"\n    say "Recovering gracefully..."',
+    lambdas: '# Lambdas and Higher-Order Functions\nremember double = recipe(x): x * 2\nremember square = recipe(x): x * x\nremember add = recipe(a, b): a + b\n\nsay double(7)\nsay square(6)\nsay add(3, 4)\n\nremember words = bag["hello", "world", "ilma"]\nremember upper_words = words.map(recipe(w): w.upper())\nsay upper_words',
+    notebook: '# Notebooks (Dictionaries)\nremember student = notebook[\n    name: "Yusuf",\n    age: 14,\n    grade: "A",\n    city: "Istanbul"\n]\n\nsay student.name\nsay student.age\nsay "Grade: {student.grade}"\n\nstudent.school = "Al-Fatih School"\nsay student.school\nsay student.size'
+  };
+
+  var DEFAULT_CODE = EXAMPLES['fibonacci'];
+  var monacoEditor = null;
+  var fallbackEditor = document.getElementById('fallback-editor');
+
+  // ── Monaco Setup ────────────────────────────────────
+  function setupMonaco() {
+    require.config({ paths: { 'vs': 'https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs' } });
+    require(['vs/editor/editor.main'], function () {
+      // Register ILMA language
+      monaco.languages.register({ id: 'ilma' });
+      monaco.languages.setMonarchTokensProvider('ilma', {
+        keywords: [
+          'remember', 'say', 'ask', 'if', 'otherwise', 'repeat',
+          'for', 'each', 'while', 'keep', 'going', 'recipe', 'give', 'back',
+          'blueprint', 'me', 'comes', 'from', 'bag', 'notebook', 'use',
+          'try', 'when', 'wrong', 'check', 'shout', 'in', 'and', 'or', 'not',
+          'yes', 'no', 'empty', 'is'
+        ],
+        tokenizer: {
+          root: [
+            [/#.*$/, 'comment'],
+            [/"([^"\\]|\\.)*"/, 'string'],
+            [/'([^'\\]|\\.)*'/, 'string'],
+            [/\b\d+(\.\d+)?\b/, 'number'],
+            [/\b(remember|say|ask|if|otherwise|repeat|for each|keep going while|recipe|give back|blueprint|comes from|bag|notebook|use|try|when wrong|when|check|shout|in|and|or|not|yes|no|empty|is not|is)\b/, 'keyword'],
+            [/[a-zA-Z_]\w*\s*(?=\()/, 'function'],
+            [/[a-zA-Z_]\w*/, 'identifier'],
+            [/[=<>!+\-*\/%]/, 'operator'],
+          ]
+        }
+      });
+
+      monaco.editor.defineTheme('ilma-dark', {
+        base: 'vs-dark',
+        inherit: true,
+        rules: [
+          { token: 'comment',    foreground: '6a737d', fontStyle: 'italic' },
+          { token: 'keyword',    foreground: '7F77DD', fontStyle: 'bold' },
+          { token: 'string',     foreground: 'a5d6ff' },
+          { token: 'number',     foreground: 'f8c555' },
+          { token: 'function',   foreground: 'd2a8ff' },
+          { token: 'operator',   foreground: 'ff7b72' },
+          { token: 'identifier', foreground: 'e6edf3' },
+        ],
+        colors: {
+          'editor.background':           '#0d1117',
+          'editor.foreground':           '#e6edf3',
+          'editorLineNumber.foreground': '#484f58',
+          'editorCursor.foreground':     '#7F77DD',
+          'editor.selectionBackground':  '#264f78',
+          'editorIndentGuide.background':'#21262d',
+        }
+      });
+
+      var savedCode = '';
+      // Check URL hash for shared code
+      if (window.location.hash) {
+        try {
+          savedCode = atob(window.location.hash.slice(1));
+        } catch(e) {}
+      }
+
+      monacoEditor = monaco.editor.create(document.getElementById('monaco-container'), {
+        value: savedCode || DEFAULT_CODE,
+        language: 'ilma',
+        theme: 'ilma-dark',
+        fontSize: 14,
+        fontFamily: "'JetBrains Mono', 'Fira Code', Consolas, monospace",
+        lineHeight: 24,
+        minimap: { enabled: false },
+        scrollBeyondLastLine: false,
+        automaticLayout: true,
+        tabSize: 4,
+        insertSpaces: true,
+        wordWrap: 'on',
+        renderLineHighlight: 'line',
+        cursorBlinking: 'smooth',
+        smoothScrolling: true,
+        padding: { top: 16, bottom: 16 },
+      });
+
+      // Ctrl+Enter to run
+      monacoEditor.addCommand(
+        monaco.KeyMod.CtrlCmd | monaco.KeyCode.Enter,
+        function () { runCode(); }
+      );
+
+      // Update line/col in status bar
+      monacoEditor.onDidChangeCursorPosition(function(e) {
+        document.getElementById('editor-info').textContent =
+          'Ln ' + e.position.lineNumber + ', Col ' + e.position.column;
+      });
+    });
+  }
+
+  // ── Fallback Setup ───────────────────────────────────
+  function setupFallback() {
+    document.getElementById('monaco-container').style.display = 'none';
+    fallbackEditor.style.display = 'block';
+    fallbackEditor.value = DEFAULT_CODE;
+    fallbackEditor.addEventListener('keydown', function(e) {
+      if (e.key === 'Tab') {
+        e.preventDefault();
+        var s = fallbackEditor.selectionStart, end = fallbackEditor.selectionEnd;
+        fallbackEditor.value = fallbackEditor.value.substring(0,s)+'    '+fallbackEditor.value.substring(end);
+        fallbackEditor.selectionStart = fallbackEditor.selectionEnd = s + 4;
+      }
+    });
+  }
+
+  // ── Get Code ─────────────────────────────────────────
+  function getCode() {
+    if (monacoEditor) return monacoEditor.getValue();
+    return fallbackEditor.value;
+  }
+
+  function setCode(code) {
+    if (monacoEditor) { monacoEditor.setValue(code); return; }
+    fallbackEditor.value = code;
+  }
+
+  // ── Run Code ─────────────────────────────────────────
+  function runCode() {
     var output = document.getElementById('pg-output');
-    var selector = document.getElementById('example-selector');
-    var runBtn = document.getElementById('pg-run-btn');
-    var shareBtn = document.getElementById('pg-share-btn');
-    var downloadBtn = document.getElementById('pg-download-btn');
+    var status = document.getElementById('status-msg');
+    var code = getCode();
 
-    // Example selector
-    selector.addEventListener('change', function() {
-        var name = selector.value;
-        if (name && examples[name]) {
-            editor.value = examples[name];
-        }
-    });
-
-    // Run button
-    runBtn.addEventListener('click', function() {
-        output.className = 'playground-full-output';
-        output.textContent = '';
-        var code = editor.value;
-        if (!code.trim()) {
-            output.textContent = '(no code to run)';
-            return;
-        }
-        var result;
-        if (typeof runIlmaCode === 'function') {
-            result = runIlmaCode(code);
-        } else if (typeof runIlma === 'function') {
-            result = runIlma(code);
-        } else {
-            output.innerHTML = '<span class="error">Interpreter not loaded.</span>';
-            return;
-        }
-        if (result.error) {
-            output.innerHTML = '<span class="error">' + escapeHtml(result.error) + '</span>';
-        } else {
-            output.textContent = result.output || '(no output)';
-        }
-    });
-
-    // Share button
-    shareBtn.addEventListener('click', function() {
-        var code = editor.value;
-        var encoded = btoa(unescape(encodeURIComponent(code)));
-        var url = window.location.origin + window.location.pathname + '#code=' + encoded;
-        window.location.hash = '#code=' + encoded;
-        navigator.clipboard.writeText(url).then(function() {
-            shareBtn.textContent = 'Copied!';
-            setTimeout(function() {
-                shareBtn.textContent = 'Share';
-            }, 2000);
-        }).catch(function() {
-            // Fallback
-            var ta = document.createElement('textarea');
-            ta.value = url;
-            ta.style.position = 'fixed';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-            ta.select();
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-            shareBtn.textContent = 'Copied!';
-            setTimeout(function() {
-                shareBtn.textContent = 'Share';
-            }, 2000);
-        });
-    });
-
-    // Download button
-    downloadBtn.addEventListener('click', function() {
-        var code = editor.value;
-        var blob = new Blob([code], { type: 'text/plain' });
-        var a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = 'program.ilma';
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-        URL.revokeObjectURL(a.href);
-    });
-
-    // Load shared code from URL hash on page load
-    function loadFromHash() {
-        var hash = window.location.hash;
-        if (hash && hash.startsWith('#code=')) {
-            try {
-                var encoded = hash.substring(6);
-                var decoded = decodeURIComponent(escape(atob(encoded)));
-                editor.value = decoded;
-            } catch (e) {
-                // Invalid hash, ignore
-            }
-        }
+    if (!code.trim()) {
+      output.innerHTML = '<span class="out-hint">(no code to run)</span>';
+      return;
     }
 
-    loadFromHash();
-    window.addEventListener('hashchange', loadFromHash);
+    if (typeof runIlma !== 'function') {
+      output.innerHTML = '<span class="out-error">Interpreter not loaded. Please refresh.</span>';
+      return;
+    }
 
-    // Tab key support in editor
-    editor.addEventListener('keydown', function(e) {
-        if (e.key === 'Tab') {
-            e.preventDefault();
-            var start = editor.selectionStart;
-            var end = editor.selectionEnd;
-            editor.value = editor.value.substring(0, start) + '    ' + editor.value.substring(end);
-            editor.selectionStart = editor.selectionEnd = start + 4;
+    output.innerHTML = '<span class="out-hint">Running...</span>';
+    status.textContent = 'Running...';
+    status.className = '';
+
+    // small delay for UI update
+    setTimeout(function() {
+      var result = runIlma(code);
+      output.innerHTML = '';
+
+      if (result.output) {
+        var lines = result.output.split('\n');
+        lines.forEach(function(line) {
+          var div = document.createElement('div');
+          div.className = 'out-success';
+          div.textContent = line;
+          output.appendChild(div);
+        });
+      }
+
+      if (result.error) {
+        var errDiv = document.createElement('div');
+        errDiv.className = 'out-error';
+        errDiv.textContent = 'Error: ' + result.error;
+        output.appendChild(errDiv);
+        status.textContent = 'Error';
+        status.className = 'status-err';
+      } else {
+        if (!result.output) {
+          output.innerHTML = '<span class="out-hint">(no output)</span>';
         }
-    });
+        status.textContent = 'Done';
+        status.className = 'status-ok';
+      }
 
-    function escapeHtml(str) {
-        var div = document.createElement('div');
-        div.appendChild(document.createTextNode(str));
-        return div.innerHTML;
-    }
+      // Update URL hash for sharing
+      try {
+        history.replaceState(null, '', '#' + btoa(unescape(encodeURIComponent(code))));
+      } catch(e) {}
+    }, 10);
+  }
 
-    // Mobile nav
-    var hamburger = document.querySelector('.hamburger');
-    var navLinks = document.querySelector('.nav-links');
-    if (hamburger && navLinks) {
-        hamburger.addEventListener('click', function() {
-            hamburger.classList.toggle('active');
-            navLinks.classList.toggle('open');
-        });
-        navLinks.querySelectorAll('a').forEach(function(link) {
-            link.addEventListener('click', function() {
-                hamburger.classList.remove('active');
-                navLinks.classList.remove('open');
-            });
-        });
+  // ── Presets ───────────────────────────────────────────
+  document.getElementById('preset-select').addEventListener('change', function(e) {
+    var key = e.target.value;
+    if (key && EXAMPLES[key]) {
+      setCode(EXAMPLES[key]);
+      e.target.value = '';
     }
-})();
+  });
+
+  // ── Run button ────────────────────────────────────────
+  document.getElementById('run-btn').addEventListener('click', runCode);
+
+  // ── Copy output ───────────────────────────────────────
+  document.getElementById('copy-output-btn').addEventListener('click', function() {
+    var output = document.getElementById('pg-output');
+    var text = output.textContent;
+    var btn = this;
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(text).then(function() {
+        var orig = btn.innerHTML;
+        btn.innerHTML = '&#10003; Copied!';
+        btn.classList.add('copied');
+        setTimeout(function(){ btn.innerHTML = orig; btn.classList.remove('copied'); }, 2000);
+      });
+    }
+  });
+
+  // ── Share (Ctrl+Enter fallback key listener) ──────────
+  document.addEventListener('keydown', function(e) {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && !monacoEditor) {
+      e.preventDefault(); runCode();
+    }
+  });
+
+  // ── Init Monaco ───────────────────────────────────────
+  if (typeof require !== 'undefined') {
+    try {
+      setupMonaco();
+    } catch(e) {
+      setupFallback();
+    }
+  } else {
+    setupFallback();
+  }
+
+  // ── Load from hash ────────────────────────────────────
+  if (window.location.hash) {
+    try {
+      var hashed = decodeURIComponent(escape(atob(window.location.hash.slice(1))));
+      if (hashed) setTimeout(function(){ setCode(hashed); }, 400);
+    } catch(e) {}
+  }
+
+}());
 </script>
 </body>
 </html>

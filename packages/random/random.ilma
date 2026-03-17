@@ -1,0 +1,36 @@
+# ILMA random package — random number and selection utilities
+use number
+
+### Pick a random item from a bag
+recipe choice(items):
+    remember idx = number.random(0, items.size - 1)
+    give back items[idx]
+
+### Generate a random whole number between low and high (inclusive)
+recipe between(low, high):
+    give back number.random(low, high)
+
+### Generate a random text ID of given length
+recipe random_id(length):
+    remember chars = "abcdefghijklmnopqrstuvwxyz0123456789"
+    remember result = ""
+    repeat length:
+        remember idx = number.random(0, 35)
+        result = result + chars.slice(idx, idx + 1)
+    give back result
+
+### Simulate a coin flip
+recipe flip():
+    if number.random(0, 1) is 0:
+        give back "heads"
+    give back "tails"
+
+### Pick N random items from a bag (without replacement up to bag size)
+recipe sample(items, n):
+    remember result = bag[]
+    remember count = 0
+    keep going while count < n and count < items.size:
+        remember idx = number.random(0, items.size - 1)
+        result.add(items[idx])
+        count = count + 1
+    give back result

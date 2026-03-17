@@ -1,0 +1,4 @@
+remember s = ""
+repeat 1000:
+    s = s + "a"
+say s.length

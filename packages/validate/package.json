@@ -1,0 +1,9 @@
+{
+  "name": "validate",
+  "version": "0.1.0",
+  "description": "Input validation recipes — email, digits, password, URL",
+  "author": "ILMA Team",
+  "license": "MIT",
+  "ilma_version": ">=0.6.0",
+  "tags": ["validate", "validation", "utilities"]
+}

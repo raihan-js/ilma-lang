@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why ILMA Exists: A Language Shaped by Purpose — ILMA Blog</title>
+  <meta name="description" content="The story behind building a programming language from scratch — and why children deserve better than Python as their first language.">
+  <link rel="canonical" href="https://ilma-lang.dev/blog/why-ilma.html">
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/logo.svg" alt="ILMA" height="32" onerror="this.style.display='none'">
+      <span class="nav-logo-text">ILMA</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs.html">Docs</a>
+      <a href="/learn.html">Learn</a>
+      <a href="/packages.html">Packages</a>
+      <a href="/playground.html">Playground</a>
+      <a href="/blog/" class="active">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/install.html" class="btn btn-ghost btn-sm">Install</a>
+      <a href="/playground.html" class="btn btn-primary btn-sm">Try Online</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="/docs.html">Docs</a>
+  <a href="/learn.html">Learn</a>
+  <a href="/packages.html">Packages</a>
+  <a href="/playground.html">Playground</a>
+  <a href="/blog/">Blog</a>
+  <div class="mobile-divider"></div>
+  <a href="/install.html">Install</a>
+  <a href="/playground.html" class="btn btn-primary" style="margin-top:8px;text-align:center;">Try Online</a>
+</div>
+
+<!-- ═══ ARTICLE HERO ════════════════════════════════════ -->
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container" style="max-width:760px;">
+    <a href="/blog/" style="display:inline-flex;align-items:center;gap:6px;color:var(--ilma-text-muted);font-size:0.875rem;margin-bottom:24px;text-decoration:none;">&larr; Back to Blog</a>
+    <div class="article-eyebrow">
+      <span class="badge badge-dark">Design</span>
+    </div>
+    <h1 style="color:var(--ilma-white);font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:16px 0;">
+      Why ILMA Exists: A Language Shaped by Purpose
+    </h1>
+    <div class="article-meta" style="color:var(--ilma-text-muted);">
+      <span>Raihan</span>
+      <span>&bull;</span>
+      <span>March 2026</span>
+      <span>&bull;</span>
+      <span>8 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARTICLE BODY ════════════════════════════════════ -->
+<main>
+  <div class="article-layout">
+    <div class="article-body">
+
+      <p>It started with a Saturday afternoon and a five-year-old asking, "Baba, how do computers think?"</p>
+
+      <p>I am a software engineer. I have been writing code for fifteen years. I know Python, C, JavaScript, Rust. I have shipped software used by hundreds of thousands of people. But sitting on the floor with my daughter, laptop open, cursor blinking, I realised I had no good answer to that question in a form she could understand — and do something with.</p>
+
+      <p>Every language I opened felt like I was handing her a power tool without a safety guard. Python is better than most, but even <code>print("Hello")</code> raises questions: Why the brackets? Why the quotes? Why does it matter if you use a single quote or a double quote? What is <code>print</code> — is that a word or a magic spell? Her brain was trying to find the story in the symbols, and the symbols refused to tell one.</p>
+
+      <h2>The noise problem</h2>
+
+      <p>Here is what I mean by noise. When you write your first Python program, the language forces you to understand, at minimum: the concept of a function call, the concept of a string delimiter, the fact that parentheses group arguments, and the fact that indentation matters. None of these are explained. They are simply rules. Break one and the program crashes with a message designed for someone who already knows what they did wrong.</p>
+
+      <p>Scratch, the visual block language, avoids this by removing text entirely. And for young children it works beautifully. But my daughter was already reading. She loved books. She wanted to type words that did things, not drag coloured blocks. She wanted to write a story to the computer, not paint by numbers.</p>
+
+      <blockquote>
+        <p>"Baba, I want to tell the computer to say Bismillah. How do I say that?"</p>
+      </blockquote>
+
+      <p>What she wanted to write was: <code>say "Bismillah"</code>. And that is exactly what ILMA lets her write. That is the first program in every ILMA tutorial, because it is the first sentence she asked to write.</p>
+
+      <h2>Designing for a child's mental model</h2>
+
+      <p>Children do not think in abstractions first. They think in stories. A variable is not a box in memory — it is something you <em>remember</em>. A function is not a subroutine — it is a <em>recipe</em>. A list is not an array — it is a <em>bag</em> you carry things in. A condition is not a branch in a control flow graph — it is a question: <em>if this, do that. Otherwise, do the other thing.</em></p>
+
+      <p>This is not dumbing down. Every keyword in ILMA was chosen because it maps onto a concept a child already has in their head. When you teach a five-year-old to bake bread, you do not say "combine the reagents and apply thermal energy." You say "mix the flour and water, then put it in the oven." The complexity is the same. The vocabulary is the right one for the learner.</p>
+
+      <p>The ILMA keyword list grew out of conversations with my daughter. <code>remember</code> for variables, because you ask children to remember things. <code>recipe</code> for functions, because recipes are a sequence of steps with ingredients. <code>bag</code> for lists, because bags hold a collection of things. <code>notebook</code> for dictionaries, because notebooks have labelled pages. <code>blueprint</code> for classes, because blueprints describe how to build something. <code>give back</code> for return, because when you borrow something and are done with it, you give it back.</p>
+
+      <h2>Technical choices</h2>
+
+      <p>I made a deliberate choice to compile ILMA to C, not to build a simple interpreter. This was not obvious at first. An interpreter is faster to build. But I wanted ILMA programs to be fast — genuinely fast. I wanted a child to write a Fibonacci program and have it finish in a blink, not sit there grinding. I wanted the door to be open for her to later learn that the friendly words she wrote became machine code that ran directly on the processor.</p>
+
+      <p>Compiling via C also means ILMA programs run on everything — Linux, macOS, Windows, a Raspberry Pi. No virtual machine, no runtime to install, no version conflicts. One binary. The program her tablet runs is the same kind of program that runs the web server serving this page.</p>
+
+      <p>The other choice was to make the language progressively more capable. ILMA has three tiers: Seed (for ages five to eight), Sapling (ages eight to thirteen), and Tree (ages thirteen and up). A Seed-level program uses only <code>say</code>, <code>remember</code>, and <code>repeat</code>. A Tree-level program can use blueprints, lambdas, pattern matching, and modules. The same language grows with the child. She does not have to switch to a "real" language later. ILMA is already real.</p>
+
+      <h2>The moment it worked</h2>
+
+      <p>Six months after I started building ILMA, my daughter sat at her desk and wrote a program without me telling her what to type. It calculated how much pocket money she would have after saving for three months. It looked like this:</p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">ilma — savings.ilma</span></div>
+        <pre class="ilma-code">remember weekly = 5
+remember weeks = 12
+remember total = weekly * weeks
+say "I will have {total} pounds!"</pre>
+      </div>
+
+      <p>She ran it. It printed: <em>I will have 60 pounds!</em> She looked at the screen for a long moment, then looked at me, and said: "Baba, I told the computer what to do."</p>
+
+      <p>That was the moment ILMA became real.</p>
+
+      <h2>What comes next</h2>
+
+      <p>ILMA is now at version 0.5.0. It has a package manager, a language server for VS Code, a REPL, a formatter, a static checker, and a documentation generator. There are active tests, and the toolchain is growing. You can install it on Linux or macOS with one command. There is a Homebrew formula for macOS. There is a Windows installer.</p>
+
+      <p>But the most important thing is that it still only takes one line to make a computer say something meaningful:</p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">ilma — first.ilma</span></div>
+        <pre class="ilma-code">say "Bismillah"</pre>
+      </div>
+
+      <p>If you have a child who is curious about computers, and you want to give them a language that respects their intelligence without overwhelming them with syntax, try ILMA. Install it, open a file, type those two words. Watch their face when the computer answers back.</p>
+
+      <p>That is why I built it.</p>
+
+      <!-- Article footer -->
+      <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--ilma-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <p style="font-size:0.9rem;color:#5a5880;margin:0;">Written by <strong style="color:#1a1a2e;">Raihan</strong> &bull; March 2026</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <a href="/install.html" class="btn btn-primary btn-sm">Try ILMA</a>
+          <a href="/blog/" class="btn btn-outline btn-sm" style="border-color:var(--ilma-border);color:#5a5880;">More Articles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/images/logo.svg" alt="ILMA" onerror="this.style.display='none'">
+          <span class="footer-logo-text">ILMA</span>
+        </a>
+        <p>A programming language for children. Reads like English. Compiles to native. Free and open source.</p>
+        <div class="footer-social">
+          <a href="https://github.com/raihan-js/ilma" title="GitHub" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Language</h4>
+        <ul>
+          <li><a href="/docs.html">Documentation</a></li>
+          <li><a href="/learn.html">Learn ILMA</a></li>
+          <li><a href="/playground.html">Playground</a></li>
+          <li><a href="/packages.html">Packages</a></li>
+          <li><a href="/install.html">Install</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/issues" target="_blank" rel="noopener">Issues</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/discussions" target="_blank" rel="noopener">Discussions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/docs.html#getting-started">Getting Started</a></li>
+          <li><a href="/docs.html#standard-library">Standard Library</a></li>
+          <li><a href="/blog/why-ilma.html">Why ILMA?</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/releases" target="_blank" rel="noopener">Releases</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ILMA Language. Open source under the MIT License.</p>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/raihan-js/ilma/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

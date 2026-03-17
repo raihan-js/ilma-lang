@@ -1,0 +1,9 @@
+recipe pad_left(str, width):
+    remember s = "" + str
+    keep going while s.length < width:
+        s = " " + s
+    give back s
+
+remember n = pad_left("42", 6)
+say n.length
+say n

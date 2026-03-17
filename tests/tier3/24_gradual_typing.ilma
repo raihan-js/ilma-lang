@@ -1,0 +1,6 @@
+remember x: whole = 42
+remember y: text = "hello"
+remember z: truth = yes
+say x
+say y
+say z

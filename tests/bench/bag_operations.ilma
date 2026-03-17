@@ -1,0 +1,4 @@
+remember b = bag[]
+repeat 1000:
+    b.add(1)
+say b.size

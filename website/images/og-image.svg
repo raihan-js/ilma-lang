@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <rect width="1200" height="630" fill="#0f0e17"/>
+  <!-- Purple glow -->
+  <ellipse cx="240" cy="315" rx="300" ry="200" fill="#534AB7" opacity="0.12"/>
+  <!-- Large Alef mark -->
+  <g transform="translate(80, 100) scale(5)">
+    <defs>
+      <linearGradient id="og" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" style="stop-color:#7F77DD"/>
+        <stop offset="100%" style="stop-color:#3C3489"/>
+      </linearGradient>
+    </defs>
+    <path d="M 20 3 C 21 3 23 5 22 10 C 21 15 20 20 19 25 C 18 30 17 33 16 36"
+          stroke="url(#og)" stroke-width="3" stroke-linecap="round" fill="none"/>
+    <path d="M 9 34 C 12 32 16 33 20 35 C 24 37 27 36 28 34"
+          stroke="url(#og)" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+  </g>
+  <!-- ILMA text -->
+  <text x="380" y="290" font-family="Inter,Arial,sans-serif" font-size="96" font-weight="800" fill="white">ILMA</text>
+  <text x="382" y="360" font-family="Inter,Arial,sans-serif" font-size="32" fill="#7F77DD">A programming language for children.</text>
+  <!-- Code snippet -->
+  <rect x="380" y="400" width="720" height="160" rx="12" fill="#16213e"/>
+  <text x="404" y="435" font-family="JetBrains Mono,Consolas,monospace" font-size="18" fill="#7F77DD">remember</text>
+  <text x="526" y="435" font-family="JetBrains Mono,Consolas,monospace" font-size="18" fill="#e6edf3"> name </text>
+  <text x="592" y="435" font-family="JetBrains Mono,Consolas,monospace" font-size="18" fill="#ff7b72">=</text>
+  <text x="610" y="435" font-family="JetBrains Mono,Consolas,monospace" font-size="18" fill="#a5d6ff"> "Yusuf"</text>
+  <text x="404" y="465" font-family="JetBrains Mono,Consolas,monospace" font-size="18" fill="#7F77DD">say</text>
+  <text x="436" y="465" font-family="JetBrains Mono,Consolas,monospace" font-size="18" fill="#a5d6ff"> "Assalamu Alaikum, {name}!"</text>
+  <!-- URL -->
+  <text x="1100" y="610" font-family="Inter,Arial,sans-serif" font-size="20" fill="#534AB7" text-anchor="end">ilma-lang.dev</text>
+</svg>

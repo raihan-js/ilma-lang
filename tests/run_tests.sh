@@ -72,10 +72,16 @@ run_test() {
     if grep -q '#include "modules/trade.h"' "$temp_c" 2>/dev/null; then
         module_srcs="$module_srcs $runtime_dir/modules/trade.c"
     fi
+    if grep -q '#include "modules/json.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/json.c"
+    fi
+    if grep -q '#include "modules/http.h"' "$temp_c" 2>/dev/null; then
+        module_srcs="$module_srcs $runtime_dir/modules/http.c"
+    fi
 
     # Compile C code
     gcc -o "$temp_bin" "$temp_c" "$PROJECT_DIR/src/runtime/ilma_runtime.c" \
-        $module_srcs -I"$PROJECT_DIR/src/runtime" -lm 2>/dev/null
+        $module_srcs -I"$PROJECT_DIR/src/runtime" -lm -lpthread 2>/dev/null
     if [ $? -ne 0 ]; then
         echo "  FAIL  $test_name (GCC compilation failed)"
         FAIL=$((FAIL + 1))

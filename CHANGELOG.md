@@ -4,30 +4,150 @@ All notable changes to ILMA are documented here.
 
 ---
 
-## [0.5.0] — 2026
+## [0.7.0] — 2026-03-17
+
+### Added
+
+**Package Ecosystem**
+- 10 community packages: math, strings, colors, datetime, random, validate, format, storage, test_helpers, crypto
+- Package registry moved to `https://ilma-lang.dev/packages/registry.json`
+- Registry supports `file://` URLs for local testing
+- Package install now downloads individual `.ilma` files (no tarball)
+- `ilma packages --available` now shows version and description columns
+- `scripts/build-registry.py` — regenerates `packages/registry.json` from local packages directory
+- Package deploy: GitHub Actions copies packages to website on push
+
+**New Built-in Functions**
+- `timestamp()` — returns Unix timestamp as a whole number
+- `env("VAR")` — reads an environment variable, returns empty if not set
+- `print(value)` — outputs a value without a newline
+- `exit(code)` — exits the program with a status code
+- `sleep(ms)` — sleeps for N milliseconds
+- `args()` — returns command-line arguments as a bag
+
+**Homebrew Formula**
+- `Formula/ilma.rb` — ready-to-submit Homebrew formula
+- `scripts/create-homebrew-tap.sh` — computes SHA256 and guides tap setup
+- Install on macOS: `brew tap raihan-js/ilma && brew install ilma`
+
+**Benchmark Tests**
+- `tests/bench/fibonacci.ilma` — fib(30) benchmark
+- `tests/bench/string_concat.ilma` — 1000x string concatenation
+- `tests/bench/bag_operations.ilma` — 1000x bag add
+- `make bench` target runs all benchmarks with timing
+
+**Website**
+- `website/packages.html` — package directory with search, live registry loading
+- `website/blog/` — blog section with first post
+- Navigation updated with Packages and Blog links
+- Version badge (v0.7.0) in hero section
+
+**VS Code Extension**
+- Added configuration contribution: `ilma.executablePath`, `ilma.lspPath`, `ilma.formatOnSave`
+- Gallery banner updated to ILMA green (#2d6a4f)
+- `PUBLISH.md` instructions for VS Code Marketplace
+- `scripts/create-icon-simple.py` — generates 128x128 PNG icon
+
+**Release Workflow**
+- `pre-release` job: verifies VERSION matches git tag and runs full test suite
+- All build jobs now `needs: [pre-release]`
+- Homebrew install instructions in release notes
+- `packages.tar.gz` artifact attached to each release
+
+---
+
+## [0.6.0] — 2026-03-17
+
+### Added
+
+**Built-in Test Runner (`ilma test`)**
+- `test "label":` block defines a named test
+- `assert <expr>` verifies a boolean condition
+- `ilma test <file.ilma>` runs all test blocks and reports pass/fail
+- Tests are skipped in normal compilation (codegen ignores test/assert nodes)
+
+**Code Formatter (`ilma fmt`)**
+- `ilma fmt <file.ilma>` reformats source in-place with canonical style
+- `ilma fmt <file.ilma> --check` checks if file needs reformatting (CI mode)
+- 4-space indentation, consistent keyword and operator spacing
+
+**Static Checker (`ilma check`)**
+- `ilma check <file.ilma>` performs static analysis without running
+- Detects: undefined variables, wrong argument counts, unreachable code after `give back`, `me` outside blueprints
+
+**Documentation Generator (`ilma doc`)**
+- `ilma doc <file.ilma> [output.html]` generates HTML API docs
+- `###` doc comments above `recipe`/`blueprint` definitions are extracted
+- Clean HTML output with styled recipe and blueprint entries
+
+**Concurrency (`run`/`wait`)**
+- `run task1 = myrecipe()` spawns a concurrent task using pthreads
+- `wait task1` blocks until the task completes
+- Codegen emits pthread thread wrapper functions automatically
+
+**Gradual Typing**
+- Type annotations on `remember` declarations are now enforced at runtime (evaluator mode)
+- `remember x: whole = 42` raises a type error if the value doesn't match
+- Supported types: `whole`, `decimal`, `text`, `truth`, `anything`
+
+**JSON and HTTP Modules**
+- `use json` and `use http` are now wired into the codegen module system
+
+---
+
+## [0.5.0] — 2026-03-17
 
 ### Added
 
 **Interactive REPL**
-- `ilma` with no arguments starts an interactive prompt
-- Persistent state across inputs (variables, recipes survive between lines)
-- Multi-line input when lines end with `:` (continuation prompt `...>`)
-- Special commands: quit, help, clear, reset
+- `ilma` with no arguments starts an interactive prompt with box-character banner
+- Persistent state across inputs (variables, recipes, blueprints survive between lines)
+- Multi-line input: lines ending with `:` open continuation prompt `...>`
+- Expression auto-print: bare expressions like `2 + 2` print their result automatically
+- readline support (arrow-key navigation, history) when libreadline is available
+- Special commands: quit, exit, help, clear, reset, history (ring buffer of 10)
+- Ctrl+C (SIGINT) handled gracefully — prompt shown again instead of crashing
+- Ctrl+D (EOF) prints "Goodbye!" and exits cleanly
+
+**Rust-style Error Messages**
+- Error format with `-->  filename:line:col` pointer and `^` caret indicator
+- Colour output (bold red error, cyan location) when stdout is a terminal
+- 12 common error types with contextual hints and code examples
+- `--strict` flag enables unused-variable and unreachable-code warnings
 
 **Language Specification**
 - SPEC.md — 1622-line formal language specification
 - Complete EBNF grammar for the entire language
-- Full keyword reference, type system, and module API documentation
+- Full keyword reference, type system, module API, and error codes
+
+**Website — Learning Platform**
+- website/learn.html: 30-lesson structured learning index
+- Lessons organised into three tiers: Seed (01–10), Sapling (11–20), Tree (21–30)
+- localStorage progress tracking with animated progress bar
+- Visited-lesson checkmarks persist across browser sessions
+- "Start Learning →" CTA on homepage linking to learn.html
+
+**WASM Pipeline**
+- Updated build-wasm.sh: all 9 modules included, exports `ilma_eval_wasm`
+- Updated wasm-compiler.js: `IlmaWasm` object with async init/run API
+- Playground falls back to JS interpreter when WASM is unavailable
 
 **Windows Support**
 - PowerShell installer: `irm https://ilma-lang.dev/install.ps1 | iex`
-- Binary download with PATH setup
-- Fallback to source build with MinGW
+- Binary download with automatic PATH setup and ILMA_HOME env var
+- install.html Windows tab updated to show PowerShell one-liner
+
+**Playground Improvements**
+- check/when pattern matching (exact, range, or-patterns)
+- Lambda expressions: `recipe(x): expression`
+- bag.map(), bag.filter(), bag.each() higher-order functions
+- science module: gravity, celsius_to_fahrenheit, kinetic_energy, speed
+- trade module: profit, margin, discount, vat, halal_check
+- try/when wrong, shout, keep going while, notebook literals
 
 **Tests**
-- 8 new edge case and integration tests
-- Total: 65 compiler tests (23 Tier 1, 23 Tier 2, 19 Tier 3), all passing
-- Tests for: empty values, string methods, or-patterns, bag.map/filter, blueprints with check/when
+- 3 new tests added (68 total: 24 Tier 1, 24 Tier 2, 20 Tier 3), all passing
+- New tests: 24_while_loop (Tier 1), 24_for_each_notebook (Tier 2), 20_closure (Tier 3)
 
 ---
 

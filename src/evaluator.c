@@ -701,6 +701,20 @@ static void eval_stmt(Evaluator* ev, ASTNode* node) {
 
     case NODE_REMEMBER: {
         IlmaValue val = eval_expr(ev, node->data.remember.value);
+        const char* ta = node->data.remember.type_annotation;
+        if (ta) {
+            int ok = 1;
+            if (strcmp(ta, "whole") == 0 && val.type != ILMA_WHOLE) ok = 0;
+            else if (strcmp(ta, "decimal") == 0 && val.type != ILMA_DECIMAL && val.type != ILMA_WHOLE) ok = 0;
+            else if (strcmp(ta, "text") == 0 && val.type != ILMA_TEXT) ok = 0;
+            else if (strcmp(ta, "truth") == 0 && val.type != ILMA_TRUTH) ok = 0;
+            /* "anything" accepts everything */
+            if (!ok) {
+                fprintf(stderr, "Type error on line %d: variable '%s' is declared as '%s' but got a different type.\n",
+                        node->line, node->data.remember.name, ta);
+                exit(1);
+            }
+        }
         scope_set(ev, node->data.remember.name, val);
         break;
     }
@@ -900,8 +914,11 @@ static void eval_stmt(Evaluator* ev, ASTNode* node) {
     }
 
     case NODE_EXPR_STMT: {
-        /* The parser reuses data.say.expr to store the inner expression */
-        eval_expr(ev, node->data.say.expr);
+        IlmaValue result = eval_expr(ev, node->data.say.expr);
+        /* In REPL mode, auto-print non-empty expression results */
+        if (ev->repl_mode && result.type != ILMA_EMPTY) {
+            eval_output(ev, result);
+        }
         break;
     }
 
@@ -973,6 +990,18 @@ void evaluator_free(Evaluator* ev) {
 char* evaluator_get_output(Evaluator* ev) {
     if (!ev->output_buffer) return strdup("");
     return strdup(ev->output_buffer);
+}
+
+void evaluator_run_block(Evaluator* ev, ASTNode* block) {
+    eval_block(ev, block);
+}
+
+IlmaValue evaluator_eval_expr_public(Evaluator* ev, ASTNode* expr) {
+    return eval_expr(ev, expr);
+}
+
+void evaluator_run_stmt(Evaluator* ev, ASTNode* stmt) {
+    eval_stmt(ev, stmt);
 }
 
 IlmaValue evaluator_run(Evaluator* ev, ASTNode* program) {

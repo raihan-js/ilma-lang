@@ -89,6 +89,10 @@ const char* token_type_name(TokenType type) {
         case TOK_BAG:        return "BAG";
         case TOK_NOTEBOOK:   return "NOTEBOOK";
         case TOK_CHECK:      return "CHECK";
+        case TOK_TEST:       return "TEST";
+        case TOK_ASSERT:     return "ASSERT";
+        case TOK_RUN:        return "RUN";
+        case TOK_WAIT:       return "WAIT";
         case TOK_TYPE_WHOLE: return "TYPE_WHOLE";
         case TOK_TYPE_DECIMAL: return "TYPE_DECIMAL";
         case TOK_TYPE_TEXT:  return "TYPE_TEXT";
@@ -171,6 +175,10 @@ static const Keyword keywords[] = {
     {"bag",        TOK_BAG},
     {"notebook",   TOK_NOTEBOOK},
     {"check",      TOK_CHECK},
+    {"test",       TOK_TEST},
+    {"assert",     TOK_ASSERT},
+    {"run",        TOK_RUN},
+    {"wait",       TOK_WAIT},
     {"whole",      TOK_TYPE_WHOLE},
     {"decimal",    TOK_TYPE_DECIMAL},
     {"text",       TOK_TYPE_TEXT},
@@ -278,11 +286,15 @@ static void lex_string(Lexer* L) {
     }
 
 done_string:
-    /* Check for string interpolation (contains unescaped {) */
+    /* Check for string interpolation: treat {expr} as interpolation unless
+     * the { is immediately followed by a quote char (JSON-style literal) */
     ;
     int has_interp = 0;
     for (size_t i = 0; i < buf_len; i++) {
-        if (buf[i] == '{') { has_interp = 1; break; }
+        if (buf[i] == '{' && i + 1 < buf_len &&
+            buf[i+1] != '"' && buf[i+1] != '\'') {
+            has_interp = 1; break;
+        }
     }
 
     buf[buf_len] = '\0';

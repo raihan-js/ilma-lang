@@ -1,0 +1,10 @@
+use json
+
+remember parsed = json.parse("{\"x\": 42, \"ok\": true, \"items\": [1,2,3]}")
+say parsed[x]
+say parsed[ok]
+say parsed[items].size
+
+remember data = notebook[name: "ILMA", version: 1]
+remember out = json.stringify(data)
+say out

@@ -50,18 +50,37 @@
 
 ## v0.5.0 — Professional Release ✅
 
-- Interactive REPL with persistent state and multi-line input
+- Interactive REPL: readline, history, Ctrl+C handling, expression auto-print, box banner
+- Rust-style error messages with line/column pointers, caret indicators, and hints
 - Language specification (SPEC.md, 1622 lines, full EBNF grammar)
-- Windows PowerShell installer (install.ps1)
-- 65 compiler tests + 2 LSP tests, all passing
+- website/learn.html: 30 structured lessons with localStorage progress tracking
+- WASM pipeline: updated build-wasm.sh + IlmaWasm JS object
+- Windows PowerShell installer: `irm https://ilma-lang.dev/install.ps1 | iex`
+- Playground: check/when, lambdas, bag.map/filter, science/trade modules
+- 68 compiler tests, all passing
 
-## v0.6.0 — Ecosystem Growth 📋
+## v0.6.0 — The Engineering Version ✅
 
-- WASM compilation via Emscripten (real compiler in browser)
-- Full LSP: go-to-definition, auto-complete, rename
-- Cross-platform installers (APT PPA, AUR, Scoop, winget)
-- Generics / type parameters
-- HTTP client in stdlib
+- Built-in test runner: `ilma test` with `test "label":` blocks and `assert` statements
+- Code formatter: `ilma fmt` with canonical 4-space indentation and operator spacing
+- Static checker: `ilma check` detects undefined variables, wrong arg counts, unreachable code
+- Documentation generator: `ilma doc` produces HTML docs from `###` comments
+- Concurrency: `run task = recipe()` and `wait task` using pthreads
+- Gradual typing: runtime type checking on annotated `remember` declarations
+- JSON and HTTP modules wired into codegen module system
+- `-lpthread` added to compiler build flags
+
+## v0.7.0 — The Ecosystem Version ✅
+
+- 10 community packages: math, strings, colors, datetime, random, validate, format, storage, test_helpers, crypto
+- Package registry at ilma-lang.dev/packages/registry.json with individual .ilma file delivery
+- New built-ins: timestamp(), env(), print(), exit(), sleep(), args()
+- Homebrew formula for macOS installation
+- website/packages.html — searchable package directory
+- website/blog/ — blog with "Why I Built a Programming Language for My Daughter"
+- VS Code extension: configuration settings, updated gallery banner
+- Release workflow: pre-release checks, version/tag verification
+- Benchmark tests: fibonacci, string concatenation, bag operations
 
 ## v1.0.0 — Production Ready 📋
 

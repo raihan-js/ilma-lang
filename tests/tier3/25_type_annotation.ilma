@@ -1,0 +1,4 @@
+remember x: whole = 100
+remember name: text = "ILMA"
+say x
+say name

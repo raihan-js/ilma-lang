@@ -137,6 +137,56 @@ function execLine(trimmed, lineNum, lines, index, vars, funcs, output, currentIn
         vars[vName] = evalExpr(trimmed.substring(eqIdx + 1).trim(), vars, funcs, output);
         return null;
     }
+    if (trimmed.startsWith('check ') || trimmed === 'check:') {
+        return handleCheck(trimmed, lineNum, lines, index, vars, funcs, output, currentIndent);
+    }
+    if (trimmed.startsWith('keep going while ')) {
+        var kwRest = trimmed.substring(17).trim();
+        if (kwRest.endsWith(':')) kwRest = kwRest.slice(0, -1).trim();
+        var bi = getBodyBlock(lines, index, currentIndent);
+        var bIndent = bi.block.length ? getIndent(bi.block[0].text) : currentIndent + 4;
+        var maxIter = 10000;
+        while (maxIter-- > 0) {
+            if (!isTruthy(evalExpr(kwRest, vars, funcs, output))) break;
+            var lv2 = Object.assign({}, vars);
+            var res = execBlock(bi.block.slice(), lv2, funcs, output, bIndent);
+            Object.assign(vars, lv2);
+            if (res && res.type === 'give_back') return res;
+        }
+        return { nextIndex: bi.endIndex };
+    }
+    if (trimmed.startsWith('shout ')) {
+        var shoutMsg = evalExpr(trimmed.substring(6).trim(), vars, funcs, output);
+        throw new Error(String(shoutMsg));
+    }
+    if (trimmed.startsWith('try:') || trimmed === 'try:') {
+        return handleTry(trimmed, lineNum, lines, index, vars, funcs, output, currentIndent);
+    }
+    if (trimmed.match(/^[a-zA-Z_][\w.]*\s*=/)) {
+        var dotEqIdx = trimmed.indexOf('=');
+        var lhsStr = trimmed.substring(0, dotEqIdx).trim();
+        var rhsStr = trimmed.substring(dotEqIdx + 1).trim();
+        var rhsVal = evalExpr(rhsStr, vars, funcs, output);
+        if (lhsStr.indexOf('.') !== -1) {
+            var parts2 = lhsStr.split('.');
+            var obj2 = vars[parts2[0]];
+            if (obj2 && typeof obj2 === 'object' && !Array.isArray(obj2)) {
+                obj2[parts2.slice(1).join('.')] = rhsVal;
+            }
+        } else {
+            vars[lhsStr] = rhsVal;
+        }
+        return null;
+    }
+    if (trimmed.startsWith('use ')) {
+        var modName = trimmed.substring(4).trim();
+        if (!vars.__modules) vars.__modules = {};
+        vars.__modules[modName] = true;
+        return null;
+    }
+    if (trimmed === 'otherwise:' || trimmed === 'otherwise') {
+        return null; // handled by parent if block
+    }
     throw new Error('Line ' + lineNum + ': I don\'t understand "' + trimmed + '"');
 }
 
@@ -187,8 +237,15 @@ function evalExpr(expr, vars, funcs, output) {
     if (expr === 'yes') return true;
     if (expr === 'no') return false;
     if (expr === 'empty') return null;
-    if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'")))
-        return expr.slice(1, -1);
+    if ((expr.startsWith('"') && expr.endsWith('"')) || (expr.startsWith("'") && expr.endsWith("'"))) {
+        var rawStr = expr.slice(1, -1);
+        if (expr.startsWith('"') && rawStr.includes('{')) {
+            return rawStr.replace(/\{([^}]+)\}/g, function(m, inner) {
+                try { return String(evalExpr(inner.trim(), vars, funcs, output)); } catch(e) { return m; }
+            });
+        }
+        return rawStr;
+    }
     if (expr.match(/^-?\d+(\.\d+)?$/)) return Number(expr);
     if (expr.startsWith('bag[')) {
         var inner = expr.substring(4, expr.length - 1);
@@ -237,6 +294,101 @@ function evalExpr(expr, vars, funcs, output) {
         if (op === '*') return Number(left) * Number(right);
         if (op === '/') { if (Number(right) === 0) throw new Error('Cannot divide by zero'); return Number(left) / Number(right); }
         if (op === '%') return Number(left) % Number(right);
+    }
+    // Module and method calls: obj.method(args) or module.func(args)
+    var dotCallMatch = expr.match(/^([a-zA-Z_][\w.]*)\s*\((.*)\)\s*$/s);
+    if (dotCallMatch && dotCallMatch[1].indexOf('.') !== -1) {
+        var fullName = dotCallMatch[1];
+        var argsStr2 = dotCallMatch[2].trim();
+        var args2 = argsStr2 === '' ? [] : splitArgs(argsStr2);
+        var ea2 = args2.map(function(a) { return evalExpr(a.trim(), vars, funcs, output); });
+        var dotIdx = fullName.lastIndexOf('.');
+        var objName = fullName.substring(0, dotIdx);
+        var methodName = fullName.substring(dotIdx + 1);
+        var objVal = evalExpr(objName, vars, funcs, output);
+
+        // Bag higher-order methods
+        if (Array.isArray(objVal)) {
+            if (methodName === 'map') {
+                var fn = ea2[0];
+                return objVal.map(function(item) { return callLambda(fn, [item], vars, funcs, output); });
+            }
+            if (methodName === 'filter') {
+                var fn = ea2[0];
+                return objVal.filter(function(item) { return isTruthy(callLambda(fn, [item], vars, funcs, output)); });
+            }
+            if (methodName === 'each') {
+                var fn = ea2[0];
+                objVal.forEach(function(item) { callLambda(fn, [item], vars, funcs, output); });
+                return null;
+            }
+            if (methodName === 'add') { objVal.push(ea2[0]); return null; }
+            if (methodName === 'remove') {
+                var ri = objVal.indexOf(ea2[0]);
+                if (ri !== -1) objVal.splice(ri, 1);
+                return null;
+            }
+            if (methodName === 'join') { return objVal.join(ea2[0] != null ? String(ea2[0]) : ', '); }
+            if (methodName === 'sorted') { return objVal.slice().sort(function(a,b){ return a<b?-1:a>b?1:0; }); }
+        }
+        // String methods
+        if (typeof objVal === 'string') {
+            if (methodName === 'upper') return objVal.toUpperCase();
+            if (methodName === 'lower') return objVal.toLowerCase();
+            if (methodName === 'contains') return objVal.includes(String(ea2[0]));
+            if (methodName === 'slice') return objVal.slice(Number(ea2[0]), Number(ea2[1]));
+        }
+        // Notebook methods
+        if (objVal && typeof objVal === 'object' && !Array.isArray(objVal)) {
+            if (methodName === 'keys') return Object.keys(objVal);
+        }
+        // Blueprint method call
+        if (objVal && typeof objVal === 'object' && objVal.__blueprint) {
+            return callBlueprintMethod(objVal, methodName, ea2, vars, funcs, output);
+        }
+        // Module functions
+        return callModule(objName, methodName, ea2, vars, funcs, output);
+    }
+    // Member access (no call): obj.prop
+    var dotAccessMatch = expr.match(/^([a-zA-Z_][\w]*(?:\.[a-zA-Z_]\w*)*)\.([a-zA-Z_]\w*)$/);
+    if (dotAccessMatch) {
+        var objStr = dotAccessMatch[1];
+        var propName = dotAccessMatch[2];
+        var objV = evalExpr(objStr, vars, funcs, output);
+        if (Array.isArray(objV)) {
+            if (propName === 'size' || propName === 'length') return objV.length;
+        }
+        if (typeof objV === 'string') {
+            if (propName === 'length' || propName === 'size') return objV.length;
+        }
+        if (objV && typeof objV === 'object' && !Array.isArray(objV)) {
+            if (propName === 'size') return Object.keys(objV).length;
+            return objV[propName] !== undefined ? objV[propName] : null;
+        }
+        return null;
+    }
+    // Lambda: recipe(params): expr
+    var lambdaMatch = expr.match(/^recipe\s*\(([^)]*)\)\s*:\s*(.+)$/s);
+    if (lambdaMatch) {
+        var lParams = lambdaMatch[1].trim() ? lambdaMatch[1].split(',').map(function(p){ return p.trim(); }) : [];
+        var lExpr = lambdaMatch[2].trim();
+        return { __lambda: true, params: lParams, body: lExpr, closure: Object.assign({}, vars) };
+    }
+    // Notebook literal: notebook[key: val, ...]
+    if (expr.startsWith('notebook[')) {
+        var inner2 = expr.substring(9, expr.length - 1).trim();
+        var obj3 = {};
+        if (inner2) {
+            splitArgs(inner2).forEach(function(pair) {
+                var ci = pair.indexOf(':');
+                if (ci !== -1) {
+                    var k = pair.substring(0, ci).trim();
+                    var v = evalExpr(pair.substring(ci + 1).trim(), vars, funcs, output);
+                    obj3[k] = v;
+                }
+            });
+        }
+        return obj3;
     }
     var funcMatch = expr.match(/^([a-zA-Z_]\w*)\s*\((.*)\)$/s);
     if (funcMatch) {
@@ -324,4 +476,174 @@ function splitArgs(str) {
     }
     if (current.trim() !== '') args.push(current);
     return args;
+}
+
+function callLambda(fn, args, vars, funcs, output) {
+    if (!fn) return null;
+    if (typeof fn === 'function') return fn.apply(null, args);
+    if (fn && fn.__lambda) {
+        var lv = Object.assign({}, fn.closure || {}, vars);
+        fn.params.forEach(function(p, i) { lv[p] = args[i] !== undefined ? args[i] : null; });
+        // Evaluate body expression
+        try { return evalExpr(fn.body, lv, funcs, output); } catch(e) { return null; }
+    }
+    if (fn && fn.params !== undefined) {
+        // Named function stored as object
+        var lv2 = Object.assign({}, vars);
+        fn.params.forEach(function(p, i) { lv2[p] = args[i] !== undefined ? args[i] : null; });
+        var res = execBlock(fn.body.slice(), lv2, funcs, output, fn.bodyIndent || 4);
+        if (res && res.type === 'give_back') return res.value;
+        return null;
+    }
+    return null;
+}
+
+function callModule(modName, funcName, args, vars, funcs, output) {
+    var modules = {
+        science: {
+            gravity: function(m) { return m * 9.81; },
+            celsius_to_fahrenheit: function(c) { return (c * 9/5) + 32; },
+            celsius_to_kelvin: function(c) { return c + 273.15; },
+            speed: function(d, t) { return d / t; },
+            kinetic_energy: function(m, v) { return 0.5 * m * v * v; }
+        },
+        trade: {
+            profit: function(cost, rev) { return rev - cost; },
+            margin: function(cost, rev) { return ((rev - cost) / rev) * 100; },
+            discount: function(price, pct) { return price * (1 - pct / 100); },
+            vat: function(price, rate) { return price * (1 + rate / 100); },
+            halal_check: function(interest, gambling, alcohol) {
+                var ok = !interest && !gambling && !alcohol;
+                return { permissible: ok, reason: ok ? 'All conditions met' : 'Contains prohibited element' };
+            }
+        },
+        finance: {
+            zakat: function(wealth, nisab) { return wealth >= nisab ? wealth * 0.025 : 0; },
+            compound: function(p, r, t) { return p * Math.pow(1 + r/100, t); },
+            profit: function(c, r) { return r - c; },
+            margin: function(c, r) { return ((r-c)/r)*100; },
+            simple_interest: function(p, r, t) { return p * r * t / 100; }
+        },
+        number: {
+            sqrt: function(n) { return Math.sqrt(n); },
+            abs: function(n) { return Math.abs(n); },
+            round: function(n) { return Math.round(n); },
+            floor: function(n) { return Math.floor(n); },
+            ceil: function(n) { return Math.ceil(n); },
+            is_prime: function(n) {
+                if (n < 2) return false;
+                for (var i = 2; i*i <= n; i++) if (n%i===0) return false;
+                return true;
+            },
+            fibonacci: function(n) {
+                if (n <= 1) return n;
+                var a=0,b=1;
+                for (var i=2;i<=n;i++){var t=a+b;a=b;b=t;}
+                return b;
+            }
+        },
+        body: {
+            bmi: function(weight, height) { return weight / (height * height); },
+            daily_water: function(weight) { return weight * 0.033; }
+        },
+        think: {
+            stoic_question: function() { return 'Is this in your control?'; }
+        }
+    };
+    var mod = modules[modName];
+    if (mod && mod[funcName]) {
+        return mod[funcName].apply(null, args);
+    }
+    // Try vars for user-defined modules
+    if (vars[modName] && typeof vars[modName] === 'object') {
+        var mObj = vars[modName];
+        if (typeof mObj[funcName] === 'function') return mObj[funcName].apply(null, args);
+    }
+    return null;
+}
+
+function callBlueprintMethod(obj, method, args, vars, funcs, output) {
+    if (obj.__methods && obj.__methods[method]) {
+        return callLambda(obj.__methods[method], args, Object.assign({me: obj}, vars), funcs, output);
+    }
+    return null;
+}
+
+function handleCheck(trimmed, lineNum, lines, index, vars, funcs, output, currentIndent) {
+    var subjStr = trimmed.replace(/^check\s*/, '').replace(/:$/, '').trim();
+    var subject = subjStr ? evalExpr(subjStr, vars, funcs, output) : null;
+    var bi = getBodyBlock(lines, index, currentIndent);
+    var whenIndent = currentIndent + 4;
+    if (bi.block.length) whenIndent = getIndent(bi.block[0].text);
+
+    var i = 0, matched = false;
+    while (i < bi.block.length) {
+        var t = bi.block[i].text.trim();
+        if (t === '' || t.startsWith('#')) { i++; continue; }
+        if (t.startsWith('when ')) {
+            var patStr = t.substring(5).trim();
+            if (patStr.endsWith(':')) patStr = patStr.slice(0, -1).trim();
+            var bodyBlock = getBodyBlock(bi.block, i, whenIndent);
+            var bInd = bodyBlock.block.length ? getIndent(bodyBlock.block[0].text) : whenIndent + 4;
+            if (!matched && matchPattern(subject, patStr, vars, funcs, output)) {
+                matched = true;
+                var res = execBlock(bodyBlock.block.slice(), vars, funcs, output, bInd);
+                if (res && res.type === 'give_back') return res;
+            }
+            i = bodyBlock.endIndex;
+        } else if (t.startsWith('otherwise')) {
+            var obBlock = getBodyBlock(bi.block, i, whenIndent);
+            var obInd = obBlock.block.length ? getIndent(obBlock.block[0].text) : whenIndent + 4;
+            if (!matched) {
+                var res2 = execBlock(obBlock.block.slice(), vars, funcs, output, obInd);
+                if (res2 && res2.type === 'give_back') return res2;
+            }
+            i = obBlock.endIndex;
+        } else { i++; }
+    }
+    return { nextIndex: bi.endIndex };
+}
+
+function matchPattern(subject, patStr, vars, funcs, output) {
+    // Range pattern: 90..99
+    var rangeMatch = patStr.match(/^(-?\d+(?:\.\d+)?)\s*\.\.\s*(-?\d+(?:\.\d+)?)$/);
+    if (rangeMatch) {
+        var lo = Number(rangeMatch[1]), hi = Number(rangeMatch[2]);
+        var sv = Number(subject);
+        return sv >= lo && sv <= hi;
+    }
+    // Or-pattern: "cat" or "dog"
+    if (patStr.indexOf(' or ') !== -1) {
+        var parts = patStr.split(' or ').map(function(p) { return p.trim(); });
+        return parts.some(function(p) { return matchPattern(subject, p, vars, funcs, output); });
+    }
+    // Exact match
+    var patVal = evalExpr(patStr, vars, funcs, output);
+    return subject == patVal || subject === patVal;
+}
+
+function handleTry(trimmed, lineNum, lines, index, vars, funcs, output, currentIndent) {
+    var tryBlock = getBodyBlock(lines, index, currentIndent);
+    var bInd = tryBlock.block.length ? getIndent(tryBlock.block[0].text) : currentIndent + 4;
+    var nextI = tryBlock.endIndex;
+    var errMsg = null;
+    try {
+        execBlock(tryBlock.block.slice(), vars, funcs, output, bInd);
+    } catch(e) {
+        errMsg = e.message || String(e);
+    }
+    // Check for 'when wrong:'
+    if (nextI < lines.length) {
+        var nt = lines[nextI].text.trim();
+        if (nt === 'when wrong:' || nt === 'when wrong') {
+            var wBlock = getBodyBlock(lines, nextI, currentIndent);
+            var wInd = wBlock.block.length ? getIndent(wBlock.block[0].text) : currentIndent + 4;
+            if (errMsg !== null) {
+                vars['error'] = errMsg;
+                execBlock(wBlock.block.slice(), vars, funcs, output, wInd);
+            }
+            nextI = wBlock.endIndex;
+        }
+    }
+    return { nextIndex: nextI };
 }

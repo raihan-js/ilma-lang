@@ -1,0 +1,4 @@
+remember count = 1
+keep going while count <= 5:
+    say count
+    count = count + 1

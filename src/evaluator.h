@@ -41,6 +41,7 @@ typedef struct {
     int output_len;
     int output_cap;
     int capture_output;         /* 1 = capture to buffer, 0 = print to stdout */
+    int repl_mode;              /* 1 = auto-print bare expression results */
     int returning;              /* 1 = currently returning from recipe */
     IlmaValue return_value;
 } Evaluator;
@@ -49,5 +50,10 @@ void evaluator_init(Evaluator* ev);
 void evaluator_free(Evaluator* ev);
 IlmaValue evaluator_run(Evaluator* ev, ASTNode* program);
 char* evaluator_get_output(Evaluator* ev);
+
+/* Public accessors for test runner */
+void      evaluator_run_block(Evaluator* ev, ASTNode* block);
+IlmaValue evaluator_eval_expr_public(Evaluator* ev, ASTNode* expr);
+void      evaluator_run_stmt(Evaluator* ev, ASTNode* stmt);
 
 #endif

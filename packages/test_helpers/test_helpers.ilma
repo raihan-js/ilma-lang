@@ -1,0 +1,43 @@
+# ILMA test_helpers package — testing utilities
+
+### Assert two values are equal
+recipe assert_eq(label, actual, expected):
+    if actual is expected:
+        say "PASS  " + label
+    otherwise:
+        say "FAIL  " + label
+        say "      expected: " + expected
+        say "      got:      " + actual
+
+### Assert a value is yes
+recipe assert_true(label, value):
+    if value:
+        say "PASS  " + label
+    otherwise:
+        say "FAIL  " + label + " (expected yes, got no)"
+
+### Assert a value is no
+recipe assert_false(label, value):
+    if value is no:
+        say "PASS  " + label
+    otherwise:
+        say "FAIL  " + label + " (expected no, got yes)"
+
+### Assert a value is empty
+recipe assert_empty(label, value):
+    if value is empty:
+        say "PASS  " + label
+    otherwise:
+        say "FAIL  " + label + " (expected empty)"
+
+### Assert text contains a substring
+recipe assert_contains(label, text, search):
+    if text.contains(search):
+        say "PASS  " + label
+    otherwise:
+        say "FAIL  " + label + " ('" + text + "' should contain '" + search + "')"
+
+### Run all tests and print summary
+recipe run_tests(test_count, pass_count):
+    say ""
+    say "Results: " + pass_count + "/" + test_count + " passed"

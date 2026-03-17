@@ -29,15 +29,18 @@ emcc src/evaluator.c src/lexer.c src/parser.c src/ast.c \
   src/runtime/modules/quran.c \
   src/runtime/modules/number.c \
   src/runtime/modules/draw.c \
+  src/runtime/modules/science.c \
+  src/runtime/modules/trade.c \
   -I src/runtime \
+  -O2 \
   -s WASM=1 \
-  -s EXPORTED_FUNCTIONS='["_wasm_run_ilma"]' \
-  -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap","UTF8ToString"]' \
+  -s EXPORTED_FUNCTIONS='["_ilma_eval_wasm","_wasm_run_ilma","_malloc","_free"]' \
+  -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap","UTF8ToString","stringToUTF8"]' \
   -s ALLOW_MEMORY_GROWTH=1 \
   -s MODULARIZE=1 \
   -s EXPORT_NAME='IlmaCompiler' \
+  -s NO_EXIT_RUNTIME=1 \
   -s ENVIRONMENT='web' \
-  -O2 \
   -o website/wasm/ilma-compiler.js
 
 echo ""

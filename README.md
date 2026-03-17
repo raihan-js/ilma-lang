@@ -192,6 +192,10 @@ See the [IlmaWeb Framework](frameworks/ilma-web/) for the full guide.
 
 ILMA comes from the Arabic and Urdu word **ilm** — knowledge, science, wisdom. The first divine command in the Quran was **Iqra** — Read. This language carries that mission: make knowledge accessible to every child on Earth.
 
+## Language Specification
+
+See [SPEC.md](SPEC.md) for the complete formal specification.
+
 ## License
 
 MIT License. The ILMA compiler, runtime, and web platform are free forever.

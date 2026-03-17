@@ -1,0 +1,4 @@
+remember env_path = env("PATH")
+say env_path is not empty
+remember ts = timestamp()
+say ts > 0

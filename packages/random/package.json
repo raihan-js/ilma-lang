@@ -1,0 +1,9 @@
+{
+  "name": "random",
+  "version": "0.1.0",
+  "description": "Random number and selection utilities",
+  "author": "ILMA Team",
+  "license": "MIT",
+  "ilma_version": ">=0.6.0",
+  "tags": ["random", "utilities"]
+}

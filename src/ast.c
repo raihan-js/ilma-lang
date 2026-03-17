@@ -160,6 +160,21 @@ void ast_free(ASTNode* node) {
             free(node->data.check_stmt.case_bodies);
             ast_free(node->data.check_stmt.otherwise_body);
             break;
+        case NODE_TEST:
+            free(node->data.test_stmt.name);
+            ast_free(node->data.test_stmt.body);
+            break;
+        case NODE_ASSERT:
+            ast_free(node->data.assert_stmt.expr);
+            free(node->data.assert_stmt.label);
+            break;
+        case NODE_RUN_STMT:
+            free(node->data.run_stmt.task_name);
+            ast_free(node->data.run_stmt.call);
+            break;
+        case NODE_WAIT_STMT:
+            free(node->data.wait_stmt.task_name);
+            break;
         case NODE_EXPR_STMT:
             /* The expression is stored directly as a child — reuse say.expr */
             ast_free(node->data.say.expr);

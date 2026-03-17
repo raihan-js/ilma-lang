@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Keyword Philosophy: Why remember Beats let — ILMA Blog</title>
+  <meta name="description" content="Every keyword in ILMA was carefully chosen. Why we replaced programming jargon with natural language that children already understand.">
+  <link rel="canonical" href="https://ilma-lang.dev/blog/keyword-philosophy.html">
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/logo.svg" alt="ILMA" height="32" onerror="this.style.display='none'">
+      <span class="nav-logo-text">ILMA</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs.html">Docs</a>
+      <a href="/learn.html">Learn</a>
+      <a href="/packages.html">Packages</a>
+      <a href="/playground.html">Playground</a>
+      <a href="/blog/" class="active">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/install.html" class="btn btn-ghost btn-sm">Install</a>
+      <a href="/playground.html" class="btn btn-primary btn-sm">Try Online</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="/docs.html">Docs</a>
+  <a href="/learn.html">Learn</a>
+  <a href="/packages.html">Packages</a>
+  <a href="/playground.html">Playground</a>
+  <a href="/blog/">Blog</a>
+  <div class="mobile-divider"></div>
+  <a href="/install.html">Install</a>
+  <a href="/playground.html" class="btn btn-primary" style="margin-top:8px;text-align:center;">Try Online</a>
+</div>
+
+<!-- ═══ HERO ════════════════════════════════════════════ -->
+<section class="hero" style="padding:64px 0 56px;">
+  <div class="container" style="max-width:760px;">
+    <a href="/blog/" style="display:inline-flex;align-items:center;gap:6px;color:var(--ilma-text-muted);font-size:0.875rem;margin-bottom:24px;text-decoration:none;">&larr; Back to Blog</a>
+    <div class="article-eyebrow">
+      <span class="badge badge-dark">Philosophy</span>
+    </div>
+    <h1 style="color:var(--ilma-white);font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.2;margin:16px 0;">
+      The Keyword Philosophy: Why <code style="background:rgba(127,119,221,0.2);color:var(--ilma-purple-light);font-size:0.8em;">remember</code> Beats <code style="background:rgba(127,119,221,0.2);color:var(--ilma-purple-light);font-size:0.8em;">let</code>
+    </h1>
+    <div class="article-meta" style="color:var(--ilma-text-muted);">
+      <span>Raihan</span>
+      <span>&bull;</span>
+      <span>March 2026</span>
+      <span>&bull;</span>
+      <span>7 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ARTICLE BODY ════════════════════════════════════ -->
+<main>
+  <div class="article-layout">
+    <div class="article-body">
+
+      <p>
+        Programming languages borrow their syntax from two sources: mathematics and other programming languages.
+        Both are poor models for a ten-year-old who has never seen either. ILMA borrows its syntax from a third source: the way children already talk.
+      </p>
+
+      <p>
+        Every keyword in ILMA went through a deliberate design process. This post explains the reasoning behind the most important choices — and what alternatives were considered and rejected.
+      </p>
+
+      <h2>remember instead of let / var / const</h2>
+
+      <p>
+        The conventional keywords for declaring a variable — <code>let</code>, <code>var</code>, <code>const</code>, <code>dim</code> — are all abbreviations or abstract terms. None of them suggest what a variable actually does: hold a value in memory so you can use it later.
+      </p>
+
+      <p>
+        <code>remember</code> does. When you tell a child "remember this number," they know what you mean. When they type <code>remember age = 12</code>, they are doing exactly what the word says. The variable <code>age</code> will remember the value <code>12</code> for as long as the program runs.
+      </p>
+
+      <p>
+        This is not a trivial choice. In user testing, children who learned ILMA were able to explain what a variable is — in their own words — after a single lesson. Children learning Python took significantly longer to internalise the concept, because the keyword <code>=</code> suggests equality rather than assignment, and there is no keyword at all to reinforce the idea.
+      </p>
+
+      <h2>say instead of print</h2>
+
+      <p>
+        <code>print</code> is a historical artefact — it referred to printing to a paper teletype terminal. In 2026, a child's first association with "print" is a printer. Output to the screen is something you <em>say</em>. You say things to people. You say things to computers.
+      </p>
+
+      <p>
+        <code>say</code> also reads more naturally as a sentence. <code>say "Hello"</code> is a complete, grammatical English instruction. <code>print("Hello")</code> is not — it's a function invocation dressed up as English.
+      </p>
+
+      <blockquote>
+        <p>Every ILMA keyword should read as a natural English instruction, not a technical term with an English veneer.</p>
+      </blockquote>
+
+      <h2>recipe instead of def / function</h2>
+
+      <p>
+        A function in most languages is called <code>def</code> (short for "define"), <code>function</code>, <code>fun</code>, or <code>fn</code>. None of these tell a child what it actually is: a reusable set of instructions.
+      </p>
+
+      <p>
+        A recipe is a perfect metaphor. It has a name ("chocolate cake"). It takes ingredients (parameters). It has steps (the body). When you follow it, you get a result. You can follow it again with different ingredients and get a different result. The metaphor is complete and accurate. <code>recipe fib(n)</code> reads exactly the way you would describe it to a child: "here is a recipe called fib that takes one ingredient n."
+      </p>
+
+      <h2>give back instead of return</h2>
+
+      <p>
+        <code>return</code> is a reasonable English word, but it obscures the direction of flow. When you use <code>give back</code>, the direction is clear: you are giving something back to whoever asked. The phrase emphasises the transactional nature of function calls — you asked a recipe to do work, and now it is giving you back a result.
+      </p>
+
+      <p>
+        Two words instead of one was a risk. Would it feel verbose? In practice it reads better:
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header"><span class="code-block-lang">comparison</span></div>
+        <pre><span class="syn-comment">## Python</span>
+<span style="color:#ff7b72;">def</span> <span class="syn-func">double</span>(x):
+    <span style="color:#ff7b72;">return</span> x * 2
+
+<span class="syn-comment">## ILMA</span>
+<span class="syn-keyword">recipe</span> <span class="syn-func">double</span>(x):
+    <span class="syn-keyword">give back</span> x * 2</pre>
+      </div>
+
+      <p>
+        The ILMA version is four characters longer — but it reads as a complete, understandable sentence. The Python version requires you to already know what <code>def</code> and <code>return</code> mean.
+      </p>
+
+      <h2>bag instead of list / array</h2>
+
+      <p>
+        <code>list</code> is actually not bad — it is an English word with an obvious meaning. But <code>array</code> is a mathematical term with no obvious everyday meaning. ILMA uses <code>bag</code> because bags are something children interact with every day. A school bag holds multiple things. You can add to it. You can take things out. You can look through it. The metaphor maps perfectly onto list operations.
+      </p>
+
+      <p>
+        <code>bag.add(item)</code> reads like you are physically adding something to a bag. <code>bag.remove(item)</code> reads like you are taking it out. <code>for each item in bag:</code> reads like "for each thing in the bag, do this."
+      </p>
+
+      <h2>notebook instead of dict / map / object</h2>
+
+      <p>
+        A notebook has labelled pages. Each page (key) has something written on it (value). You look things up by their label. You add new pages. You can tear out a page. The metaphor maps cleanly onto dictionary operations.
+      </p>
+
+      <p>
+        <code>dict</code> (short for dictionary) is also a reasonable metaphor — you look up words by their name. But it suggests only lookup, not modification. A notebook suggests both — you write in it, erase things, add pages. It captures the mutable, living nature of the data structure better.
+      </p>
+
+      <h2>otherwise instead of else</h2>
+
+      <p>
+        <code>else</code> works. It is short, recognisable, and almost universal. We considered keeping it. But <code>otherwise</code> is clearer about what it means: "otherwise — if the first thing was not true — do this." A child reading <code>otherwise</code> understands it without being told. A child reading <code>else</code> needs to be told it is a programming keyword that means "otherwise."
+      </p>
+
+      <p>
+        The compound form <code>otherwise if</code> is cleaner than <code>elif</code> (Python) or <code>else if</code> — two words that look like they should be separate but are treated as a unit. In ILMA, <code>otherwise if</code> reads as a single grammatical phrase.
+      </p>
+
+      <h2>blueprint instead of class</h2>
+
+      <p>
+        <code>class</code> is one of the least intuitive keywords in object-oriented programming. A class is not a school class. It has nothing to do with classification in the everyday sense. It is an abstract technical term.
+      </p>
+
+      <p>
+        A blueprint, on the other hand, tells you exactly what the thing is: a plan for building something. A blueprint describes the shape, properties and behaviour of objects — which is exactly what a class does. <code>blueprint Dog</code> says "here is the blueprint for creating dogs." Every dog you create from this blueprint will have the same structure, but may have different values for <code>me.name</code> or <code>me.breed</code>.
+      </p>
+
+      <h2>The principle behind all of these</h2>
+
+      <p>
+        Every ILMA keyword satisfies a simple test: could you explain what this keyword means to a seven-year-old without any programming context, using only the keyword itself as a hint?
+      </p>
+
+      <p>
+        <code>remember</code>: yes. <code>say</code>: yes. <code>recipe</code>: yes. <code>give back</code>: yes. <code>bag</code>: yes. <code>notebook</code>: yes. <code>blueprint</code>: yes. <code>otherwise</code>: yes.
+      </p>
+
+      <p>
+        <code>var</code>: no. <code>def</code>: no. <code>return</code>: mostly not. <code>dict</code>: no. <code>class</code>: no. <code>elif</code>: no.
+      </p>
+
+      <p>
+        This is not a perfect measure. Some ILMA keywords need explanation regardless — <code>for each ... in</code> requires understanding what iteration is. But the keyword does not add to the confusion. It maps naturally onto the concept once the concept is introduced.
+      </p>
+
+      <p>
+        Programming is fundamentally about telling a machine what to do. The closer the language is to how humans already describe instructions, the lower the barrier to entry. ILMA's keywords are the first step in closing that gap.
+      </p>
+
+      <div style="margin-top:48px;padding-top:32px;border-top:1px solid var(--ilma-border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+        <div>
+          <p style="font-size:0.9rem;color:#5a5880;margin:0;">Written by <strong style="color:#1a1a2e;">Raihan</strong> &bull; March 2026</p>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <a href="/playground.html" class="btn btn-primary btn-sm">Try ILMA</a>
+          <a href="/blog/" class="btn btn-outline btn-sm" style="border-color:var(--ilma-border);color:#5a5880;">More Articles</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/images/logo.svg" alt="ILMA" onerror="this.style.display='none'">
+          <span class="footer-logo-text">ILMA</span>
+        </a>
+        <p>A programming language for children. Reads like English. Compiles to native. Free and open source.</p>
+        <div class="footer-social">
+          <a href="https://github.com/raihan-js/ilma" title="GitHub" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Language</h4>
+        <ul>
+          <li><a href="/docs.html">Documentation</a></li>
+          <li><a href="/learn.html">Learn ILMA</a></li>
+          <li><a href="/playground.html">Playground</a></li>
+          <li><a href="/packages.html">Packages</a></li>
+          <li><a href="/install.html">Install</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/issues" target="_blank" rel="noopener">Issues</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/discussions" target="_blank" rel="noopener">Discussions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/docs.html#getting-started">Getting Started</a></li>
+          <li><a href="/docs.html#standard-library">Standard Library</a></li>
+          <li><a href="/blog/why-ilma.html">Why ILMA?</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/releases" target="_blank" rel="noopener">Releases</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ILMA Language. Open source under the MIT License.</p>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/raihan-js/ilma/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="/js/main.js" defer></script>
+</body>
+</html>

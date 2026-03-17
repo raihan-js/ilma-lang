@@ -1,0 +1,12 @@
+# Closure-like behavior using blueprints
+blueprint Adder:
+    create(n):
+        me.n = n
+    recipe call(x):
+        give back x + me.n
+
+remember add5 = Adder(5)
+remember add10 = Adder(10)
+say add5.call(3)
+say add10.call(3)
+say add5.call(add10.call(1))

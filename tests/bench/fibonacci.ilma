@@ -1,0 +1,6 @@
+recipe fib(n):
+    if n <= 1:
+        give back n
+    give back fib(n - 1) + fib(n - 2)
+
+say fib(30)

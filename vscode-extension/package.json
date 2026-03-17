@@ -22,15 +22,16 @@
   "homepage": "https://ilma-lang.dev",
   "license": "MIT",
   "galleryBanner": {
-    "color": "#534AB7",
+    "color": "#2d6a4f",
     "theme": "dark"
   },
   "qna": "marketplace",
   "keywords": [
     "ilma",
-    "programming language",
-    "children",
+    "programming",
+    "language",
     "education",
+    "children",
     "Islamic",
     "syntax highlighting"
   ],
@@ -100,6 +101,26 @@
           "group": "1_run"
         }
       ]
+    },
+    "configuration": {
+      "title": "ILMA",
+      "properties": {
+        "ilma.executablePath": {
+          "type": "string",
+          "default": "ilma",
+          "description": "Path to the ilma executable"
+        },
+        "ilma.lspPath": {
+          "type": "string",
+          "default": "ilma-lsp",
+          "description": "Path to the ilma-lsp language server"
+        },
+        "ilma.formatOnSave": {
+          "type": "boolean",
+          "default": true,
+          "description": "Run ilma fmt on save"
+        }
+      }
     }
   },
   "scripts": {

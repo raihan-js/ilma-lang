@@ -1,7 +1,9 @@
 {
   "name": "math",
   "version": "0.1.0",
-  "description": "Extended math functions — sum, average, max, min",
+  "description": "Extended math utilities — sum, average, min, max, clamp, in_range",
   "author": "ILMA Team",
-  "license": "MIT"
+  "license": "MIT",
+  "ilma_version": ">=0.6.0",
+  "tags": ["math", "utilities"]
 }

@@ -5,6 +5,7 @@ on:
     branches: [ main ]
     paths:
       - 'website/**'
+      - 'packages/**'
       - 'install.sh'
       - 'scripts/install-windows.ps1'
       - 'VERSION'
@@ -44,6 +45,13 @@ jobs:
             "website": "https://ilma-lang.dev"
           }
           ENDJSON
+
+      - name: Copy packages registry to website
+        run: |
+          mkdir -p website/packages
+          cp -r packages/* website/packages/
+          python3 scripts/build-registry.py
+          cp packages/registry.json website/packages/registry.json
 
       - uses: actions/configure-pages@v4
       - uses: actions/upload-pages-artifact@v3

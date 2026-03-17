@@ -1,182 +1,363 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Install ILMA — Get Started in Seconds</title>
-    <meta name="description" content="Install ILMA on Linux, macOS, or Windows. One command is all it takes.">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Install ILMA — Get Started in Seconds</title>
+  <meta name="description" content="Install ILMA on Linux, macOS, or Windows. One command is all it takes.">
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
-<!-- ═══════════ Navigation ═══════════ -->
-<nav class="navbar">
-    <div class="container">
-        <a href="index.html" class="nav-logo">ILMA</a>
-        <div class="nav-links">
-            <a href="index.html">Home</a>
-            <a href="install.html">Install</a>
-            <a href="docs.html">Docs</a>
-            <a href="index.html#playground">Playground</a>
-            <a href="https://github.com/raihan-js/ilma-lang" class="nav-github" target="_blank" rel="noopener">GitHub</a>
-        </div>
-        <button class="hamburger" aria-label="Toggle navigation">
-            <span></span>
-            <span></span>
-            <span></span>
-        </button>
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/logo.svg" alt="ILMA" height="32" onerror="this.style.display='none'">
+      <span class="nav-logo-text">ILMA</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs.html">Docs</a>
+      <a href="/learn.html">Learn</a>
+      <a href="/packages.html">Packages</a>
+      <a href="/playground.html">Playground</a>
+      <a href="/blog/">Blog</a>
     </div>
+    <div class="nav-cta">
+      <a href="/install.html" class="btn btn-ghost btn-sm">Install</a>
+      <a href="/playground.html" class="btn btn-primary btn-sm">Try Online</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
 </nav>
+<div class="mobile-menu">
+  <a href="/docs.html">Docs</a>
+  <a href="/learn.html">Learn</a>
+  <a href="/packages.html">Packages</a>
+  <a href="/playground.html">Playground</a>
+  <a href="/blog/">Blog</a>
+  <div class="mobile-divider"></div>
+  <a href="/install.html">Install</a>
+  <a href="/playground.html" class="btn btn-primary" style="margin-top:8px;text-align:center;">Try Online</a>
+</div>
 
-<!-- ═══════════ Install Hero ═══════════ -->
-<section class="install-hero">
-    <h1>Install ILMA</h1>
-    <p>Get started in seconds</p>
+<!-- ═══ HERO ═══════════════════════════════════════════ -->
+<section class="hero" style="padding:72px 0 64px;">
+  <div class="container" style="max-width:840px;text-align:center;">
+    <div class="hero-eyebrow" style="justify-content:center;">
+      <span class="badge badge-dark">v0.5.0</span>
+      <span style="font-size:0.8rem;color:var(--ilma-text-muted);">Latest stable release</span>
+    </div>
+    <h1 style="color:var(--ilma-white);margin-bottom:16px;">Install <span class="accent">ILMA</span></h1>
+    <p style="color:var(--ilma-text-muted);font-size:1.1rem;max-width:520px;margin:0 auto 40px;">
+      Choose your platform below. The installer will set up the ILMA compiler,
+      package manager, formatter and LSP in under a minute.
+    </p>
+
+    <!-- OS Tabs -->
+    <div class="install-os-tabs" style="justify-content:center;">
+      <button class="install-os-btn active" data-os="linux" onclick="switchOS('linux',this)">
+        <span class="install-os-icon">🐧</span> Linux
+      </button>
+      <button class="install-os-btn" data-os="macos" onclick="switchOS('macos',this)">
+        <span class="install-os-icon">🍎</span> macOS
+      </button>
+      <button class="install-os-btn" data-os="windows" onclick="switchOS('windows',this)">
+        <span class="install-os-icon">🪟</span> Windows
+      </button>
+    </div>
+  </div>
 </section>
 
-<!-- ═══════════ OS Tabs ═══════════ -->
-<section style="padding-top: 0;">
-    <div class="container">
-        <div class="install-tabs">
-            <button class="install-tab active" data-tab="tab-linux">Linux</button>
-            <button class="install-tab" data-tab="tab-macos">macOS</button>
-            <button class="install-tab" data-tab="tab-windows">Windows</button>
-        </div>
+<!-- ═══ INSTALL CONTENT ════════════════════════════════ -->
+<section class="section section-white">
+  <div class="container-sm">
 
-        <!-- Linux Panel -->
-        <div class="install-panel active" id="tab-linux">
-            <div class="install-method">
-                <h3>Method 1 — One command (recommended)</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
-                </div>
-            </div>
-            <div class="install-method">
-                <h3>Method 2 — Build from source</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>git clone https://github.com/raihan-js/ilma-lang
-cd ilma-lang && make && sudo make install</pre>
-                </div>
-            </div>
-            <div class="install-method">
-                <h3>Method 3 — Docker</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>docker run --rm -it -v $(pwd):/code ilmalang/ilma ilma /code/hello.ilma</pre>
-                </div>
-            </div>
-        </div>
+    <!-- Linux -->
+    <div id="os-linux" class="os-panel">
+      <h2 style="margin-bottom:24px;">Linux Installation</h2>
+      <p style="color:#5a5880;margin-bottom:24px;">
+        Run this one-liner in your terminal. It will download and install ILMA to <code>~/.local/bin</code>
+        and add it to your PATH automatically.
+      </p>
 
-        <!-- macOS Panel -->
-        <div class="install-panel" id="tab-macos">
-            <div class="install-method">
-                <h3>Method 1 — Homebrew</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>brew install ilmalang/ilma/ilma</pre>
-                </div>
-            </div>
-            <div class="install-method">
-                <h3>Method 2 — One command</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
-                </div>
-            </div>
-            <div class="install-method">
-                <h3>Method 3 — Build from source</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>git clone https://github.com/raihan-js/ilma-lang
-cd ilma-lang && make && sudo make install</pre>
-                </div>
-            </div>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <button class="copy-btn" data-copy="curl -fsSL https://ilma-lang.dev/install.sh | bash">Copy</button>
         </div>
+        <pre>curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
+      </div>
 
-        <!-- Windows Panel -->
-        <div class="install-panel" id="tab-windows">
-            <div class="install-method">
-                <h3>Method 1 — WSL (recommended)</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre># First install WSL, then:
+      <div style="margin-top:32px;">
+        <h3 style="margin-bottom:16px;">Alternative: Install from package manager</h3>
+        <div class="code-block">
+          <div class="code-block-header">
+            <span class="code-block-lang">bash — apt (Debian/Ubuntu)</span>
+            <button class="copy-btn" data-copy="curl -fsSL https://ilma-lang.dev/install.sh | bash">Copy</button>
+          </div>
+          <pre><span style="color:#98c379;"># Requires curl — install first if needed</span>
+sudo apt update &amp;&amp; sudo apt install -y curl
 curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
-                </div>
-            </div>
-            <div class="install-method">
-                <h3>Method 2 — Direct download</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>Download the latest .zip from GitHub Releases
-https://github.com/raihan-js/ilma-lang/releases</pre>
-                </div>
-            </div>
-            <div class="install-method">
-                <h3>Method 3 — Docker Desktop</h3>
-                <div class="install-code-block">
-                    <button class="copy-btn">Copy</button>
-<pre>docker run --rm -it -v %cd%:/code ilmalang/ilma ilma /code/hello.ilma</pre>
-                </div>
-            </div>
         </div>
-
-        <!-- Verify -->
-        <div class="install-verify">
-            <h2>Verify your installation</h2>
-            <p>Run these commands to confirm ILMA is working:</p>
-            <div class="install-code-block" style="margin-top: 1rem;">
-                <button class="copy-btn">Copy</button>
-<pre>ilma --version
-ilma examples/hello.ilma</pre>
-            </div>
-        </div>
-
-        <!-- VS Code -->
-        <div class="install-extras">
-            <h2>Editor support</h2>
-            <p>Get syntax highlighting and IntelliSense for ILMA in Visual Studio Code.</p>
-            <a href="https://marketplace.visualstudio.com/items?itemName=ilmalang.ilma" class="btn btn-primary" target="_blank" rel="noopener" style="margin-top: 1rem;">Get ILMA for VS Code &rarr;</a>
-        </div>
+      </div>
     </div>
+
+    <!-- macOS -->
+    <div id="os-macos" class="os-panel" style="display:none;">
+      <h2 style="margin-bottom:24px;">macOS Installation</h2>
+      <p style="color:#5a5880;margin-bottom:24px;">
+        Use the install script or Homebrew. Homebrew is recommended if you already have it installed.
+      </p>
+
+      <h3 style="margin-bottom:12px;">Option 1 — Homebrew (recommended)</h3>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <button class="copy-btn" data-copy="brew tap raihan-js/ilma && brew install ilma">Copy</button>
+        </div>
+        <pre>brew tap raihan-js/ilma &amp;&amp; brew install ilma</pre>
+      </div>
+
+      <h3 style="margin-bottom:12px;margin-top:28px;">Option 2 — Install script</h3>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <button class="copy-btn" data-copy="curl -fsSL https://ilma-lang.dev/install.sh | bash">Copy</button>
+        </div>
+        <pre>curl -fsSL https://ilma-lang.dev/install.sh | bash</pre>
+      </div>
+
+      <p style="color:#5a5880;margin-top:16px;font-size:0.9rem;">
+        You may be prompted by Gatekeeper on first run. Open System Settings &rarr; Privacy &amp; Security and allow ILMA to run.
+      </p>
+    </div>
+
+    <!-- Windows -->
+    <div id="os-windows" class="os-panel" style="display:none;">
+      <h2 style="margin-bottom:24px;">Windows Installation</h2>
+      <p style="color:#5a5880;margin-bottom:24px;">
+        Run this command in PowerShell (run as Administrator for system-wide install).
+      </p>
+
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">powershell</span>
+          <button class="copy-btn" data-copy="irm https://ilma-lang.dev/install.ps1 | iex">Copy</button>
+        </div>
+        <pre>irm https://ilma-lang.dev/install.ps1 | iex</pre>
+      </div>
+
+      <p style="color:#5a5880;margin-top:16px;font-size:0.9rem;">
+        If you see an execution policy error, run first:
+      </p>
+      <div class="code-block" style="margin-top:8px;">
+        <div class="code-block-header">
+          <span class="code-block-lang">powershell</span>
+          <button class="copy-btn" data-copy="Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser">Copy</button>
+        </div>
+        <pre>Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser</pre>
+      </div>
+
+      <div style="margin-top:24px;padding:16px 20px;background:rgba(83,74,183,0.07);border:1px solid rgba(83,74,183,0.15);border-radius:var(--radius);font-size:0.875rem;color:#3a3858;">
+        <strong>Note:</strong> ILMA requires GCC for Windows. We recommend installing
+        <a href="https://www.mingw-w64.org/" target="_blank" rel="noopener">MinGW-w64</a> first.
+        The installer will check and guide you if GCC is not found.
+      </div>
+    </div>
+
+    <!-- Verify -->
+    <div style="margin-top:48px;padding-top:40px;border-top:1px solid var(--ilma-border);">
+      <h2 style="margin-bottom:16px;">Verify Installation</h2>
+      <p style="color:#5a5880;margin-bottom:20px;">After installation, open a new terminal window and run:</p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">terminal</span>
+          <button class="copy-btn" data-copy="ilma --version">Copy</button>
+        </div>
+        <pre>ilma --version</pre>
+      </div>
+      <p style="color:#5a5880;margin-top:16px;font-size:0.9rem;">
+        You should see output like: <code>ILMA v0.5.0 (linux/amd64)</code>
+      </p>
+    </div>
+
+    <!-- Build from Source -->
+    <div style="margin-top:48px;padding-top:40px;border-top:1px solid var(--ilma-border);">
+      <h2 style="margin-bottom:8px;">Build from Source</h2>
+      <p style="color:#5a5880;margin-bottom:20px;">
+        Requires: <code>git</code>, <code>gcc</code>, <code>make</code>
+      </p>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span class="code-block-lang">bash</span>
+          <button class="copy-btn" data-copy="git clone https://github.com/raihan-js/ilma.git
+cd ilma
+make all
+sudo make install">Copy</button>
+        </div>
+        <pre>git clone https://github.com/raihan-js/ilma.git
+cd ilma
+make all
+sudo make install</pre>
+      </div>
+    </div>
+
+    <!-- What's included -->
+    <div style="margin-top:48px;padding-top:40px;border-top:1px solid var(--ilma-border);">
+      <h2 style="margin-bottom:24px;">What's Included</h2>
+      <div style="display:grid;gap:10px;">
+        <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
+          <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
+            <span>🛠 ilma — the compiler &amp; REPL</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
+          </button>
+          <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
+            The main <code>ilma</code> binary: compiles <code>.ilma</code> files to C and then to native binaries via GCC. Also provides an interactive REPL for quick experimentation.
+          </div>
+        </div>
+        <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
+          <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
+            <span>📦 ilma get — package manager</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
+          </button>
+          <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
+            Install community packages with <code>ilma get package-name</code>. Publish your own with <code>ilma publish</code>. Packages are installed to <code>~/.ilma/packages/</code>.
+          </div>
+        </div>
+        <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
+          <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
+            <span>✨ ilma fmt — formatter</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
+          </button>
+          <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
+            Automatically formats your ILMA code to the canonical style. Run <code>ilma fmt myfile.ilma</code> or <code>ilma fmt .</code> for the whole project.
+          </div>
+        </div>
+        <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
+          <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
+            <span>🧪 ilma test — test runner</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
+          </button>
+          <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
+            Run all test blocks in your project. Tests use the <code>test "name": expect value to be expected</code> syntax built into the language — no external libraries needed.
+          </div>
+        </div>
+        <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
+          <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
+            <span>🔍 ilma check — type checker</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
+          </button>
+          <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
+            Static analysis that catches type mismatches and undefined names before you compile. Produces friendly, child-readable error messages.
+          </div>
+        </div>
+        <div class="accordion-item" style="border-color:var(--ilma-border);background:var(--ilma-white);">
+          <button class="accordion-btn" style="color:#1a1a2e;background:var(--ilma-light-bg);">
+            <span>📡 ilma lsp — language server</span>
+            <svg class="accordion-chevron" width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 10.94L2.53 5.47a.75.75 0 0 0-1.06 1.06l6 6a.75.75 0 0 0 1.06 0l6-6a.75.75 0 0 0-1.06-1.06L8 10.94z"/></svg>
+          </button>
+          <div class="accordion-body" style="background:var(--ilma-white);color:#5a5880;">
+            Full LSP implementation for editor integration. Supports VS Code, Neovim, Helix and any editor that speaks LSP. Install the VS Code extension from the marketplace.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Next steps -->
+    <div style="margin-top:56px;padding:32px;background:var(--ilma-purple-pale);border-radius:var(--radius-xl);border:1px solid rgba(83,74,183,0.15);text-align:center;">
+      <h3 style="margin-bottom:12px;color:#1a1a2e;">Ready to write your first program?</h3>
+      <p style="color:#5a5880;margin-bottom:24px;max-width:440px;margin-left:auto;margin-right:auto;">
+        Head to the Docs to walk through your first ILMA program, or jump straight into the playground.
+      </p>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+        <a href="/docs.html#getting-started" class="btn btn-primary">Read the Docs</a>
+        <a href="/playground.html" class="btn btn-outline" style="border-color:rgba(83,74,183,0.4);color:var(--ilma-purple-dark);">Open Playground</a>
+      </div>
+    </div>
+  </div>
 </section>
 
-<!-- ═══════════ Footer ═══════════ -->
-<footer class="footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <h4>ILMA</h4>
-                <p>A programming language built for children ages 3 and up. ILMA grows with your child from their first "say" to building full applications. Open source, free forever.</p>
-            </div>
-            <div>
-                <h4>Links</h4>
-                <ul>
-                    <li><a href="https://github.com/raihan-js/ilma-lang" target="_blank" rel="noopener">GitHub</a></li>
-                    <li><a href="install.html">Install</a></li>
-                    <li><a href="docs.html">Docs</a></li>
-                    <li><a href="index.html#playground">Playground</a></li>
-                </ul>
-            </div>
-            <div>
-                <h4>Community</h4>
-                <ul>
-                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/CONTRIBUTING.md" target="_blank" rel="noopener">Contributing</a></li>
-                    <li><a href="https://github.com/raihan-js/ilma-lang/blob/main/LICENSE" target="_blank" rel="noopener">License (MIT)</a></li>
-                </ul>
-            </div>
+<!-- ═══ FOOTER ══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/images/logo.svg" alt="ILMA" onerror="this.style.display='none'">
+          <span class="footer-logo-text">ILMA</span>
+        </a>
+        <p>A programming language for children. Reads like English. Compiles to native. Free and open source.</p>
+        <div class="footer-social">
+          <a href="https://github.com/raihan-js/ilma" title="GitHub" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
         </div>
-        <div class="footer-bottom">
-            <span>Made with ILMA</span>
-            <span>&copy; 2026 ILMA Programming Language</span>
-        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Language</h4>
+        <ul>
+          <li><a href="/docs.html">Documentation</a></li>
+          <li><a href="/learn.html">Learn ILMA</a></li>
+          <li><a href="/playground.html">Playground</a></li>
+          <li><a href="/packages.html">Packages</a></li>
+          <li><a href="/install.html">Install</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/issues" target="_blank" rel="noopener">Issues</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/discussions" target="_blank" rel="noopener">Discussions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/docs.html#getting-started">Getting Started</a></li>
+          <li><a href="/docs.html#standard-library">Standard Library</a></li>
+          <li><a href="/blog/why-ilma.html">Why ILMA?</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/releases" target="_blank" rel="noopener">Releases</a></li>
+        </ul>
+      </div>
     </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ILMA Language. Open source under the MIT License.</p>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/raihan-js/ilma/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
 </footer>
 
-<script src="js/main.js"></script>
+<script>
+function switchOS(os, btn) {
+  document.querySelectorAll('.os-panel').forEach(function(p){ p.style.display='none'; });
+  document.querySelectorAll('.install-os-btn').forEach(function(b){ b.classList.remove('active'); });
+  var panel = document.getElementById('os-' + os);
+  if (panel) panel.style.display = 'block';
+  if (btn) btn.classList.add('active');
+}
+// Auto-detect OS
+(function(){
+  var ua = navigator.userAgent || '';
+  var os = 'linux';
+  if (/Win/i.test(ua)) os = 'windows';
+  else if (/Mac/i.test(ua)) os = 'macos';
+  var btn = document.querySelector('[data-os="' + os + '"]');
+  if (btn) switchOS(os, btn);
+})();
+</script>
+<script src="/js/main.js" defer></script>
 </body>
 </html>

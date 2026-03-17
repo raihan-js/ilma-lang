@@ -186,4 +186,14 @@ IlmaValue ilma_read_file(IlmaValue path);
 IlmaValue ilma_write_file(IlmaValue path, IlmaValue content);
 IlmaValue ilma_file_exists(IlmaValue path);
 
+/* ── System built-ins ────────────────────────────────── */
+
+void      ilma_print(IlmaValue v);           /* like say but no newline */
+IlmaValue ilma_timestamp(void);              /* Unix timestamp */
+void      ilma_exit_program(IlmaValue code); /* exit with code */
+IlmaValue ilma_env_get(IlmaValue name);      /* get env var */
+IlmaValue ilma_args_get(void);               /* command line args */
+void      ilma_sleep_ms(IlmaValue ms);       /* sleep milliseconds */
+void      ilma_set_args(int argc, char** argv);
+
 #endif /* ILMA_RUNTIME_H */

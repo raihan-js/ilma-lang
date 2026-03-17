@@ -1,0 +1,38 @@
+# ILMA storage package — file-based data persistence
+use json
+
+### Save any ILMA value to a JSON file
+recipe save(filename, data):
+    remember content = json.stringify(data)
+    write_file(filename, content)
+    give back yes
+
+### Load a value from a JSON file
+recipe load(filename):
+    if file_exists(filename) is no:
+        give back empty
+    remember content = read_file(filename)
+    give back json.parse(content)
+
+### Append a line to a log file
+recipe log_line(filename, message):
+    remember existing = ""
+    if file_exists(filename):
+        existing = read_file(filename)
+    write_file(filename, existing + message + "\n")
+
+### Delete a file (wrapper for safety)
+recipe delete_file(filename):
+    if file_exists(filename) is no:
+        give back no
+    write_file(filename, "")
+    give back yes
+
+### Check if a JSON file contains a key
+recipe has_key(filename, key):
+    if file_exists(filename) is no:
+        give back no
+    remember data = load(filename)
+    if data is empty:
+        give back no
+    give back data[key] is not empty

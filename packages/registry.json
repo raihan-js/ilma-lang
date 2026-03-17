@@ -1,25 +1,164 @@
 {
+  "version": "1",
+  "updated": "2026-03-17",
+  "base_url": "https://ilma-lang.dev/packages",
   "packages": [
-    {
-      "name": "math",
-      "version": "0.1.0",
-      "description": "Extended math functions — sum, average, max, min",
-      "url": "https://github.com/raihan-js/ilma-packages/releases/download/math-0.1.0/math.tar.gz",
-      "files": ["math.ilma"]
-    },
-    {
-      "name": "strings",
-      "version": "0.1.0",
-      "description": "String utility recipes — repeat, pad, reverse, capitalize",
-      "url": "https://github.com/raihan-js/ilma-packages/releases/download/strings-0.1.0/strings.tar.gz",
-      "files": ["strings.ilma"]
-    },
     {
       "name": "colors",
       "version": "0.1.0",
       "description": "ANSI terminal colors for colorful output",
-      "url": "https://github.com/raihan-js/ilma-packages/releases/download/colors-0.1.0/colors.tar.gz",
-      "files": ["colors.ilma"]
+      "author": "ILMA Team",
+      "license": "MIT",
+      "file": "colors/colors.ilma",
+      "url": "https://ilma-lang.dev/packages/colors/colors.ilma",
+      "size_bytes": 434,
+      "sha256": "40f18ece0d8bc1defcf3092036a7ebda04ded8aef77794469d679546f94a2000"
+    },
+    {
+      "name": "crypto",
+      "version": "0.1.0",
+      "description": "Simple hashing, encoding, and checksum utilities",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "crypto",
+        "hashing",
+        "encoding",
+        "utilities"
+      ],
+      "file": "crypto/crypto.ilma",
+      "url": "https://ilma-lang.dev/packages/crypto/crypto.ilma",
+      "size_bytes": 1540,
+      "sha256": "c548b9b83fb6e64f8e0ed4f513e31b97a4fee91312929e4c38de926fd2d06332"
+    },
+    {
+      "name": "datetime",
+      "version": "0.1.0",
+      "description": "Date and time utility recipes",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "datetime",
+        "time",
+        "utilities"
+      ],
+      "file": "datetime/datetime.ilma",
+      "url": "https://ilma-lang.dev/packages/datetime/datetime.ilma",
+      "size_bytes": 872,
+      "sha256": "9d64cf1c07e243a55b19ad3ccb7f570b2553c0730c351ad83ee36cd43212c176"
+    },
+    {
+      "name": "format",
+      "version": "0.1.0",
+      "description": "Text and number formatting utilities",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "format",
+        "utilities",
+        "display"
+      ],
+      "file": "format/format.ilma",
+      "url": "https://ilma-lang.dev/packages/format/format.ilma",
+      "size_bytes": 1357,
+      "sha256": "911933010d0eea3b357efea34b9fafb9b86ce041e62984048ce5e651ed080366"
+    },
+    {
+      "name": "math",
+      "version": "0.1.0",
+      "description": "Extended math utilities \u2014 sum, average, min, max, clamp, in_range",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "math",
+        "utilities"
+      ],
+      "file": "math/math.ilma",
+      "url": "https://ilma-lang.dev/packages/math/math.ilma",
+      "size_bytes": 566,
+      "sha256": "a7394916de6af57e46fe82acfedd638eff67a9321209fba1ff276370f1be4a3c"
+    },
+    {
+      "name": "random",
+      "version": "0.1.0",
+      "description": "Random number and selection utilities",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "random",
+        "utilities"
+      ],
+      "file": "random/random.ilma",
+      "url": "https://ilma-lang.dev/packages/random/random.ilma",
+      "size_bytes": 1098,
+      "sha256": "425ec5492ff7c059bcb273a5e0fdcf4c385ef57c6b5f0d1a27a3e7cc0631d603"
+    },
+    {
+      "name": "storage",
+      "version": "0.1.0",
+      "description": "File-based data persistence using JSON",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "storage",
+        "persistence",
+        "json",
+        "files"
+      ],
+      "file": "storage/storage.ilma",
+      "url": "https://ilma-lang.dev/packages/storage/storage.ilma",
+      "size_bytes": 1059,
+      "sha256": "433e0140b32f0d66988df47104565dc26293984ad9f695552d4a58688200a30a"
+    },
+    {
+      "name": "strings",
+      "version": "0.1.0",
+      "description": "String utility recipes \u2014 repeat, pad, reverse, capitalize",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "file": "strings/strings.ilma",
+      "url": "https://ilma-lang.dev/packages/strings/strings.ilma",
+      "size_bytes": 546,
+      "sha256": "3a73ce1ce6da7182d4da5bfdb3821b39e425f32101c636534e92de0508d65e73"
+    },
+    {
+      "name": "test_helpers",
+      "version": "0.1.0",
+      "description": "Testing helper recipes for ILMA test suites",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "testing",
+        "utilities"
+      ],
+      "file": "test_helpers/test_helpers.ilma",
+      "url": "https://ilma-lang.dev/packages/test_helpers/test_helpers.ilma",
+      "size_bytes": 1242,
+      "sha256": "034b99b6aa0f297f5c97d02c340604ba6bcf14706413566a932ad27a6498bf30"
+    },
+    {
+      "name": "validate",
+      "version": "0.1.0",
+      "description": "Input validation recipes \u2014 email, digits, password, URL",
+      "author": "ILMA Team",
+      "license": "MIT",
+      "ilma_version": ">=0.6.0",
+      "tags": [
+        "validate",
+        "validation",
+        "utilities"
+      ],
+      "file": "validate/validate.ilma",
+      "url": "https://ilma-lang.dev/packages/validate/validate.ilma",
+      "size_bytes": 1114,
+      "sha256": "bb16ece57a550e556cbea4295cff85b3b92da121e3e6509f435cfcc2cbb38059"
     }
   ]
 }

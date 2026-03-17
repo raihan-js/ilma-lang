@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learn ILMA — Guided Course for Beginners</title>
+  <meta name="description" content="Learn ILMA step by step. Three tiers: Seed (beginner), Sapling (intermediate), Tree (advanced). Track your progress locally.">
+  <link rel="icon" type="image/svg+xml" href="/images/icon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav class="site-nav">
+  <div class="container nav-inner">
+    <a href="/" class="nav-logo">
+      <img src="/images/logo.svg" alt="ILMA" height="32" onerror="this.style.display='none'">
+      <span class="nav-logo-text">ILMA</span>
+    </a>
+    <div class="nav-links">
+      <a href="/docs.html">Docs</a>
+      <a href="/learn.html" class="active">Learn</a>
+      <a href="/packages.html">Packages</a>
+      <a href="/playground.html">Playground</a>
+      <a href="/blog/">Blog</a>
+    </div>
+    <div class="nav-cta">
+      <a href="/install.html" class="btn btn-ghost btn-sm">Install</a>
+      <a href="/playground.html" class="btn btn-primary btn-sm">Try Online</a>
+    </div>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu">
+  <a href="/docs.html">Docs</a>
+  <a href="/learn.html">Learn</a>
+  <a href="/packages.html">Packages</a>
+  <a href="/playground.html">Playground</a>
+  <a href="/blog/">Blog</a>
+  <div class="mobile-divider"></div>
+  <a href="/install.html">Install</a>
+  <a href="/playground.html" class="btn btn-primary" style="margin-top:8px;text-align:center;">Try Online</a>
+</div>
+
+<!-- ═══ HERO ═══════════════════════════════════════════ -->
+<section class="learn-hero">
+  <div class="container" style="text-align:center;max-width:720px;">
+    <span class="section-eyebrow">Guided Learning</span>
+    <h1 style="color:var(--ilma-white);margin-bottom:16px;">Learn ILMA</h1>
+    <p style="color:var(--ilma-text-muted);font-size:1.1rem;margin-bottom:32px;">
+      A structured path from your very first <code style="background:rgba(127,119,221,0.2);color:var(--ilma-purple-light);">say "Hello!"</code> to
+      building real programs with blueprints, error handling and packages.
+    </p>
+
+    <!-- Progress bar -->
+    <div style="max-width:480px;margin:0 auto;">
+      <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+        <span style="font-size:0.8rem;color:var(--ilma-text-muted);">Your Progress</span>
+        <span id="progress-label" style="font-size:0.8rem;color:var(--ilma-purple-light);">0 / 21 lessons</span>
+      </div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" style="width:0%"></div>
+      </div>
+    </div>
+
+    <div style="margin-top:28px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="#seed" class="btn btn-primary">Start from the Beginning</a>
+      <a href="#" id="continue-btn" class="btn btn-outline" style="display:none;">Continue where I left off</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIER: SEED ═════════════════════════════════════ -->
+<section class="tier-section section-white" id="seed">
+  <div class="container">
+    <div class="tier-header">
+      <span class="tier-badge tier-seed">🌱 Seed</span>
+      <div>
+        <h2 style="font-size:1.6rem;margin-bottom:4px;">Beginner</h2>
+        <p style="font-size:0.9rem;color:#5a5880;margin:0;">No experience needed. Learn the fundamentals of ILMA from scratch.</p>
+      </div>
+    </div>
+
+    <div class="lesson-grid">
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-1">
+        <div class="lesson-card-num">Lesson 1</div>
+        <h3>Your First Program</h3>
+        <p>Write your first ILMA program. Learn what <code>say</code> does and how to run it.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 5 min</span>
+          <a href="/playground.html?code=c2F5ICJBc3NhbGFtdSBBbGFpa3VtLCBXb3JsZCEi" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-2">
+        <div class="lesson-card-num">Lesson 2</div>
+        <h3>Remembering Things</h3>
+        <p>Use <code>remember</code> to store names, numbers and text in variables.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 8 min</span>
+          <a href="/docs.html#remember" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-3">
+        <div class="lesson-card-num">Lesson 3</div>
+        <h3>Numbers and Maths</h3>
+        <p>Add, subtract, multiply and divide. See how ILMA handles numbers and arithmetic.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 10 min</span>
+          <a href="/playground.html" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-4">
+        <div class="lesson-card-num">Lesson 4</div>
+        <h3>Asking Questions</h3>
+        <p>Use <code>ask</code> to get input from the user and personalise your programs.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 8 min</span>
+          <a href="/docs.html#ask" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-5">
+        <div class="lesson-card-num">Lesson 5</div>
+        <h3>Making Decisions: if / otherwise</h3>
+        <p>Run different code depending on a condition. The foundation of all programming logic.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 12 min</span>
+          <a href="/docs.html#if-otherwise" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-6">
+        <div class="lesson-card-num">Lesson 6</div>
+        <h3>Loops: repeat &amp; for each</h3>
+        <p>Run code multiple times with <code>repeat</code>. Iterate over collections with <code>for each</code>.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 15 min</span>
+          <a href="/docs.html#repeat" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card seed animate-fade-up" data-lesson-id="seed-7">
+        <div class="lesson-card-num">Lesson 7</div>
+        <h3>Seed Project: Grade Calculator</h3>
+        <p>Put it all together: ask for a score, use if/otherwise to display the grade.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 20 min</span>
+          <a href="/playground.html" class="btn btn-sm" style="background:var(--ilma-teal-light);color:var(--ilma-teal);">Build &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIER: SAPLING ══════════════════════════════════ -->
+<section class="tier-section section-light" id="sapling">
+  <div class="container">
+    <div class="tier-header">
+      <span class="tier-badge tier-sapling">🌿 Sapling</span>
+      <div>
+        <h2 style="font-size:1.6rem;margin-bottom:4px;">Intermediate</h2>
+        <p style="font-size:0.9rem;color:#5a5880;margin:0;">Build on your foundation. Functions, data structures, and modules.</p>
+      </div>
+    </div>
+
+    <div class="lesson-grid">
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-1">
+        <div class="lesson-card-num">Lesson 8</div>
+        <h3>Writing Recipes</h3>
+        <p>Define reusable recipes (functions) with parameters and <code>give back</code> values.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 15 min</span>
+          <a href="/docs.html#recipes" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-2">
+        <div class="lesson-card-num">Lesson 9</div>
+        <h3>Bags — Lists of Things</h3>
+        <p>Store multiple values in a <code>bag</code>. Add, remove, iterate and sort your data.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 15 min</span>
+          <a href="/docs.html#bags" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-3">
+        <div class="lesson-card-num">Lesson 10</div>
+        <h3>Notebooks — Key-Value Data</h3>
+        <p>Store named data in a <code>notebook</code>. Access, update and iterate over entries.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 12 min</span>
+          <a href="/docs.html#notebooks" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-4">
+        <div class="lesson-card-num">Lesson 11</div>
+        <h3>Pattern Matching with check/when</h3>
+        <p>Write clean branching logic using <code>check</code> and <code>when</code>, including range patterns.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 15 min</span>
+          <a href="/docs.html#check-when" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-5">
+        <div class="lesson-card-num">Lesson 12</div>
+        <h3>Using Standard Modules</h3>
+        <p>Import built-in modules like <code>science</code>, <code>finance</code> and <code>number</code> with <code>use</code>.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 12 min</span>
+          <a href="/docs.html#stdlib-number" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-6">
+        <div class="lesson-card-num">Lesson 13</div>
+        <h3>Handling Errors Gracefully</h3>
+        <p>Use <code>try</code> and <code>when wrong</code> to catch errors and keep your program running.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 12 min</span>
+          <a href="/docs.html#try-when-wrong" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card sapling animate-fade-up" data-lesson-id="sapling-7">
+        <div class="lesson-card-num">Lesson 14</div>
+        <h3>Sapling Project: Zakat Calculator</h3>
+        <p>Build a complete Zakat calculator using <code>finance</code> module, recipes and user input.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 25 min</span>
+          <a href="/playground.html" class="btn btn-sm" style="background:#e0f0ff;color:#1a73e8;">Build &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ TIER: TREE ══════════════════════════════════════ -->
+<section class="tier-section section-white" id="tree">
+  <div class="container">
+    <div class="tier-header">
+      <span class="tier-badge tier-tree">🌳 Tree</span>
+      <div>
+        <h2 style="font-size:1.6rem;margin-bottom:4px;">Advanced</h2>
+        <p style="font-size:0.9rem;color:#5a5880;margin:0;">Object-oriented programming, lambdas, packages and the full toolchain.</p>
+      </div>
+    </div>
+
+    <div class="lesson-grid">
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-1">
+        <div class="lesson-card-num">Lesson 15</div>
+        <h3>Blueprints — Your Own Types</h3>
+        <p>Create custom object types with <code>blueprint</code>, <code>me</code> and methods. The foundation of OOP.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 20 min</span>
+          <a href="/docs.html#blueprints" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-2">
+        <div class="lesson-card-num">Lesson 16</div>
+        <h3>Inheritance with comes from</h3>
+        <p>Extend existing blueprints using <code>comes from</code>. Build type hierarchies naturally.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 18 min</span>
+          <a href="/docs.html#inheritance" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-3">
+        <div class="lesson-card-num">Lesson 17</div>
+        <h3>Lambdas and Higher-Order Recipes</h3>
+        <p>Write inline recipes, pass them as arguments, and use <code>.map()</code> and <code>.filter()</code>.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 18 min</span>
+          <a href="/docs.html#lambdas" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-4">
+        <div class="lesson-card-num">Lesson 18</div>
+        <h3>Installing and Using Packages</h3>
+        <p>Use <code>ilma get</code> to install community packages and <code>use</code> to import them.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 15 min</span>
+          <a href="/docs.html#package-manager" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-5">
+        <div class="lesson-card-num">Lesson 19</div>
+        <h3>Writing Tests</h3>
+        <p>Use the built-in test syntax and <code>ilma test</code> to verify your recipes automatically.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 15 min</span>
+          <a href="/docs.html#toolchain" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-6">
+        <div class="lesson-card-num">Lesson 20</div>
+        <h3>Building and Distributing</h3>
+        <p>Use <code>ilma build</code>, <code>ilma fmt</code>, <code>ilma check</code> and <code>ilma doc</code> like a professional.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 20 min</span>
+          <a href="/docs.html#toolchain" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Start &rarr;</a>
+        </div>
+      </div>
+
+      <div class="lesson-card tree animate-fade-up" data-lesson-id="tree-7">
+        <div class="lesson-card-num">Lesson 21</div>
+        <h3>Tree Project: Library System</h3>
+        <p>Build a complete book library system with blueprints, bags, error handling and tests.</p>
+        <div class="lesson-card-footer">
+          <span class="lesson-duration">⏱ 40 min</span>
+          <a href="/playground.html" class="btn btn-sm" style="background:var(--ilma-purple-pale);color:var(--ilma-purple-dark);">Build &rarr;</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CTA ════════════════════════════════════════════ -->
+<section class="section section-dark">
+  <div class="container" style="text-align:center;max-width:600px;">
+    <h2 style="color:var(--ilma-white);margin-bottom:12px;">Ready to write real code?</h2>
+    <p style="color:var(--ilma-text-muted);margin-bottom:32px;">
+      Open the playground and start writing ILMA right now — no installation required.
+    </p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+      <a href="/playground.html" class="btn btn-primary btn-lg">Open Playground</a>
+      <a href="/install.html" class="btn btn-outline btn-lg">Install ILMA</a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ══════════════════════════════════════════ -->
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">
+          <img src="/images/logo.svg" alt="ILMA" onerror="this.style.display='none'">
+          <span class="footer-logo-text">ILMA</span>
+        </a>
+        <p>A programming language for children. Reads like English. Compiles to native. Free and open source.</p>
+        <div class="footer-social">
+          <a href="https://github.com/raihan-js/ilma" title="GitHub" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Language</h4>
+        <ul>
+          <li><a href="/docs.html">Documentation</a></li>
+          <li><a href="/learn.html">Learn ILMA</a></li>
+          <li><a href="/playground.html">Playground</a></li>
+          <li><a href="/packages.html">Packages</a></li>
+          <li><a href="/install.html">Install</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Community</h4>
+        <ul>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/issues" target="_blank" rel="noopener">Issues</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/discussions" target="_blank" rel="noopener">Discussions</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/docs.html#getting-started">Getting Started</a></li>
+          <li><a href="/docs.html#standard-library">Standard Library</a></li>
+          <li><a href="/blog/why-ilma.html">Why ILMA?</a></li>
+          <li><a href="https://github.com/raihan-js/ilma/releases" target="_blank" rel="noopener">Releases</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 ILMA Language. Open source under the MIT License.</p>
+      <div class="footer-bottom-links">
+        <a href="https://github.com/raihan-js/ilma/blob/main/LICENSE" target="_blank" rel="noopener">License</a>
+        <a href="https://github.com/raihan-js/ilma" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// Learn page progress counter update
+document.addEventListener('DOMContentLoaded', function() {
+  var total = document.querySelectorAll('.lesson-card').length;
+  var done = [];
+  try { done = JSON.parse(localStorage.getItem('ilma_lessons_done') || '[]'); } catch(e){}
+  var label = document.getElementById('progress-label');
+  if (label) label.textContent = done.length + ' / ' + total + ' lessons';
+
+  // Show continue button if any progress
+  if (done.length > 0) {
+    var btn = document.getElementById('continue-btn');
+    if (btn) {
+      btn.style.display = 'inline-flex';
+      var lastId = done[done.length - 1];
+      var lastCard = document.querySelector('[data-lesson-id="' + lastId + '"]');
+      if (lastCard) {
+        var nextCard = lastCard.nextElementSibling;
+        if (!nextCard) nextCard = lastCard.closest('.lesson-grid').parentElement.nextElementSibling;
+        // Just scroll to seed section if can't find next
+      }
+    }
+  }
+});
+</script>
+<script src="/js/main.js" defer></script>
+</body>
+</html>

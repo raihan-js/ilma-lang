@@ -1,51 +1,55 @@
 // ILMA WASM Compiler Bridge
-// Tries to load the real ILMA compiler as WASM
-// Falls back to playground.js interpreter if WASM unavailable
+// Tries to load the real ILMA compiler as WASM (built with Emscripten)
+// Falls back to playground.js JS interpreter if WASM unavailable
 
-let wasmModule = null;
-let wasmReady = false;
+const IlmaWasm = {
+    module: null,
+    ready: false,
 
-async function initWasm() {
-    try {
-        const response = await fetch('/wasm/ilma-compiler.js');
-        if (!response.ok) throw new Error('WASM not available');
+    async init() {
+        try {
+            const response = await fetch('/wasm/ilma-compiler.js');
+            if (!response.ok) throw new Error('WASM not available');
 
-        // Dynamic import of the Emscripten module
-        const script = document.createElement('script');
-        script.src = '/wasm/ilma-compiler.js';
-        document.head.appendChild(script);
+            const mod = await import('/wasm/ilma-compiler.js');
+            this.module = await mod.default();
+            this.ready = true;
 
-        await new Promise((resolve, reject) => {
-            script.onload = resolve;
-            script.onerror = reject;
-        });
+            const badge = document.getElementById('compiler-badge');
+            if (badge) {
+                badge.textContent = '\u26a1 Real ILMA compiler';
+                badge.className = 'badge badge-green';
+            }
+            return true;
+        } catch(e) {
+            console.log('WASM not available, using JS interpreter fallback');
+            const badge = document.getElementById('compiler-badge');
+            if (badge) {
+                badge.textContent = '\ud83d\udd04 Preview mode';
+                badge.className = 'badge badge-yellow';
+            }
+            return false;
+        }
+    },
 
-        wasmModule = await IlmaCompiler();
-        wasmReady = true;
-        updateBadge(true);
-    } catch (e) {
-        console.log('WASM not available, using JS interpreter fallback');
-        wasmReady = false;
-        updateBadge(false);
+    run(code) {
+        if (!this.ready || !this.module) return null;
+        try {
+            const result = this.module.ccall(
+                'ilma_eval_wasm', 'string', ['string'], [code]
+            );
+            return JSON.parse(result);
+        } catch(e) {
+            return { output: '', error: String(e) };
+        }
     }
-}
-
-function runWithWasm(code) {
-    if (!wasmReady || !wasmModule) {
-        return { output: '', error: 'WASM not loaded' };
-    }
-    try {
-        const resultPtr = wasmModule.ccall('compile_and_run', 'string', ['string'], [code]);
-        const result = JSON.parse(resultPtr);
-        return result;
-    } catch (e) {
-        return { output: '', error: e.message };
-    }
-}
+};
 
 function runIlmaCode(code) {
-    if (wasmReady) {
-        return runWithWasm(code);
+    // Try real WASM compiler first
+    if (IlmaWasm.ready) {
+        const result = IlmaWasm.run(code);
+        if (result) return result;
     }
     // Fallback to JS interpreter
     if (typeof runIlma === 'function') {
@@ -54,17 +58,18 @@ function runIlmaCode(code) {
     return { output: '', error: 'No interpreter available' };
 }
 
+// Keep backward compat
+function runWithWasm(code) { return IlmaWasm.run(code); }
 function updateBadge(isWasm) {
     const badge = document.getElementById('compiler-badge');
     if (badge) {
-        badge.textContent = isWasm ? '\u26a1 Real ILMA compiler' : '\ud83d\udcdd Preview mode';
-        badge.className = isWasm ? 'badge badge-wasm' : 'badge badge-preview';
+        badge.textContent = isWasm ? '\u26a1 Real ILMA compiler' : '\ud83d\udd04 Preview mode';
+        badge.className = isWasm ? 'badge badge-green' : 'badge badge-yellow';
     }
 }
 
-// Try to load WASM on page load
 if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initWasm);
+    document.addEventListener('DOMContentLoaded', function() { IlmaWasm.init(); });
 } else {
-    initWasm();
+    IlmaWasm.init();
 }
