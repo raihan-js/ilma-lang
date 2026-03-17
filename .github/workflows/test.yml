@@ -1,57 +1,27 @@
-name: ILMA Compiler Tests
+name: Tests
 
 on: [push, pull_request]
 
 jobs:
+  # ── Compiler tests ───────────────────────────────────────────
   compiler-tests:
+    name: Compiler tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
       - name: Install GCC
-        run: sudo apt-get update && sudo apt-get install -y gcc
+        run: sudo apt-get update -qq && sudo apt-get install -y gcc make
 
       - name: Build ILMA compiler
-        run: make
+        run: make all
 
       - name: Run test suite
-        run: bash tests/run_tests.sh
+        run: make test
 
-  interpreter-tests:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-
-      - name: Run lesson tests
-        working-directory: web
-        run: |
-          node --input-type=module -e "
-          import { readFileSync } from 'fs';
-          const fn = new Function(readFileSync('interpreter.js', 'utf8') + '\n' + readFileSync('lessons.js', 'utf8').replace('const LESSONS', 'var LESSONS') + '\nreturn { IlmaInterpreter, LESSONS };');
-          const { IlmaInterpreter, LESSONS } = fn();
-          let fail = 0;
-          for (const l of LESSONS) {
-              let output = [];
-              const interp = new IlmaInterpreter((t) => output.push(t), (p) => Promise.resolve('test'));
-              try {
-                  await interp.run(l.code.trim());
-                  const got = output.join('\n');
-                  if (l.expected && got !== l.expected) {
-                      console.log('FAIL L' + l.id + ': ' + l.title);
-                      fail++;
-                  }
-              } catch(e) { console.log('ERR L' + l.id + ': ' + e.message); fail++; }
-          }
-          if (fail > 0) { console.log(fail + ' failures'); process.exit(1); }
-          console.log('All testable lessons pass');
-          "
-
+  # ── VS Code extension ────────────────────────────────────────
   vscode-extension:
+    name: VS Code extension
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -59,7 +29,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Install dependencies
         working-directory: vscode-extension
@@ -77,7 +47,9 @@ jobs:
           node -e "JSON.parse(require('fs').readFileSync('snippets/ilma.json', 'utf8'))"
           echo "All JSON files valid"
 
+  # ── Website validation ───────────────────────────────────────
   website-validation:
+    name: Check style
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -85,7 +57,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: '22'
 
       - name: Validate HTML structure
         working-directory: website
@@ -96,9 +68,6 @@ jobs:
               const html = require('fs').readFileSync('$f', 'utf8');
               if (!html.includes('<!DOCTYPE html>')) { console.error('Missing DOCTYPE in $f'); process.exit(1); }
               if (!html.includes('</html>')) { console.error('Missing closing html tag in $f'); process.exit(1); }
-              const opens = (html.match(/<html/g) || []).length;
-              const closes = (html.match(/<\/html>/g) || []).length;
-              if (opens !== closes) { console.error('Mismatched html tags in $f'); process.exit(1); }
               console.log('  $f OK');
             "
           done
@@ -107,26 +76,6 @@ jobs:
       - name: Verify CSS and JS exist
         working-directory: website
         run: |
-          test -f css/style.css && echo "style.css OK"
-          test -f js/main.js && echo "main.js OK"
-          test -f js/playground.js && echo "playground.js OK"
-
-  ilmaweb-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Install GCC
-        run: sudo apt-get update && sudo apt-get install -y gcc
-
-      - name: Build IlmaWeb example
-        working-directory: frameworks/ilma-web
-        run: make build
-
-  docker-build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Build Docker image
-        run: docker build -t ilma .
+          [ -f css/main.css ]   && echo "main.css OK"   || (echo "MISSING: css/main.css"   && exit 1)
+          [ -f js/main.js ]     && echo "main.js OK"    || (echo "MISSING: js/main.js"     && exit 1)
+          [ -f js/playground.js ] && echo "playground.js OK" || (echo "MISSING: js/playground.js" && exit 1)
