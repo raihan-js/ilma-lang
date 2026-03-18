@@ -335,16 +335,16 @@
     if (!grid) return;
 
     var FALLBACK = [
-      { name: 'math-tools',  version: '1.2.0', description: 'Extended maths helpers: trigonometry, statistics, matrix ops.', tags: ['maths','science'] },
-      { name: 'ilma-colors', version: '0.8.3', description: 'ANSI terminal colour printing and styled output helpers.',       tags: ['terminal','ui'] },
-      { name: 'quran-data',  version: '2.0.1', description: 'Surah/Ayah lookup, transliteration and translation utilities.',  tags: ['islamic','data'] },
-      { name: 'http-simple', version: '0.5.0', description: 'Minimal HTTP client for fetching APIs from scripts.',            tags: ['web','network'] },
-      { name: 'json-tools',  version: '1.0.4', description: 'Parse and stringify JSON from within ILMA scripts.',            tags: ['data','parsing'] },
-      { name: 'csv-reader',  version: '0.3.2', description: 'Read and iterate CSV files as bags of notebooks.',              tags: ['data','files'] },
-      { name: 'date-time',   version: '1.1.0', description: 'Date arithmetic, formatting and Islamic Hijri calendar.',       tags: ['date','time'] },
-      { name: 'file-utils',  version: '0.6.1', description: 'Read, write, list and move files with clean syntax.',           tags: ['files','io'] },
-      { name: 'geometry',    version: '0.4.0', description: 'Area, perimeter, volume formulas for common shapes.',           tags: ['maths','geometry'] },
-      { name: 'arabic-text', version: '1.3.0', description: 'Arabic text normalisation, shaping and Tashkeel utilities.',   tags: ['arabic','text'] }
+      { name: 'math',         version: '0.1.0', description: 'Extended math: sum, average, min, max, clamp, is_prime.',      tags: ['math','utilities'] },
+      { name: 'strings',      version: '0.1.0', description: 'String helpers: capitalise, pad, count, words.',               tags: ['strings','text'] },
+      { name: 'colors',       version: '0.1.0', description: 'ANSI terminal colors: red, green, bold, success, error.',      tags: ['terminal','ui'] },
+      { name: 'validate',     version: '0.1.0', description: 'Input validation: is_email, is_digits, in_length, not_empty.', tags: ['validation','utilities'] },
+      { name: 'random',       version: '0.1.0', description: 'Random helpers: choice, random_yes_no, random_id.',           tags: ['random','utilities'] },
+      { name: 'storage',      version: '0.1.0', description: 'Save and load JSON data to files, append logs.',              tags: ['files','data'] },
+      { name: 'format',       version: '0.1.0', description: 'Number formatting: commas, percentage, currency.',            tags: ['format','numbers'] },
+      { name: 'datetime',     version: '0.1.0', description: 'Date helpers: today_short, days_until, is_leap_year.',        tags: ['date','time'] },
+      { name: 'test_helpers', version: '0.1.0', description: 'Testing utilities: assert_eq, assert_true, run_all.',         tags: ['testing','utilities'] },
+      { name: 'crypto',       version: '0.1.0', description: 'Hashing and encoding: sha256, base64, md5.',                  tags: ['crypto','security'] }
     ];
 
     function renderPackages(pkgs) {
@@ -381,7 +381,7 @@
     showSkeletons();
     fetch('/packages/registry.json')
       .then(function (r) { return r.ok ? r.json() : Promise.reject(); })
-      .then(function (data) { renderPackages(Array.isArray(data) ? data : FALLBACK); })
+      .then(function (data) { renderPackages(data.packages || FALLBACK); })
       .catch(function () { renderPackages(FALLBACK); });
   }
 
