@@ -42,3 +42,10 @@ website/packages/
 # Test artifacts
 drawing.svg
 test_output.txt
+
+# Compiled example binaries
+examples/web_server
+examples/fibonacci
+examples/hello
+examples/zakat
+examples/animals
